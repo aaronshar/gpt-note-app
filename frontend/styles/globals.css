@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 243, 229, 17;
+  --background-end-rgb: 243, 229, 17;
+}
+
+body {
+  margin: 0;
+  color: rgb(var(--foreground-rgb));
+  background-color: bisque;
+}
+
+.main {
+  display: flex;
+  margin: auto;
+  height: 44em;
+}
+
+.logo-usermenu {
+  display: flex;
+  justify-content: space-between;
+  background-color:antiquewhite;
+  padding: 10px;
+}
+
+.main-menu {
+  display: flex;
+  align-items: center;
+  flex-direction:column;
+  width: 10%;
+  height: 100%;
+  background-color: white;
+}
+
+.transcribe-page {
+  margin: auto;
+  display: flex;
+  align-items: center;
+  width: 90%;
+  height: 100%;
+  background-color:blue;
+}
+
+.trans-note {
+  margin: auto;
+  background-color: black;
+  width: 90%;
+  height: 75%;
+  align-items: center;
+  padding: 20px;
+  border-style: solid;
+  border-color: red;
+  border-radius: 5%;
+}
+
