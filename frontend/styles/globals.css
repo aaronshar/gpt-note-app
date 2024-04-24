@@ -21,14 +21,14 @@ body {
 .main {
   display: flex;
   margin: auto;
-  height: 44em;
+  height: 100%;
 }
 
 .transcribe-page {
   margin: auto;
   display: flex;
   align-items: center;
-  width: 90%;
+  width: 100%;
   height: 100%;
   background-color:skyblue;
 }

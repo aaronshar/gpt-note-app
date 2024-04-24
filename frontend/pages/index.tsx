@@ -11,11 +11,9 @@ import React, { useEffect, useState } from 'react'
 function index() {
   return (
     <>
-    <div className="main">
-      <div className="transcribe-page">
-        <div className="trans-note">A note for transcription</div>
+      <div className="h-full">
+        A note for transcription
       </div>
-    </div>
     </>
   );
 };
