@@ -18,6 +18,13 @@ body {
   background-color: #B6D9F4;
 }
 
+.menu:hover {
+  color: rgb(57, 57, 57);
+}
+
+.sign-in:hover {
+  background-color: rgb(233, 233, 233);
+}
 .main {
   display: flex;
   margin: auto;
