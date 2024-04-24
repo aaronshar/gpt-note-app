@@ -11,11 +11,9 @@ import React from 'react'
 function uploadPage() {
   return (
     <>
-    <div className="main">
-      <div className="upload-page">
+      <div className="h-full">
           Upload Page
       </div>
-    </div>
     </>
   )
 }

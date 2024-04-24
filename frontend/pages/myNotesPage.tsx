@@ -11,11 +11,9 @@ import React from 'react'
 function myNotesPage() {
   return (
     <>
-    <div className="main">
-      <div className="my-notes-page">
+      <div className="h-full">
         My Notes Page
       </div>
-    </div>
     </>
   )
 }

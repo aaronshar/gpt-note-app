@@ -49,7 +49,7 @@ const Logo = () => {
           alt="Logo-NotesGuru"
           width={width < 1024 ? "70" : "170"}
           height={width < 1024 ? "30" : "60"}
-          className="relative"
+          className="hover:opacity-75 relative"
         />
       </Link>
       <div

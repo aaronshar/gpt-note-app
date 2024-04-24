@@ -20,18 +20,18 @@ const Navbar = () => {
           <div className="flex justify-between items-center h-full">
             <Logo />
             <ul className="md:flex gap-x-6 font-bold">
-              <li className="menu">
+              <li className="hover:text-slate-600">
                 <Link href="/">
                   <p>Transcribe</p>
                 </Link>
               </li>
-              <li className="menu">
+              <li className="hover:text-slate-600">
                 <Link href="/uploadPage">
                   <p>Upload</p>
                 </Link>
               </li>
-              <li className="menu">
-                <Link href="/myNotesPage">
+              <li className="hover:text-slate-600">
+                <Link href="/signIn">
                   <p>My Notes</p>
                 </Link>
               </li>
