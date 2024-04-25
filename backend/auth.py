@@ -2,39 +2,55 @@
 * Spring 2024 project
 * Author: @chaudhkh (https://github.com/Chaudhari988)
 * Reference: 
+https://pythonhosted.org/Flask-OAuth/
 https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow
 """
 
 
 from flask import Blueprint, redirect, url_for
-from authlib.integrations.flask_client import OAuth
+from flask_oauth import OAuth
+from flask import current_app as app
+import os
+from dotenv import load_dotenv
 
-blueprint = Blueprint('auth', __name__)
-oauth = OAuth()
 
-# Configurations for OAuth provider are done here
-# e.g., Google
-oauth.register(
-    'google',
-    client_id='YOUR_CLIENT_ID',
-    client_secret='YOUR_CLIENT_SECRET',
-    access_token_url='', #%TODO
-    access_token_method='POST',
+
+auth_bp = Blueprint('auth_bp', __name__)
+oauth = OAuth(app)
+# Load environment variables from .env file
+load_dotenv()
+
+
+
+google = oauth.register(
+    name='google',
+    client_id=os.getenv("CLIENT_ID"),
+    client_secret=od.getenv('CLIENT_SECRET'),
+    access_token_url='https://accounts.google.com/o/oauth2/token',
     authorize_url='https://accounts.google.com/o/oauth2/auth',
-    authorize_params=None,
     api_base_url='https://www.googleapis.com/oauth2/v1/',
-    client_kwargs={'scope': 'openid profile email'},
+    client_kwargs={
+        'scope': 'openid email profile',
+        'token_endpoint_auth_method': 'client_secret_post',
+        'token_placement': 'header',
+        'redirect_uri': 'http://localhost:5000/auth/authorize'
+    }
 )
 
-@blueprint.route('/login/google')
+@auth_bp.route('/login/google')
 def google_login():
-    redirect_uri = url_for('auth.authorize', _external=True)
-    return oauth.google.authorize_redirect(redirect_uri)
+    google = oauth.create_client('google')
+    redirect_uri = url_for('auth_bp.authorize', _external=True)
+    return google.authorize_redirect(redirect_uri)
 
-@blueprint.route('/authorize')
+@auth_bp.route('/authorize')
 def authorize():
-    token = oauth.google.authorize_access_token()
-    resp = oauth.google.get('userinfo')
+    google = oauth.create_client('google')
+    token = google.authorize_access_token()
+    resp = google.get('userinfo')
     user_info = resp.json()
-   
-    return user_info
+    # User info to be stored here
+    session['email'] = user_info['email']
+    # Redirect to home page after login success
+    return redirect(url_for('home'))
+
