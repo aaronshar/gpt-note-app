@@ -7,7 +7,7 @@ https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow
 """
 
 
-from flask import Blueprint, redirect, url_for
+from flask import Blueprint, redirect, url_for, session
 from flask_oauth import OAuth
 from flask import current_app as app
 import os
@@ -46,10 +46,10 @@ def google_login():
 @auth_bp.route('/authorize')
 def authorize():
     google = oauth.create_client('google')
-    token = google.authorize_access_token()
+    # token = google.authorize_access_token()
     resp = google.get('userinfo')
     user_info = resp.json()
     # User info to be stored here
-    # session['email'] = user_info['email']
+    session['email'] = user_info['email']
     # Redirect to home page after login success
     return redirect(url_for('home'))
