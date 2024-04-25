@@ -1,7 +1,7 @@
 """
 * Spring 2024 project
 * Author: @chaudhkh (https://github.com/Chaudhari988)
-* Reference: 
+* Reference:
 https://pythonhosted.org/Flask-OAuth/
 https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow
 """
@@ -14,12 +14,10 @@ import os
 from dotenv import load_dotenv
 
 
-
 auth_bp = Blueprint('auth_bp', __name__)
 oauth = OAuth(app)
 # Load environment variables from .env file
 load_dotenv()
-
 
 
 google = oauth.register(
@@ -53,4 +51,3 @@ def authorize():
     # session['email'] = user_info['email']
     # Redirect to home page after login success
     return redirect(url_for('home'))
-
