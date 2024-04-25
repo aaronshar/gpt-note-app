@@ -15,12 +15,12 @@ def post_note(note):
     print(f"Added document with id {note_ref.id}")
     note_snapshot = note_ref.get()
     note = note_snapshot.to_dict()
-    note["id"] = note_ref.id
+    note["note_id"] = note_ref.id
     return note
 
 
 # edit note data
-# returns a dictionry object if the note exists
+# returns a dictionary object if the note exists
 def put_note(note, note_id):
     note_ref = db.collection("notes").document(note_id)
     note_snapshot = note_ref.get()
@@ -30,7 +30,7 @@ def put_note(note, note_id):
 
     note_snapshot = note_ref.get()
     note = note_snapshot.to_dict()
-    note["id"] = note_ref.id
+    note["note_id"] = note_ref.id
     return note
 
 
@@ -55,7 +55,7 @@ def get_note(note_id):
     if not note_snapshot.exists:  # check if note exists
         return None
     note = note_snapshot.to_dict()
-    note["id"] = note_ref.id
+    note["note_id"] = note_ref.id
     return note
 
 
