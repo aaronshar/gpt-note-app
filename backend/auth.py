@@ -25,7 +25,7 @@ load_dotenv()
 google = oauth.register(
     name='google',
     client_id=os.getenv("CLIENT_ID"),
-    client_secret=od.getenv('CLIENT_SECRET'),
+    client_secret=os.getenv('CLIENT_SECRET'),
     access_token_url='https://accounts.google.com/o/oauth2/token',
     authorize_url='https://accounts.google.com/o/oauth2/auth',
     api_base_url='https://www.googleapis.com/oauth2/v1/',
@@ -50,7 +50,7 @@ def authorize():
     resp = google.get('userinfo')
     user_info = resp.json()
     # User info to be stored here
-    session['email'] = user_info['email']
+    # session['email'] = user_info['email']
     # Redirect to home page after login success
     return redirect(url_for('home'))
 
