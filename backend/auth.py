@@ -35,11 +35,13 @@ google = oauth.register(
     }
 )
 
+
 @auth_bp.route('/login/google')
 def google_login():
     google = oauth.create_client('google')
     redirect_uri = url_for('auth_bp.authorize', _external=True)
     return google.authorize_redirect(redirect_uri)
+
 
 @auth_bp.route('/authorize')
 def authorize():
