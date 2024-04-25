@@ -7,6 +7,7 @@ import datetime
 
 app = Flask(__name__)
 
+
 # verify note has required fields and then add to database
 @app.route("/user/<user_id>/mynotes", methods=["POST"])
 def add_note(user_id):
