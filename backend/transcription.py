@@ -1,8 +1,5 @@
-# Adopted from quickstart guide: https://platform.openai.com/docs/guides/speech-to-text/quickstart
-# OPTIONS https://platform.openai.com/docs/api-reference/audio/createSpeech
 
 import os
-# from openai import OpenAI
 import openai
 from dotenv import load_dotenv
 
@@ -12,23 +9,7 @@ openai.openai_api_key = os.getenv("OPENAI_API_KEY")
 
 print(openai.openai_api_key)
 
-# Request to test connection to API using api_key - works
-# completion = openai.chat.completions.create(
-#     model="gpt-3.5-turbo",
-#     messages=[
-#         {"role": "system", "content": "You are a friendly greeter."},
-#         {"role": "user", "content": "Say a brief greeting."}
-#     ]
-# )
-# print(completion.choices[0].message)
 
-
-# for help setting up API key, see:
-# https://platform.openai.com/docs/quickstart - Step 2 (Set up your API key for a single project)
-# https://www.youtube.com/watch?v=x5rscbij8SA
-
-
-# Transcribes an existing audio file at the specified filepath using OpenAI's Audio API (language X --> language X) - WORKING
 def generate_transcription(filepath, *args, **kwargs):
     try:
         audio_file = open(filepath, "rb")
@@ -51,14 +32,6 @@ def generate_transcription(filepath, *args, **kwargs):
             temperature=param_temperature
         )
 
-        # EXPLANATION OF PARAMS (see full list here: # https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes):
-        # prompt            : An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio       #                     language.
-        # response_format   : json, text, srt, verbose_json, or vtt. (defaults to json)
-        # temperature       : The sampling temperature, between 0 and 1. (Defaults to 0) Higher values like 0.8 will make the output more random
-        #                     while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use log #                     probability to automatically increase the temperature until certain thresholds are hit.
-
-        # Return the response
-
         if param_response_format == 'text':
             return response
 
@@ -78,7 +51,8 @@ def generate_translation(filepath, *args, **kwargs):
     try:
         audio_file = open(filepath, "rb")
 
-        # parse for params that were optional (see full list here: # https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes)
+        # parse for params that were optional
+        # (see full list here: # https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes)
         param_prompt = kwargs['prompt'] if 'prompt' in kwargs else ''
         param_response_format = kwargs['response_format'] if 'response_format' in kwargs else 'json'
         param_temperature = kwargs['temperature'] if 'temperature' in kwargs else 0
@@ -152,18 +126,3 @@ def generate_enhanced_transcription(filepath, system_prompt, *args, **kwargs):
 if __name__ == "__main__":
     # Transcription
     generate_transcription('inputs/en-short.wav')
-
-    # Translation - no enhancements
-    # generate_translation('inputs/sp-short.wav')
-
-    # 'Complex' translation - no enhancements
-    # generate_transcription('inputs/en-complex.wav')
-
-    # 'Complex' translation - enhanced using prompt parameter
-    # generate_transcription('inputs/en-complex.wav',
-    #                        prompt='ZenithNex, DynaPulse Max, SonicBlast X, CyberLink X7, Vectronix V9, NebulaLink Alpha, QuantumPulse Matrix, FUSION, RAZE, BOLT, QUBE, FLARE')
-
-    # 'Complex' translation - enhanced using prompt parameter
-    # system_prompt = "Your task is to correct any spelling discrepancies in the transcribed text. Make sure that the names of the following products are spelled correctly: ZenithNex, DynaPulse Max, CyberLink X7, Vectronix V9, SonicBlast X, NebulaLink Alpha, QuantumPulse Matrix, FUSION, RAZE, BOLT, QUBE, FLARE. Only add necessary punctuation such as periods, commas, and capitalization, and use only the context provided."
-    # generate_enhanced_transcription(
-    #     'inputs/en-complex.wav', system_prompt)
