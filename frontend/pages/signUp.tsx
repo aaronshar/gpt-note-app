@@ -26,7 +26,7 @@ function SignUp() {
             name="email"
             id="email"
             autoComplete="email"
-            className="block w-full rounded-md border-0 py-1.5 pl-5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="block w-full rounded-md border-0 py-1.5 pl-5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
             placeholder="you@example.com"
             required
           />
@@ -41,7 +41,7 @@ function SignUp() {
             type="password"
             name="password"
             id="password"
-            className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
             placeholder="Password"
             required
           />
@@ -57,7 +57,7 @@ function SignUp() {
         </button>
         <button
           type="submit"
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
         >
           <Link href="/signIn">
             Sign Up
@@ -67,7 +67,7 @@ function SignUp() {
       </form>
       <p className="mt-10 text-center text-sm text-gray-500">
         Already a member?{' '}
-        <Link href="/signIn" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+        <Link href="/signIn" className="font-semibold leading-6 text-blue-600 hover:text-blue-500">
           Sign In
         </Link>
       </p>
