@@ -50,6 +50,6 @@ def authorize():
     resp = google.get('userinfo')
     user_info = resp.json()
     # User info to be stored here
-    session['email'] = user_info['email']
+    # session['email'] = user_info['email']
     # Redirect to home page after login success
     return redirect(url_for('home'))
