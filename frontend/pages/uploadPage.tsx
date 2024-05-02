@@ -23,7 +23,7 @@ function UploadPage() {
         <form>
           <label htmlFor="audio-file" className="block text-sm font-bold leading-6 text-gray-900">
             Upload Audio File <span className="font-thin">below and see {' '}</span>
-            <Link href="/myNotesPage" className="font-medium leading-6 text-indigo-600 hover:text-indigo-500">
+            <Link href="/myNotesPage" className="font-medium leading-6 text-blue-600 hover:text-blue-500">
               My Notes
             </Link> 
           </label>
@@ -33,7 +33,7 @@ function UploadPage() {
               <div className="mt-4 flex text-sm leading-6 text-gray-600">
                 <label
                   htmlFor="file-upload"
-                  className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                  className="relative cursor-pointer rounded-md bg-white font-semibold text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:text-blue-500"
                 >
                   <span>Upload an audio file</span>
                   <input id="file-upload" name="file-upload" type="file" className="sr-only" />
@@ -48,7 +48,7 @@ function UploadPage() {
           <div className="mt-6 flex items-center justify-center gap-x-6">
             <button
               type="submit"
-              className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
             >
               Submit
             </button>
@@ -59,9 +59,9 @@ function UploadPage() {
         
         {/* Divide with a line */}
         <div className="flex items-center">
-          <div className="grow border-b border-indigo-600"></div>
-            <span className="shrink px-1 pb-1 text-indigo-600">OR</span>
-          <div className="grow border-b border-indigo-600"></div>
+          <div className="grow border-b border-blue-600"></div>
+            <span className="shrink px-1 pb-1 text-blue-600">OR</span>
+          <div className="grow border-b border-blue-600"></div>
         </div>
 
         <br />
@@ -70,7 +70,7 @@ function UploadPage() {
         <form>
           <label htmlFor="audio-file" className="block text-sm font-bold leading-6 text-gray-900">
               Upload Text File <span className="font-thin">below and see {' '}</span>
-              <Link href="/myNotesPage" className="font-medium leading-6 text-indigo-600 hover:text-indigo-500">
+              <Link href="/myNotesPage" className="font-medium leading-6 text-blue-600 hover:text-blue-500">
                 My Notes
               </Link>
           </label>
@@ -79,7 +79,7 @@ function UploadPage() {
               <div className="mt-4 flex text-sm leading-6 text-gray-600">
                 <label
                   htmlFor="file-upload"
-                  className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                  className="relative cursor-pointer rounded-md bg-white font-semibold text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:text-blue-500"
                 >
                   <span>Upload a text file</span>
                   <input id="file-upload" name="file-upload" type="file" className="sr-only" />
@@ -94,7 +94,7 @@ function UploadPage() {
           <div className="mt-6 flex items-center justify-center gap-x-6">
             <button
               type="submit"
-              className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
             >
               Submit
             </button>
