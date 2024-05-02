@@ -1,8 +1,12 @@
 import firebase_admin
+import os
+from dotenv import load_dotenv
 from firebase_admin import credentials, firestore
 
+load_dotenv()
 # Use a service account - change when deployed
-cred = credentials.Certificate('gpt-note-app-firebase-adminsdk-5eld5-b04c2fd764.json')
+FIREBASE_KEY = os.getenv('FIREBASE_KEY')
+cred = credentials.Certificate(FIREBASE_KEY)
 app = firebase_admin.initialize_app(cred)
 
 db = firestore.client()
@@ -35,15 +39,17 @@ def put_note(note, note_id):
 
 
 # get all note data
-# returns dictionary with each document
+# returns list with each document
 def get_all_notes(user_id):
     note_ref = db.collection("notes")
     query_ref = note_ref.where("user_id", "==", user_id)
     docs = query_ref.stream()
     # create dictionary of all notes for user
-    response = {}
+    response = []
     for doc in docs:
-        response[doc.id] = doc.to_dict()
+        doc_dict = doc.to_dict()
+        doc_dict["note_id"] = doc.id
+        response.append(doc_dict)
     return response
 
 
