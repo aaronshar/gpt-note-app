@@ -23,7 +23,7 @@ function UploadPage() {
         <form>
           <label htmlFor="audio-file" className="block text-sm font-bold leading-6 text-gray-900">
             Upload Audio File <span className="font-thin">below and see {' '}</span>
-            <Link href="/myNotesPage" className="font-medium leading-6 text-blue-600 hover:text-blue-500">
+            <Link href="/signIn" className="font-medium leading-6 text-blue-600 hover:text-blue-500">
               My Notes
             </Link> 
           </label>
@@ -70,7 +70,7 @@ function UploadPage() {
         <form>
           <label htmlFor="audio-file" className="block text-sm font-bold leading-6 text-gray-900">
               Upload Text File <span className="font-thin">below and see {' '}</span>
-              <Link href="/myNotesPage" className="font-medium leading-6 text-blue-600 hover:text-blue-500">
+              <Link href="/signIn" className="font-medium leading-6 text-blue-600 hover:text-blue-500">
                 My Notes
               </Link>
           </label>
