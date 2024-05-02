@@ -28,7 +28,10 @@ def record_audio(filename):
     full_path = os.path.join(
         current_directory, destination_subfolder, filename)
 
-    # IMP: Cross-platform compatibility: Different operating systems use different path separators (\ for Windows and / for Unix-like systems). os.path.join() automatically handles these differences, ensuring your code works correctly on any platform.
+    # IMP: Cross-platform compatibility: Different operating systems use
+    # different path separators (\ for Windows and / for Unix-like systems).
+    # os.path.join() automatically handles these differences, ensuring
+    # your code works correctly on any platform.
 
     # print(full_path)
 

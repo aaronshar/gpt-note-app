@@ -1,23 +1,24 @@
 from recorder import record_audio
-from transcription import *
+import transcription
 
 
 def record_and_generate_transcription(newrecording_filename):
     # records 5 seconds of audio at the moment
     new_recording_filepath = record_audio(newrecording_filename)
-    generate_transcription(new_recording_filepath)
+    transcription.generate_transcription(new_recording_filepath)
 
 
 def record_and_generate_translation(newrecording_filename):
-  # records 5 seconds of audio at the moment
+    # records 5 seconds of audio at the moment
     new_recording_filepath = record_audio(newrecording_filename)
-    generate_translation(new_recording_filepath)
+    transcription.generate_translation(new_recording_filepath)
 
 
-def record_and_generate_enhanced_transcription(newrecording_filename, system_prompt):
-  # records 5 seconds of audio at the moment
+def record_and_generate_enhanced_tr(newrecording_filename, sprompt):
+    # records 5 seconds of audio at the moment
     new_recording_filepath = record_audio(newrecording_filename)
-    generate_enhanced_transcription(new_recording_filepath, system_prompt)
+    transcription.generate_enhanced_transcription(
+        new_recording_filepath, sprompt)
 
 
 if __name__ == "__main__":
