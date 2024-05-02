@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-# Use a service account - change when deployed
+# Use a service account - change when we deploy
 FIREBASE_KEY = os.getenv('FIREBASE_KEY')
 cred = credentials.Certificate(FIREBASE_KEY)
 app = firebase_admin.initialize_app(cred)
