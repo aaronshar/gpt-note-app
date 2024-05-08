@@ -5,13 +5,25 @@
  - NextJS Docs(https://nextjs.org/docs)
  - TailwindCSS Docs(https://tailwindcss.com/docs/)
  - https://tailwindui.com/
+ - https://fontawesome.com/icons/
+ - https://docs.fontawesome.com/
+ - How to put a icon into input in the front
+ (https://stackoverflow.com/questions/67960681/trying-to-put-a-tailwindcss-icon-into-input)
 */
 
 
-import React from 'react'
+import React, { useState } from 'react'
 import Link from "next/link";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 
 function SignIn() {
+  const [showPassword, setShowPassword] = useState(false)
+
+  const onShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
+
   return (
     <>
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -38,8 +50,17 @@ function SignIn() {
           <span className="after:content-['*Required'] after:ml-0.5 after:text-red-500">Password</span>
         </label>
         <div className="relative mt-2 rounded-md shadow-sm">
+          {/* Icon - Show Password or Hide Password */}
+          <i className="absolute p-1.5 ml-[350px]">
+            {
+             <FontAwesomeIcon 
+             icon={showPassword ? faEye : faEyeSlash}
+             onClick={onShowPassword}
+              /> 
+            }
+          </i>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
             id="password"
             className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
