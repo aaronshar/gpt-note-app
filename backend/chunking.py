@@ -1,13 +1,13 @@
 from pydub import AudioSegment
-from pydub.utils import mediainfo, make_chunks
+from pydub.utils import make_chunks
 import math
-import os
 
 CHUNKS_DIRNAME = "process_chunks"
 
 
 def chunk_by_duration(myaudio):
-    # Determines duration that can fit within 24000000 bytes and creates chunks of that duration.  Stores them inside the C
+    # Determines duration that can fit within 24000000 bytes and
+    # creates chunks of that duration.  Stores them inside the C
     # print('inside chunk by duration')
     channel_count = myaudio.channels  # Get channels
     sample_width = myaudio.sample_width  # Get sample width
