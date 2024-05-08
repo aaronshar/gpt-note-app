@@ -173,32 +173,53 @@ def delete_files_in_folder(folder_path):
             os.remove(file_path)
 
 
+def process_audio_request():
+    ALLOWED_MIMETYPES = {'video/webm', 'video/mp4',
+                         'audio/mpeg', 'audio/mp3', 'audio/wav'}
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'}), None
+    file = request.files['file']
+    keywords = request.form.get('keywords')
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}), None
+    if file.mimetype not in ALLOWED_MIMETYPES:
+        return jsonify({'error': 'Invalid file type'}), None
+    return file, keywords
+
+
+def produce_transcript_from_chunks(upload_filepath, script_dir, keywords):
+    print("CHUNKING!")
+    total_num_chunks = chunkify(upload_filepath)
+
+    print(total_num_chunks)
+    print("total_num_chunks", total_num_chunks)
+
+    transcript = ''
+
+    # Get transcript for each chunk and concatenate
+    for i in range(total_num_chunks):
+        chunk_filepath = os.path.join(
+            script_dir, CHUNKS_DIRNAME, f"chunk{i}.wav")
+        # print('chunk file path: ', chunk_filepath)
+        if keywords:
+            chunk_transcript = generate_transcription(
+                chunk_filepath, prompt=keywords)
+        else:
+            chunk_transcript = generate_transcription(
+                chunk_filepath)
+
+        print(f"chunk {i} transcript :", chunk_transcript)
+        # Concatenate the transcript text
+        transcript += chunk_transcript
+
+    return transcript
+
+
 @ app.route('/api/uploadAudio', methods=['POST'])
 def get_notes_from_audio():
 
-    ALLOWED_MIMETYPES = {'video/webm', 'video/mp4',
-                         'audio/mpeg', 'audio/mp3', 'audio/wav'}
-
     try:
-        if 'file' not in request.files:
-            return jsonify({'error': 'No file part'})
-
-        file = request.files['file']
-
-        # this field will only exist in the request form if keywords field
-        # was entered by user
-        keywords = request.form.get('keywords')
-
-        if keywords:
-            print("KEYWORDS :", keywords)
-        else:
-            print("NO KEYWORDS, LAD!")
-
-        if file.filename == '':
-            return jsonify({'error': 'No selected file'})
-
-        if file.mimetype not in ALLOWED_MIMETYPES:
-            return jsonify({'error': 'Invalid file type'})
+        file, keywords = process_audio_request()
 
         # Get the path to the directory where the script is located
         script_dir = os.path.dirname(__file__)
@@ -221,27 +242,29 @@ def get_notes_from_audio():
         # GENERATE TRANSCRIPTION OF AUDIO FILE
         # Chunking needed
         if file_size > 24000000:
-            print("CHUNKING!")
-            total_num_chunks = chunkify(upload_filepath)
+            transcript = produce_transcript_from_chunks(
+                upload_filepath, script_dir, keywords)
+            # print("CHUNKING!")
+            # total_num_chunks = chunkify(upload_filepath)
 
-            print(total_num_chunks)
-            print("total_num_chunks", total_num_chunks)
+            # print(total_num_chunks)
+            # print("total_num_chunks", total_num_chunks)
 
-            # Get transcript for each chunk and concatenate
-            for i in range(total_num_chunks):
-                chunk_filepath = os.path.join(
-                    script_dir, CHUNKS_DIRNAME, f"chunk{i}.wav")
-                # print('chunk file path: ', chunk_filepath)
-                if keywords:
-                    chunk_transcript = generate_transcription(
-                        chunk_filepath, prompt=keywords)
-                else:
-                    chunk_transcript = generate_transcription(
-                        chunk_filepath)
+            # # Get transcript for each chunk and concatenate
+            # for i in range(total_num_chunks):
+            #     chunk_filepath = os.path.join(
+            #         script_dir, CHUNKS_DIRNAME, f"chunk{i}.wav")
+            #     # print('chunk file path: ', chunk_filepath)
+            #     if keywords:
+            #         chunk_transcript = generate_transcription(
+            #             chunk_filepath, prompt=keywords)
+            #     else:
+            #         chunk_transcript = generate_transcription(
+            #             chunk_filepath)
 
-                print(f"chunk {i} transcript :", chunk_transcript)
-                # Concatenate the transcript text
-                transcript += chunk_transcript
+            #     print(f"chunk {i} transcript :", chunk_transcript)
+            #     # Concatenate the transcript text
+            #     transcript += chunk_transcript
 
         else:
             print("NO NEED FOR CHUNKING!")
