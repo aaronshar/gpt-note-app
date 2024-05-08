@@ -3,7 +3,6 @@ Flask==3.0.3
 Flask-Cors==4.0.1
 flask_oauth
 auth
-dotenv
 annotated-types==0.6.0
 anyio==4.3.0
 blinker==1.8.2
