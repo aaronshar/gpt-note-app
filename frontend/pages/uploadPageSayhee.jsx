@@ -53,7 +53,7 @@ function UploadPageSayhee() {
             const formData = new FormData();
             formData.append("file", selectedAudioFile);
 
-            if (keywords.length) {
+            if (keywords) {
                 formData.append("keywords", keywords);
             }
 
