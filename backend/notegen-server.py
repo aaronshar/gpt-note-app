@@ -17,6 +17,7 @@ CORS(app)
 load_dotenv()
 openai.openai_api_key = os.getenv("OPENAI_API_KEY")
 
+
 # print(openai.openai_api_key)
 
 
@@ -220,6 +221,7 @@ def get_notes_from_audio():
 
     try:
         file, keywords = process_audio_request()
+        print(file.filename, keywords)
 
         # Get the path to the directory where the script is located
         script_dir = os.path.dirname(__file__)
@@ -229,6 +231,11 @@ def get_notes_from_audio():
         upload_filepath = os.path.join(
             script_dir, UPLOAD_DIRNAME, UPLOAD_FILENAME)
         print("UPLOAD_FILEPATH: ", upload_filepath, '\n')
+
+        upload_dir = os.path.join(script_dir, UPLOAD_DIRNAME)
+
+        if not os.path.exists(upload_dir):
+            os.makedirs(upload_dir)
 
         # Save the file
         file.save(upload_filepath)
