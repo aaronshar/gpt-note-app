@@ -7,8 +7,10 @@
 
 import Link from "next/link";
 
+
 const User = () => {
-    return (
+ 
+  return (
       <Link href="/signIn"><button className="hover:bg-slate-100 h-12 rounded-lg bg-white font-bold px-5">Sign In</button></Link>
     );
   };
