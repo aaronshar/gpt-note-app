@@ -21,7 +21,9 @@ def generate_tags(text):
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": f"""Extract key concepts
             from the following text as a comma-separated list of tags(limit it
-            to 6 tags):{text}"""}],
+            to 3 tags), make sure the tags highlight the true essence of the
+            text. The tags can be a single word, or two or three words
+            separated by hyphen if and only if they are needed:{text}"""}],
             stream=False,
             max_tokens=100,
             temperature=0.5
