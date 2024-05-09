@@ -13,6 +13,7 @@ import Logo from "./Logo";
 import User from "./User";
 
 const Navbar = () => {
+
   return (
     <>
       <div className="w-full h-20 navbar sticky top-0">

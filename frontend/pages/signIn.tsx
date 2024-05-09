@@ -12,8 +12,10 @@
 */
 
 
-import React, { useState } from 'react'
+import React, { useRef, useState} from 'react';
 import Link from "next/link";
+import { useAuth } from "../contexts/AuthContext";
+import { redirect } from "next/navigation";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 
@@ -24,11 +26,33 @@ function SignIn() {
     setShowPassword(!showPassword)
   }
 
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const { signIn, currentUser } = useAuth();
+  const [error, setError] = useState(''); // to set any errors
+  const [loading, setLoading] = useState(false); // to disable button when creating user
+
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    try {
+      setError('')
+      setLoading(true)
+      await signIn(emailRef.current.value, passwordRef.current.value)
+    } catch {
+      setError('Failed to login')
+      console.log("error")
+    }
+    setLoading(false)
+    redirect('/myNotesPage')
+  }
+  
+  
   return (
     <>
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form action="#" method="POST">
+      <form onSubmit={handleSubmit}>
         <h1 className="text-center text-3xl font-bold">Sign In</h1><br/>
         {/* email */}
         <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
@@ -42,6 +66,7 @@ function SignIn() {
             className="block w-full rounded-md border-0 py-1.5 pl-5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
             placeholder="you@example.com"
             required
+            ref={emailRef}
           />
         </div>
         <br />
@@ -66,6 +91,7 @@ function SignIn() {
             className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
             placeholder="Password"
             required
+            ref={passwordRef}
           />
         </div>
         <Link href="/myNotesPage">
