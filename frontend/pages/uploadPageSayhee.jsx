@@ -1,6 +1,6 @@
 /*
 * Spring 2024 project
-* Author: @positive235 (https://github.com/positive235)
+* Author: @positive235 (https://github.com/positive235), @kimsay (https://github.com/kimsay))
 * Reference:
  - NextJS Docs(https://nextjs.org/docs)
  - TailwindCSS Docs(https://tailwindcss.com/docs/)
