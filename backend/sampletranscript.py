@@ -484,3 +484,5 @@ text = (
     "devices, the more information you will be "
     "able to recall."
 )
+
+print(text)
