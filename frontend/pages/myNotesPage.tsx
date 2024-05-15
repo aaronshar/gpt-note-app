@@ -43,18 +43,18 @@ function myNotesPage() {
 
   const handleTagChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const tag = event.target.value;
-    setPriorityTag(tag);
-    sortNotes(sortOrder, tag);
+    setPriorityTag(tag)
+    sortNotes(sortOrder, tag)
   }
 
   const sortNotes = (order: string, tag: string) => {
     const sorted = [...notesData].sort((a, b) => {
-      const aHasTag = a.tags.includes(tag) ? 1 : 0;
-      const bHasTag = b.tags.includes(tag) ? 1 : 0;
+      const aHasTag = a.tags.includes(tag) ? 1 : 0
+      const bHasTag = b.tags.includes(tag) ? 1 : 0
 
       if (aHasTag !== bHasTag) {
         // Prioritize notes with a tag
-        return bHasTag - aHasTag;
+        return bHasTag - aHasTag
       }
 
       if (order === 'asc') {
@@ -70,9 +70,9 @@ function myNotesPage() {
         // Sort by last modified dates by old to new
         return b.lastModified.localeCompare(a.lastModified)
       }
-    });
+    })
     setSortedNotes(sorted)
-  };
+  }
 
   return (
     <>
