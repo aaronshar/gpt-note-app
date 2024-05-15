@@ -9,8 +9,17 @@
 
 
 import React, { useState, useEffect } from 'react'
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/router';
 
 function myNotesPage() {
+  const { currentUser } = useAuth()
+  const router = useRouter()
+
+  if (!currentUser){
+    router.push("/signIn")
+  }
+ 
   const notesData: { 
     id: number;
     title: string;
