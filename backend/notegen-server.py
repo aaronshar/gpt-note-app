@@ -3,13 +3,19 @@ from flask_cors import CORS
 import os
 import openai
 from dotenv import load_dotenv
-from chunking import chunkify
+# from chunking import chunkify
+# from whisper.utils import get_writer
+import whisper
 
 PORT = 8000
-UPLOAD_DIRNAME = 'uploads'  # dir for storing original audio files (not chunks)
-UPLOAD_FILENAME = 'recording.webm'
-# dir for storing chunks, if chunking was necessary
-CHUNKS_DIRNAME = 'process_chunks'
+# dir for storing uploaded audio files temporarily
+UPLOAD_DIRNAME = '__uploads'
+UPLOAD_FILENAME = 'new_audio_upload.webm'
+SAMPLE_PROMPT = ("ZenithNex, SonicBlast X, DynaPulse Max, CyberLink X7, "
+                 "Vectronix V9, NebulaLink Alpha, QuantumPulse Matrix, "
+                 "FUZION, RAZE, BOLT, QUBE, and FLARE")
+# for convenient copy and paste during testing with en-complex.wav.
+# not actually used here
 
 app = Flask(__name__)
 CORS(app)
@@ -21,51 +27,78 @@ openai.openai_api_key = os.getenv("OPENAI_API_KEY")
 # print(openai.openai_api_key)
 
 
-def generate_transcription(filepath, *args, **kwargs):
-    # print("INSIDE GEN")
+def transcribe_using_local_whisper(input_filepath, prompt):
+    # Models
+    MODEL_TINY = 'tiny'
+    # MODEL_TINY_EN = 'tiny.en'
+    # MODEL_BASE = 'base'
+    # MODEL_BASE_EN = 'base.en'
+
+    # load model
+    model = whisper.load_model(MODEL_TINY)
+
+    # default
+    my_options = {
+        # 'language': 'en',
+        'audio': input_filepath,
+        'temperature': 0.0,
+        'word_timestamps': True,
+        'verbose': True,
+    }
+
+    # add prompt if included
+    if prompt:
+        my_options['initial_prompt'] = prompt
+
+    print("SELECTED OPTIONS: ", my_options)
+
+    result = model.transcribe(**my_options)
+    print("Finished transcribing locally!")
+
+    # print(result)
+
+    return result['text']
+
+
+def transcribe_using_api(filepath, *args, **kwargs):
     try:
         audio_file = open(filepath, "rb")
 
-        # parse for params that were optional
-        param_language = (
-            kwargs['language']
-            if 'language' in kwargs else 'en'
-        )
-        param_prompt = (
-            kwargs['prompt']
-            if 'prompt' in kwargs else ''
-        )
-        param_response_format = (
-            kwargs['response_format']
-            if 'response_format' in kwargs else 'json'
-        )
-        param_temperature = (
-            kwargs['temperature']
-            if 'temperature' in kwargs else 0
-        )
+        # default options
+        my_options = {
+            'model': "whisper-1",
+            'file': audio_file,
+            'language': 'en',
+            'response_format': 'json',
+            'temperature': 0
+        }
 
-        print("PARAM_PROMPT: ", param_prompt)
+        # update options acc to params
+        if 'language' in kwargs:
+            my_options['language'] = kwargs['language']
+        if 'prompt' in kwargs:
+            my_options['prompt'] = kwargs['prompt']
+        if 'response_format' in kwargs:
+            my_options['response_format'] = kwargs['response_format']
+        if 'temperature' in kwargs:
+            my_options['temperature'] = kwargs['temperature']
+
+        print("SELECTED OPTIONS: ", my_options)
 
         # request transcription
-        response = openai.audio.transcriptions.create(
-            model="whisper-1",
-            file=audio_file,
-            language=param_language,
-            prompt=param_prompt,
-            response_format=param_response_format,
-            temperature=param_temperature
-        )
+        response = openai.audio.transcriptions.create(**my_options)
 
         # EXPLANATION OF PARAMS (see full list here:
         # https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes)
 
-        # Return the response
+        print("Finished transcribing using api!")
 
-        if param_response_format == 'text':
+        # Return the response
+        if my_options['response_format'] == 'text':
             return response
 
         # print('RESPONSE:\n', response, '\n')
-        # print('RESPONSE TEXT:\n', response.text, '\n')
+        print('RESPONSE TEXT:\n', response.text, '\n')
         return response.text
 
     except FileNotFoundError:
@@ -75,9 +108,23 @@ def generate_transcription(filepath, *args, **kwargs):
         print("An error occurred:", e)
 
 
-# NOTE GEN ######################################################
+# All requests end up here eventually:
+def get_notes_on_text(text):
+    options = {
+        'format': 'bullet',
+        'headings': True,
+        'detail': 'high',
+        'organization': 'chronological',
+    }
 
-def create_system_prompt_for_text_input(options):
+    system_prompt = create_system_prompt_for_note_gen(options)
+
+    print(system_prompt)
+    note = request_notes_from_chat_api(0, system_prompt, text)
+    return note
+
+
+def create_system_prompt_for_note_gen(options):
     """
     Creates and returns a system prompt string based on
     the contents of the given 'options'.
@@ -137,7 +184,7 @@ def create_system_prompt_for_text_input(options):
     return system_prompt
 
 
-def generate_note(temperature, system_prompt, original_transcript):
+def request_notes_from_chat_api(temperature, system_prompt, transcript):
     try:
         response = openai.chat.completions.create(
             model="gpt-3.5-turbo",
@@ -149,7 +196,7 @@ def generate_note(temperature, system_prompt, original_transcript):
                 },
                 {
                     "role": "user",
-                    "content": original_transcript  # string
+                    "content": transcript  # string
                 }
             ]
         )
@@ -188,36 +235,8 @@ def process_audio_request():
     return file, keywords
 
 
-def produce_transcript_from_chunks(upload_filepath, script_dir, keywords):
-    print("CHUNKING!")
-    total_num_chunks = chunkify(upload_filepath)
-
-    print(total_num_chunks)
-    print("total_num_chunks", total_num_chunks)
-
-    transcript = ''
-
-    # Get transcript for each chunk and concatenate
-    for i in range(total_num_chunks):
-        chunk_filepath = os.path.join(
-            script_dir, CHUNKS_DIRNAME, f"chunk{i}.wav")
-        # print('chunk file path: ', chunk_filepath)
-        if keywords:
-            chunk_transcript = generate_transcription(
-                chunk_filepath, prompt=keywords)
-        else:
-            chunk_transcript = generate_transcription(
-                chunk_filepath)
-
-        print(f"chunk {i} transcript :", chunk_transcript)
-        # Concatenate the transcript text
-        transcript += chunk_transcript
-
-    return transcript
-
-
 @ app.route('/api/uploadAudio', methods=['POST'])
-def get_notes_from_audio():
+def handle_audio_upload():
 
     try:
         file, keywords = process_audio_request()
@@ -249,75 +268,52 @@ def get_notes_from_audio():
         # GENERATE TRANSCRIPTION OF AUDIO FILE
         # Chunking needed
         if file_size > 24000000:
-            transcript = produce_transcript_from_chunks(
-                upload_filepath, script_dir, keywords)
-            # print("CHUNKING!")
-            # total_num_chunks = chunkify(upload_filepath)
 
-            # print(total_num_chunks)
-            # print("total_num_chunks", total_num_chunks)
+            print(
+                "RECEIVED FILE OVER 24000000 bytes"
+                " -- TRANSCRIBING VIA **LOCAL WHISPER**")
 
-            # # Get transcript for each chunk and concatenate
-            # for i in range(total_num_chunks):
-            #     chunk_filepath = os.path.join(
-            #         script_dir, CHUNKS_DIRNAME, f"chunk{i}.wav")
-            #     # print('chunk file path: ', chunk_filepath)
-            #     if keywords:
-            #         chunk_transcript = generate_transcription(
-            #             chunk_filepath, prompt=keywords)
-            #     else:
-            #         chunk_transcript = generate_transcription(
-            #             chunk_filepath)
+            transcript = transcribe_using_local_whisper(
+                upload_filepath, keywords)
 
-            #     print(f"chunk {i} transcript :", chunk_transcript)
-            #     # Concatenate the transcript text
-            #     transcript += chunk_transcript
+            note = get_notes_on_text(transcript)
+
+            print(note)
+            return ('', 200)
 
         else:
-            print("NO NEED FOR CHUNKING!")
+            print("RECEIVED FILE UNDER 24000000 bytes"
+                  "-- TRANSCRIBING VIA **API**")
             if keywords:
-                transcript = generate_transcription(
+                transcript = transcribe_using_api(
                     upload_filepath, prompt=keywords)
             else:
-                transcript = generate_transcription(
+                transcript = transcribe_using_api(
                     upload_filepath)
 
-        # print("TRANSCRIPT: ", transcript, "\n")
+            # print("TRANSCRIPT: ", transcript, "\n")
 
-        # GENERATE NOTE FROM TRANSCRIPT
+            note = get_notes_on_text(transcript)
 
-        options = {
-            'format': 'bullet',
-            'headings': True,
-            'detail': 'high',
-            'organization': 'chronological',
-        }
+            # cleanup
+            delete_files_in_folder(UPLOAD_DIRNAME)
 
-        system_prompt = create_system_prompt_for_text_input(options)
-        note = generate_note(0, system_prompt, transcript)
-
-        # cleanup
-        delete_files_in_folder('./process_chunks')
-        delete_files_in_folder('./uploads')
-
-        return jsonify(
-            {
-                'message': 'Successfully got a response',
-                'transcript': transcript,
-                'note': note
-            }
-        )
+            return jsonify(
+                {
+                    'message': 'Successfully got a response',
+                    'transcript': transcript,
+                    'note': note
+                }
+            )
 
     except Exception as e:
         return jsonify({'error': 'An error occurred', 'details': str(e)}), 500
 
 
 @ app.route('/api/uploadText', methods=['POST'])
-def get_notes_from_text():
+def handle_text_upload():
 
-    ALLOWED_MIMETYPES = {'text/plain'}
-
-    print("GOT ONE")
+    # ALLOWED_MIMETYPES = {'text/plain'}
 
     try:
         if 'file' not in request.files:
@@ -327,8 +323,9 @@ def get_notes_from_text():
         if file.filename == '':
             return jsonify({'error': 'No selected file'})
 
-        if file.mimetype not in ALLOWED_MIMETYPES:
-            return jsonify({'error': 'Invalid file type'})
+        # if file.mimetype not in ALLOWED_MIMETYPES:
+        #     print(file.mimetype)
+        #     return jsonify({'error': 'Invalid file type'})
 
         try:
             # Read the content of the file
@@ -338,21 +335,10 @@ def get_notes_from_text():
 
         # print("File content:")
         # print(type(file_content))
-        # print(file_content)
+        # print("UPLOADED TEXT: ", file_content)
 
-        # GENERATE NOTE FROM TEXT
-
-        options = {
-            'format': 'bullet',
-            'headings': True,
-            'detail': 'high',
-            'organization': 'chronological',
-        }
-
-        system_prompt = create_system_prompt_for_text_input(options)
-
-        print(system_prompt)
-        note = generate_note(0, system_prompt, file_content)
+        note = get_notes_on_text(file_content)
+        print(note)
 
         return jsonify(
             {
@@ -367,40 +353,3 @@ def get_notes_from_text():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8000)
-
-# old effort: getting notes from a textarea instead of uploading
-# @app.route('/api/uploadText', methods=['POST'])
-# def get_notes_from_text():
-
-#     try:
-
-#         inputText = request.form.get('inputText')
-
-#         options = {
-#             'format': 'bullet',
-#             'headings': True,
-#             'detail': 'high',
-#             'organization': 'chronological',
-#         }
-
-#         system_prompt = create_system_prompt_for_text_input(options)
-#         note = generate_note(0, system_prompt, inputText)
-
-#         return jsonify(
-#             {
-#                 'message': 'Successfully got a response',
-#                 'note': note
-#                 # "message": "message",
-#                 # "transcript": "transcript",
-#                 # "note": "note",
-#             }
-#         )
-
-#     except Exception as e:
-#         return jsonify(
-    #       {'error': 'An error occurred', 'details': str(e)}
-    # ), 500
-
-# Chunking
-# https://community.openai.com/t/whisper-maximum-content-size-limit-exceeded/83925
-# https: // platform.openai.com/docs/guides/speech-to-text/longer-inputs

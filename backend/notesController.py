@@ -5,7 +5,9 @@ import datetime
 # TO-DO: think about how to incorporate authentication
 # TO-DO: think through structure of URLs
 
-MISSING_ATTRIBUTE_ERROR = {"Error": "The request body is missing at least one of the required attributes"}
+MISSING_ATTRIBUTE_ERROR = {
+    "Error": ("The request body is missing at least",
+              "one of the required attributes")}  # flake8
 USER_UNAUTHORIZED_ERROR = {"Error: User unauthorized"}
 DOES_NOT_EXIST_ERROR = {"Error": "No note with this id exists"}
 
