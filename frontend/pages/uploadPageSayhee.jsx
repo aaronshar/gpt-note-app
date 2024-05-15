@@ -1,6 +1,6 @@
 /*
 * Spring 2024 project
-* Author: @positive235 (https://github.com/positive235), @kimsay (https://github.com/kimsay))
+* Author: @positive235 (https://github.com/positive235), @kimsay (https://github.com/kimsay)
 * Reference:
  - NextJS Docs(https://nextjs.org/docs)
  - TailwindCSS Docs(https://tailwindcss.com/docs/)
@@ -13,6 +13,8 @@ import React from "react";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
+
+const mimeType = "audio/webm";
 
 function UploadPageSayhee() {
     const mediaRecorder = useRef(null);
@@ -41,14 +43,10 @@ function UploadPageSayhee() {
         setKeywords(event.target.value);
     };
 
-    // const handleTextareaChange = (event) => {
-    //     setTextareaValue(event.target.value); // Update the state with the new value
-    // };
-
     const handleUploadAudio = async (event) => {
         event.preventDefault();
         if (selectedAudioFile) {
-            console.log("CLICKED! REQUESTING NOTES FROM AUDIO");
+            // console.log("CLICKED! REQUESTING NOTES FROM AUDIO");
 
             const formData = new FormData();
             formData.append("file", selectedAudioFile);
@@ -76,7 +74,7 @@ function UploadPageSayhee() {
                 setIsWaitingForData(false);
             }
         } else {
-            console.log("No file selected.");
+            alert("No file selected.");
         }
     };
 
@@ -108,7 +106,7 @@ function UploadPageSayhee() {
                 setIsWaitingForData(false);
             }
         } else {
-            console.log("No file selected.");
+            alert("No file selected.");
         }
     };
 
@@ -129,6 +127,39 @@ function UploadPageSayhee() {
         }
     };
 
+    const startRecording = async () => {
+        setRecordingStatus("recording");
+        const media = new MediaRecorder(stream, { type: mimeType });
+
+        mediaRecorder.current = media;
+
+        mediaRecorder.current.start();
+
+        let localAudioChunks = [];
+
+        mediaRecorder.current.ondataavailable = (event) => {
+            if (typeof event.data === "undefined") return;
+            if (event.data.size === 0) return;
+            localAudioChunks.push(event.data);
+        };
+
+        setAudioChunks(localAudioChunks);
+    };
+
+    const stopRecording = () => {
+        setRecordingStatus("inactive");
+        mediaRecorder.current.stop();
+
+        mediaRecorder.current.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: mimeType });
+            const audioUrl = URL.createObjectURL(audioBlob);
+
+            setAudio(audioUrl);
+
+            setAudioChunks([]);
+        };
+    };
+
     useEffect(() => {
         getMicrophonePermission();
         console.log("Got permission");
@@ -137,6 +168,68 @@ function UploadPageSayhee() {
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-10 lg:px-8">
+                <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                    <div className="block text-sm font-bold leading-6 text-gray-900">
+                        Record live lecture or meeting
+                    </div>
+
+                    <div className="audio-controls">
+                        {!permission ? (
+                            <button
+                                onClick={getMicrophonePermission}
+                                type="button"
+                                style={{
+                                    border: "1px solid black",
+                                    padding: "10px",
+                                }}
+                            >
+                                Get Microphone
+                            </button>
+                        ) : null}
+
+                        {permission && recordingStatus === "inactive" ? (
+                            <button
+                                onClick={startRecording}
+                                type="button"
+                                className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                            >
+                                Start Recording
+                            </button>
+                        ) : null}
+
+                        {recordingStatus === "recording" ? (
+                            <div>
+                                <button
+                                    onClick={stopRecording}
+                                    type="button"
+                                    className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                                >
+                                    Stop Recording
+                                </button>
+                                <p>Recording In Progress...</p>
+                            </div>
+                        ) : null}
+                    </div>
+                    {audio ? (
+                        <div className="audio-player">
+                            <audio
+                                src={audio}
+                                style={{
+                                    margin: "10px 0px",
+                                    padding: "2px",
+                                }}
+                                controls
+                            ></audio>
+                            <a
+                                download
+                                href={audio}
+                                className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                            >
+                                Download Recording
+                            </a>
+                        </div>
+                    ) : null}
+                </div>
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     {/* Form 1 - Upload Audio File */}
                     <form>
@@ -173,11 +266,10 @@ function UploadPageSayhee() {
                                             className="sr-only"
                                         />
                                     </label>
-                                    <p className="pl-1">or drag and drop</p>
+                                    {/* <p className="pl-1">or drag and drop</p> */}
                                 </div>
                                 <p className="text-xs leading-5 text-gray-600">
-                                    mp3, mp4, mpeg, mpga, m4a, wav, webm up to
-                                    25MB
+                                    mp3, mp4, mpeg, mpga, m4a, wav, webm
                                 </p>
                             </div>
                         </div>
@@ -264,7 +356,7 @@ function UploadPageSayhee() {
                                             className="sr-only"
                                         />
                                     </label>
-                                    <p className="pl-1">or drag and drop</p>
+                                    {/* <p className="pl-1">or drag and drop</p> */}
                                 </div>
                                 <p className="text-xs leading-5 text-gray-600">
                                     txt, *** up to **MB
