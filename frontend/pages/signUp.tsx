@@ -13,7 +13,6 @@
 import React, { useRef, useState } from 'react'
 import Link from "next/link"
 import { useAuth } from "../contexts/AuthContext"
-import { redirect } from "next/navigation"
 import { useRouter } from 'next/router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
