@@ -109,6 +109,9 @@ def transcribe_using_api(filepath, *args, **kwargs):
 
 def generate_tags(text):
     try:
+        client = openai.OpenAI(
+            api_key=openai.openai_api_key
+        )
         stream = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": f"""Extract key concepts
