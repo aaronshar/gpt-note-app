@@ -366,19 +366,19 @@ def handle_text_upload():
     except Exception as e:
         return jsonify({'error': 'An error occurred', 'details': str(e)}), 500
 
-@app.route('/api/generateTags', methods=['POST'])
-def handle_generate_tags():
-    try:
-        data = request.get_json()
-        text = data.get('text')
-        if not text:
-            return jsonify({'error': 'No text provided'}), 400
 
-        tags = generate_tags(text)
-        return tags
-    except Exception as e:
-        return jsonify({'error': 'An error occurred', 'details': str(e)}), 500
+@app.route('/generate-tags', methods=['POST'])
+def tag_route():
+    # print("JSON Data:", request.json)  # Parsed JSON data
+    data = request.json
+    # print("Data:", data['text'])
+    if 'text' not in data:
+        return "Error: No text provided for tagging.", 400
+    return generate_tags(data['text'])
 
+@app.route('/')
+def index():
+    return "Welcome to the NotesGuru Tagging API!"
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8000)
