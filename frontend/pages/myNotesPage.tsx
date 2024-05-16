@@ -107,6 +107,16 @@ function myNotesPage() {
     element.click();
   };
 
+  /* Adding Export as PDF so the user can export the notes in pdf fpormat*/
+  const exportAsPDF = (note) => {
+    const doc = new jsPDF();
+    doc.text(`Title: ${note.title}`, 10, 10);
+    doc.text(`Tags: ${note.tags.join(', ')}`, 10, 20);
+    doc.text(`Last Modified: ${note.last_modified}`, 10, 30);
+    const title = note.title ? note.title.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'untitled';
+    doc.save(`note_${note.note_id}_${title}.pdf`);
+  };
+
   const exportAsJSON = (note) => {
     const element = document.createElement('a');
     const file = new Blob([JSON.stringify(note, null, 2)], { type: 'application/json' });
@@ -158,6 +168,7 @@ function myNotesPage() {
                 </a>
                 <div className="exportButtons">
                   <button onClick={() => exportAsTXT(note)}>Export as TXT</button>
+                  <button onClick={() => exportAsPDF(note)}>Export as PDF</button>
                   <button onClick={() => exportAsJSON(note)}>Export as JSON</button>
                 </div>
               </div>
