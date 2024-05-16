@@ -13,6 +13,7 @@
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
+import jsPDF from 'jspdf';
 
 function myNotesPage() {
   const { currentUser } = useAuth()
@@ -94,6 +95,27 @@ function myNotesPage() {
     })
     setSortedNotes(sorted)
   }
+  /* For exporting notes, we will use these functions */
+
+  const exportAsTXT = (note) => {
+    const element = document.createElement('a');
+    const file = new Blob([JSON.stringify(note, null, 2)], { type: 'text/plain' });
+    element.href = URL.createObjectURL(file);
+    const title = note.title ? note.title.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'untitled';
+    element.download = `note_${note.note_id}_${title}.txt`;
+    document.body.appendChild(element);
+    element.click();
+  };
+
+  const exportAsJSON = (note) => {
+    const element = document.createElement('a');
+    const file = new Blob([JSON.stringify(note, null, 2)], { type: 'application/json' });
+    element.href = URL.createObjectURL(file);
+    const title = note.title ? note.title.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'untitled';
+    element.download = `note_${note.note_id}_${title}.json`;
+    document.body.appendChild(element);
+    element.click();
+  };
 
   return (
     <>
@@ -122,18 +144,22 @@ function myNotesPage() {
             />
           </div>
           <div className="mt-6 space-y-12 lg:grid lg:grid-cols-5 lg:gap-6 lg:space-y-0">
-            {sortedNotes ? (sortedNotes.map((note) => (
+          {sortedNotes ? (sortedNotes.map((note) => (
               <div key={note.note_id} className="group relative">
                 <a href={note.href}>
-                <div className="border border-gray shadow hover:shadow-lg round-md text-center relative h-full w-full overflow-hidden sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
-                  <h3 className="mt-16 text-xl text-gray-800">
-                    <span className="absolute inset-0" />
-                      {note["title"]}
-                  </h3>
-                  <p className="text-base font-semibold text-gray-900">{note.tags.join(', ')}</p>
-                  <p className="text-base font-semibold text-gray-900">{note.last_modified}</p>
-                </div> 
+                  <div className="border border-gray shadow hover:shadow-lg round-md text-center relative h-full w-full overflow-hidden sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
+                      <h3 className="mt-16 text-xl text-gray-800">
+                        <span className="absolute inset-0" />
+                        {note.title}
+                        </h3>
+                    <p className="text-base font-semibold text-gray-900">{note.tags.join(', ')}</p>
+                    <p className="text-base font-semibold text-gray-900">{note.last_modified}</p>
+                  </div> 
                 </a>
+                <div className="exportButtons">
+                  <button onClick={() => exportAsTXT(note)}>Export as TXT</button>
+                  <button onClick={() => exportAsJSON(note)}>Export as JSON</button>
+                </div>
               </div>
             ))) : null}
           </div>
