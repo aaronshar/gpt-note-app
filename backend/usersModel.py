@@ -6,8 +6,9 @@ from dotenv import load_dotenv
 load_dotenv()
 # Use a service account - change when we deploy
 FIREBASE_KEY = os.getenv('FIREBASE_KEY')
-cred = credentials.Certificate(FIREBASE_KEY)
-app = firebase_admin.initialize_app(cred)
+if not firebase_admin._apps:
+    cred = credentials.Certificate(FIREBASE_KEY)
+    app = firebase_admin.initialize_app(cred)
 
 
 # create a user with email and password on firestore
