@@ -107,6 +107,22 @@ def transcribe_using_api(filepath, *args, **kwargs):
     except Exception as e:
         print("An error occurred:", e)
 
+def generate_tags(text):
+    try:
+        stream = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": f"""Extract key concepts
+            from the following text as a comma-separated list of tags(limit it
+            to 3 tags), make sure the tags highlight the true essence of the
+            text. The tags can be a single word, or two or three words
+            separated by hyphen if and only if they are needed:{text}"""}],
+            stream=False,
+            max_tokens=100,
+            temperature=0.5
+        )
+        return jsonify({"tags": stream.choices[0].message.content})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 # All requests end up here eventually:
 def get_notes_on_text(text):
@@ -347,6 +363,19 @@ def handle_text_upload():
             }
         )
 
+    except Exception as e:
+        return jsonify({'error': 'An error occurred', 'details': str(e)}), 500
+
+@app.route('/api/generateTags', methods=['POST'])
+def handle_generate_tags():
+    try:
+        data = request.get_json()
+        text = data.get('text')
+        if not text:
+            return jsonify({'error': 'No text provided'}), 400
+
+        tags = generate_tags(text)
+        return tags
     except Exception as e:
         return jsonify({'error': 'An error occurred', 'details': str(e)}), 500
 
