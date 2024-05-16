@@ -107,25 +107,6 @@ def transcribe_using_api(filepath, *args, **kwargs):
     except Exception as e:
         print("An error occurred:", e)
 
-def generate_tags(text):
-    try:
-        client = openai.OpenAI(
-            api_key=openai.openai_api_key
-        )
-        stream = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": f"""Extract key concepts
-            from the following text as a comma-separated list of tags(limit it
-            to 3 tags), make sure the tags highlight the true essence of the
-            text. The tags can be a single word, or two or three words
-            separated by hyphen if and only if they are needed:{text}"""}],
-            stream=False,
-            max_tokens=100,
-            temperature=0.5
-        )
-        return jsonify({"tags": stream.choices[0].message.content})
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
 
 # All requests end up here eventually:
 def get_notes_on_text(text):
@@ -370,18 +351,6 @@ def handle_text_upload():
         return jsonify({'error': 'An error occurred', 'details': str(e)}), 500
 
 
-@app.route('/generate-tags', methods=['POST'])
-def tag_route():
-    # print("JSON Data:", request.json)  # Parsed JSON data
-    data = request.json
-    # print("Data:", data['text'])
-    if 'text' not in data:
-        return "Error: No text provided for tagging.", 400
-    return generate_tags(data['text'])
-
-@app.route('/')
-def index():
-    return "Welcome to the NotesGuru Tagging API!"
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8000)

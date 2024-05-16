@@ -1,6 +1,3 @@
-"""
-THIS FILE CAN BE IGNORED NOW, MERGED WITH notegen-server
-"""
 
 
 # Importing the libraries
