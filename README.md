@@ -57,3 +57,9 @@ The application will provide personalized accounts for users to manage their sto
 4. ```npm run dev```
 5. Go to http://localhost:3000
 
+
+### Backend
+1. ```cd gpt-note-app```
+2. ```cd backend```
+3. ```pip install -r requirements.txt```
+4. ```python3 notegen-server.py```
