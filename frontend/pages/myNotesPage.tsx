@@ -15,6 +15,15 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import jsPDF from 'jspdf';
 
+interface Note {
+  note_id: string;
+  title: string;
+  tags: string[];
+  last_modified: string;
+  href: string;
+  token: string;
+}
+
 function myNotesPage() {
   const { currentUser } = useAuth()
   const router = useRouter()
@@ -22,6 +31,8 @@ function myNotesPage() {
   const [sortedNotes, setSortedNotes] = useState([])
   const [sortOrder, setSortOrder] = useState('asc')
   const [priorityTag, setPriorityTag] = useState('')
+  const [generatedTags, setGeneratedTags] = useState<{ [key: string]: string[] }>({});
+
 
   if (!currentUser){
     router.push("/signIn")
@@ -127,6 +138,23 @@ function myNotesPage() {
     element.click();
   };
 
+  const generateTags = async (note: Note) => { // Function to generate tags
+    try {
+      const response = await fetch('http://127.0.0.1:8000/generate-tags', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: note.title }),
+      });
+
+      const data = await response.json();
+      setGeneratedTags((prevTags) => ({ ...prevTags, [note.note_id]: data.tags }));
+    } catch (error) {
+      console.error('Error generating tags:', error);
+    }
+  };
+
   return (
     <>
     <div className="w-full h-full">
@@ -166,6 +194,13 @@ function myNotesPage() {
                     <p className="text-base font-semibold text-gray-900">{note.last_modified}</p>
                   </div> 
                 </a>
+                <div className="generatedTags"> {/* Display generated tags */}
+                        {generatedTags[note.note_id] && (
+                          <p className="generatedTags">
+                            Tags: {generatedTags[note.note_id].join(', ')}
+                          </p>
+                        )}
+                </div>
                 <div className="exportButtons">
                   <button onClick={() => exportAsTXT(note)}>Export as TXT</button>
                   <button onClick={() => exportAsPDF(note)}>Export as PDF</button>
