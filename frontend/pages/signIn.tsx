@@ -42,12 +42,13 @@ function SignIn() {
       setError('');
       setLoading(true);
       await signIn(emailRef.current.value, passwordRef.current.value);
+      router.push('/myNotesPage');
     } catch {
       setError('Failed to login');
       console.log("error");
+      alert("email or password are incorrect")
     }
     setLoading(false);
-    router.push('/myNotesPage');
   }
   
   
