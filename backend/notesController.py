@@ -1,6 +1,5 @@
 import notesModel
 import datetime
-import json
 from flask import Flask, request
 from usersModel import verify_user
 from flask_cors import CORS
@@ -12,7 +11,7 @@ USER_UNAUTHORIZED_ERROR = {"Error: User unauthorized"}
 DOES_NOT_EXIST_ERROR = {"Error": "No note with this id exists"}
 
 app = Flask(__name__)
-CORS(app, origins='*', 
+CORS(app, origins='*',
      headers=['Content-Type', 'Authorization'],
      expose_headers='Authorization')
 
