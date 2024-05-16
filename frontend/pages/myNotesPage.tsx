@@ -15,28 +15,42 @@ import { useRouter } from 'next/router';
 function myNotesPage() {
   const { currentUser } = useAuth()
   const router = useRouter()
+  const [notesData, setNotesData] = useState();
 
   if (!currentUser){
     router.push("/signIn")
   }
- 
-  const notesData: { 
-    id: number;
-    title: string;
-    tags: string[];
-    lastModified: string;
-  }[] = [
-    {id: 1, title: 'title-a', tags: ['a', 'b', 'c'], lastModified: '2024-05-01'},
-    {id: 2, title: 'title-b', tags: ['d', 'e', 'f'], lastModified: '2024-05-02'},
-    {id: 3, title: 'title-c', tags: ['a', 'b', 'c'], lastModified: '2024-05-05'},
-    {id: 4, title: 'title-d', tags: ['d', 'e', 'f'], lastModified: '2024-05-07'},
-    {id: 5, title: 'title-e', tags: ['a', 'b', 'c'], lastModified: '2024-05-10'},
-    {id: 6, title: 'title-f', tags: ['d', 'e', 'f'], lastModified: '2024-05-12'},
-    {id: 7, title: 'title-g', tags: ['a', 'b', 'c'], lastModified: '2024-05-15'},
-    {id: 8, title: 'title-h', tags: ['d', 'e', 'f'], lastModified: '2024-05-17'},
-    {id: 9, title: 'title-i', tags: ['a', 'b', 'c'], lastModified: '2024-05-19'},
-    {id: 10, title: 'title-j', tags: ['d', 'e', 'f'], lastModified: '2024-05-20'}
-  ]
+  
+  // fetch all notes for current user
+  // let notesData = null;
+  useEffect(() => {
+    const fetchNotes = async () => {
+      let accessToken = null;
+      // let notesData = null;
+
+      // get user token
+      await currentUser.getIdToken()
+      .then((token) => {
+        accessToken = token;
+      });
+
+      const response = await fetch("http://127.0.0.1:8080/api/mynotes", {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Access-Control-Allow-Origin': '*',
+          'Authorization': `Bearer ${accessToken}`
+        }
+      })
+      
+      let notesData = await response.json();
+      setNotesData(notesData)
+
+      return notesData
+    }
+    fetchNotes()
+  },[])
+
 
   return (
     <>
@@ -47,15 +61,15 @@ function myNotesPage() {
 
           <div className="mt-6 space-y-12 lg:grid lg:grid-cols-5 lg:gap-6 lg:space-y-0">
             {notesData ? (notesData.map((note) => (
-              <div key={note.id} className="group relative">
+              <div key={note.note_id} className="group relative">
                 <a href={note.href}>
                 <div className="border border-gray shadow hover:shadow-lg round-md text-center relative h-full w-full overflow-hidden sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
                   <h3 className="mt-16 text-xl text-gray-800">
                     <span className="absolute inset-0" />
-                      {note.title}
+                      {note["title"]}
                   </h3>
                   <p className="text-base font-semibold text-gray-900">{note.tags.join(', ')}</p>
-                  <p className="text-base font-semibold text-gray-900">{note.lastModified}</p>
+                  <p className="text-base font-semibold text-gray-900">{note.last_modified}</p>
                 </div> 
                 </a>
               </div>

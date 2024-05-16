@@ -29,7 +29,6 @@ function SignIn() {
   const router = useRouter();
 
   if (currentUser) {
-    console.log("there is a user")
     router.push("/myNotesPage");
   }
 
