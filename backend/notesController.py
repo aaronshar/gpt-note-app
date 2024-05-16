@@ -1,7 +1,8 @@
-from flask import Flask, request
 import notesModel
-from usersModel import verify_user
 import datetime
+from flask import Flask, request
+from usersModel import verify_user
+from flask_cors import CORS
 # TO-DO: think about how to incorporate authentication
 # TO-DO: think through structure of URLs
 
@@ -10,6 +11,9 @@ USER_UNAUTHORIZED_ERROR = {"Error: User unauthorized"}
 DOES_NOT_EXIST_ERROR = {"Error": "No note with this id exists"}
 
 app = Flask(__name__)
+CORS(app, origins='*',
+     headers=['Content-Type', 'Authorization'],
+     expose_headers='Authorization')
 
 
 # takes a list of notes as an argument
@@ -36,22 +40,25 @@ def filter_by_tag(tag, notes):
 
 
 # verify note has required fields and then add to database
-@app.route("/mynotes", methods=["POST"])
+@app.route("/api/mynotes", methods=["POST"])
 def add_note():
-    # TO-DO: implement sending token from the client
-    required_fields = ["title", "content", "token"]
+    # check if body contains required fields
+    required_fields = ["title", "content", "tags"]
     content = request.get_json()
     for field in required_fields:
         if field not in content:
             return (MISSING_ATTRIBUTE_ERROR, 400)
 
-    # check if user is authorized to view content
-    uid = verify_user(content["token"])
+    # get user_id to store
+    headers = request.headers
+    bearer = headers.get('Authorization')
+    token = bearer.split()[1]
+    uid = verify_user(token)
     if not uid:
         return (USER_UNAUTHORIZED_ERROR, 401)
 
     # add date and user id to field
-    content["date_created"] = datetime.datetime.now(tz=datetime.timezone.utc)
+    content["last_modified"] = datetime.datetime.now(tz=datetime.timezone.utc)
     content["user_id"] = uid
 
     response = notesModel.post_note(content)
@@ -62,16 +69,15 @@ def add_note():
 
 
 # verify note exists and edit in database
-@app.route("/mynotes/<note_id>", methods=["PUT"])
+@app.route("/api/mynotes/<note_id>", methods=["PUT"])
 def edit_note(note_id):
-    required_fields = ["token"]
     content = request.get_json()
-    for field in required_fields:
-        if field not in content:
-            return (MISSING_ATTRIBUTE_ERROR, 400)
 
     # verify if valid user
-    uid = verify_user(content["token"])
+    headers = request.headers
+    bearer = headers.get('Authorization')
+    token = bearer.split()[1]
+    uid = verify_user(token)
     if not uid:
         return (USER_UNAUTHORIZED_ERROR, 401)
 
@@ -82,37 +88,35 @@ def edit_note(note_id):
     elif note.user_id != uid:
         return (USER_UNAUTHORIZED_ERROR, 401)
 
+    content["last_modified"] = datetime.datetime.now(tz=datetime.timezone.utc)
     response = notesModel.put_note(content, note_id)
     return (response, 200)
 
 
 # get all notes for current user
-@app.route("/mynotes", methods=["GET"])
+@app.route("/api/mynotes", methods=["GET"])
 def get_all_notes():
-    required_fields = ["token"]
-    content = request.get_json()
-    for field in required_fields:
-        if field not in content:
-            return (MISSING_ATTRIBUTE_ERROR, 400)
     # verify if valid user
-    uid = verify_user(content["token"])
+    headers = request.headers
+    bearer = headers.get('Authorization')
+    token = bearer.split()[1]
+    uid = verify_user(token)
     if not uid:
         return (USER_UNAUTHORIZED_ERROR, 401)
+
+    # response = json.dumps(notesModel.get_all_notes(uid))
     response = notesModel.get_all_notes(uid)
     return (response, 200)
 
 
 # get specific note for current user
-@app.route("/mynotes/<note_id>", methods=["GET"])
+@app.route("/api/mynotes/<note_id>", methods=["GET"])
 def get_note(note_id):
-    required_fields = ["token"]
-    content = request.get_json()
-    for field in required_fields:
-        if field not in content:
-            return (MISSING_ATTRIBUTE_ERROR, 400)
-
     # verify if valid user
-    uid = verify_user(content["token"])
+    headers = request.headers
+    bearer = headers.get('Authorization')
+    token = bearer.split()[1]
+    uid = verify_user(token)
     if not uid:
         return (USER_UNAUTHORIZED_ERROR, 401)
 
@@ -125,16 +129,13 @@ def get_note(note_id):
 
 
 # delete specific note
-@app.route("/mynotes/<note_id>", methods=["DELETE"])
+@app.route("/api/mynotes/<note_id>", methods=["DELETE"])
 def delete_note(note_id):
-    required_fields = ["token"]
-    content = request.get_json()
-    for field in required_fields:
-        if field not in content:
-            return (MISSING_ATTRIBUTE_ERROR, 400)
-
     # verify if valid user
-    uid = verify_user(content["token"])
+    headers = request.headers
+    bearer = headers.get('Authorization')
+    token = bearer.split()[1]
+    uid = verify_user(token)
     if not uid:
         return (USER_UNAUTHORIZED_ERROR, 401)
 

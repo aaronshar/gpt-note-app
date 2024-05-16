@@ -1,0 +1,4 @@
+/backend/*.json
+/backend/venv/
+/backend/__pycache__/
+/backend/notes_test.py
