@@ -17,18 +17,19 @@ import { useRouter } from 'next/router';
 function myNotesPage() {
   const { currentUser } = useAuth()
   const router = useRouter()
-  const [notesData, setNotesData] = useState([]);
+  const [notesData, setNotesData] = useState([])
+  const [sortedNotes, setSortedNotes] = useState([])
+  const [sortOrder, setSortOrder] = useState('asc')
+  const [priorityTag, setPriorityTag] = useState('')
 
   if (!currentUser){
     router.push("/signIn")
   }
   
   // fetch all notes for current user
-  // let notesData = null;
   useEffect(() => {
     const fetchNotes = async () => {
       let accessToken = null;
-      // let notesData = null;
 
       // get user token
       await currentUser.getIdToken()
@@ -46,6 +47,7 @@ function myNotesPage() {
       })
       
       let notesData = await response.json();
+      setSortedNotes(notesData)
       setNotesData(notesData)
 
       return notesData
@@ -53,10 +55,6 @@ function myNotesPage() {
     fetchNotes()
   },[])
 
-
-  const [sortedNotes, setSortedNotes] = useState(notesData)
-  const [sortOrder, setSortOrder] = useState('asc')
-  const [priorityTag, setPriorityTag] = useState('')
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const order = event.target.value
@@ -125,7 +123,7 @@ function myNotesPage() {
           </div>
           <div className="mt-6 space-y-12 lg:grid lg:grid-cols-5 lg:gap-6 lg:space-y-0">
             {sortedNotes ? (sortedNotes.map((note) => (
-              <div key={note.id} className="group relative">
+              <div key={note.note_id} className="group relative">
                 <a href={note.href}>
                 <div className="border border-gray shadow hover:shadow-lg round-md text-center relative h-full w-full overflow-hidden sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
                   <h3 className="mt-16 text-xl text-gray-800">
