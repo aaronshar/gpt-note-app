@@ -1,3 +1,10 @@
+"""
+THIS FILE CAN BE IGNORED NOW, MERGED WITH notegen-server
+"""
+
+
+
+
 # import openai
 from flask import jsonify
 import os
