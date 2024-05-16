@@ -34,7 +34,7 @@ function index() {
       method: "POST",
       body: JSON.stringify({
         "title": titleRef.current.value,
-        "content": "This is test content", // TO-DO: grab actual text content
+        "content": result, // TO-DO: grab actual text content
         "tags": ["a", "b", "c"] // TO-DO: generate actual tags
       }),
       headers: {
