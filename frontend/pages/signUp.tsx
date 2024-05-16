@@ -37,10 +37,14 @@ function SignUp() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const passwordConfirmRef = useRef(null); // to use when password confirm field is implemented
-  const { signUp } = useAuth();
+  const { signUp, currentUser } = useAuth();
   const [error, setError] = useState(''); // to set any errors
   const [loading, setLoading] = useState(false); // to disable button when creating user
   const router = useRouter();
+
+  if (currentUser) {
+    router.push("/myNotesPage");
+  }
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -49,12 +53,12 @@ function SignUp() {
       setError('')
       setLoading(true)
       await signUp(emailRef.current.value, passwordRef.current.value)
+      router.push("/myNotesPage")
     } catch {
       setError('Failed to create an account')
       console.log("error")
     }
     setLoading(false)
-    router.push("/myNotesPage")
   
   }
   

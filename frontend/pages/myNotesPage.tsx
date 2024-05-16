@@ -11,29 +11,50 @@
 
 
 import React, { useState, useEffect } from 'react'
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/router';
 
 function myNotesPage() {
-  const notesData: { 
-    id: number;
-    title: string;
-    tags: string[];
-    lastModified: string;
-  }[] = [
-    {id: 1, title: 'title-a', tags: ['a', 'b', 'c'], lastModified: '2024-05-01'},
-    {id: 2, title: 'title-b', tags: ['d', 'e', 'f'], lastModified: '2024-05-02'},
-    {id: 3, title: 'title-c', tags: ['a', 'b', 'c'], lastModified: '2024-05-05'},
-    {id: 4, title: 'title-d', tags: ['d', 'e', 'f'], lastModified: '2024-05-07'},
-    {id: 5, title: 'title-e', tags: ['a', 'b', 'c'], lastModified: '2024-05-10'},
-    {id: 6, title: 'title-f', tags: ['d', 'e', 'f'], lastModified: '2024-05-12'},
-    {id: 7, title: 'title-g', tags: ['a', 'b', 'c'], lastModified: '2024-05-15'},
-    {id: 8, title: 'title-h', tags: ['d', 'e', 'f'], lastModified: '2024-05-17'},
-    {id: 9, title: 'title-i', tags: ['a', 'b', 'c'], lastModified: '2024-05-19'},
-    {id: 10, title: 'title-j', tags: ['d', 'e', 'f'], lastModified: '2024-05-20'}
-  ]
-
-  const [sortedNotes, setSortedNotes] = useState(notesData)
+  const { currentUser } = useAuth()
+  const router = useRouter()
+  const [notesData, setNotesData] = useState([])
+  const [sortedNotes, setSortedNotes] = useState([])
   const [sortOrder, setSortOrder] = useState('asc')
   const [priorityTag, setPriorityTag] = useState('')
+
+  if (!currentUser){
+    router.push("/signIn")
+  }
+  
+  // fetch all notes for current user
+  useEffect(() => {
+    const fetchNotes = async () => {
+      let accessToken = null;
+
+      // get user token
+      await currentUser.getIdToken()
+      .then((token) => {
+        accessToken = token;
+      });
+
+      const response = await fetch("http://127.0.0.1:8080/api/mynotes", {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Access-Control-Allow-Origin': '*',
+          'Authorization': `Bearer ${accessToken}`
+        }
+      })
+      
+      let notesData = await response.json();
+      setSortedNotes(notesData)
+      setNotesData(notesData)
+
+      return notesData
+    }
+    fetchNotes()
+  },[])
+
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const order = event.target.value
@@ -65,10 +86,10 @@ function myNotesPage() {
         return b.title.localeCompare(a.title)
       } else if (order == 'new') {
         // Sort by last modified dates by new to old
-        return a.lastModified.localeCompare(b.lastModified)
+        return a.last_modified.localeCompare(b.last_modified)
       } else if (order == 'old') {
         // Sort by last modified dates by old to new
-        return b.lastModified.localeCompare(a.lastModified)
+        return b.last_modified.localeCompare(a.last_modified)
       }
     })
     setSortedNotes(sorted)
@@ -102,15 +123,15 @@ function myNotesPage() {
           </div>
           <div className="mt-6 space-y-12 lg:grid lg:grid-cols-5 lg:gap-6 lg:space-y-0">
             {sortedNotes ? (sortedNotes.map((note) => (
-              <div key={note.id} className="group relative">
+              <div key={note.note_id} className="group relative">
                 <a href={note.href}>
                 <div className="border border-gray shadow hover:shadow-lg round-md text-center relative h-full w-full overflow-hidden sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
                   <h3 className="mt-16 text-xl text-gray-800">
                     <span className="absolute inset-0" />
-                      {note.title}
+                      {note["title"]}
                   </h3>
                   <p className="text-base font-semibold text-gray-900">{note.tags.join(', ')}</p>
-                  <p className="text-base font-semibold text-gray-900">{note.lastModified}</p>
+                  <p className="text-base font-semibold text-gray-900">{note.last_modified}</p>
                 </div> 
                 </a>
               </div>
