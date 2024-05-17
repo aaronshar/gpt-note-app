@@ -61,15 +61,12 @@ function myNotesPage() {
       let notesData = await response.json();
       setSortedNotes(notesData)
       setNotesData(notesData)
-      // Generate tags automatically for each note if not already generated
-      for (const note of notesData) {
-        if (!note.tags || note.tags.length === 0) {
-          generateTags(note);
-        } else {
-          setGeneratedTags((prevTags) => ({ ...prevTags, [note.note_id]: note.tags }));
-        }
-      }
-     
+
+      // Generate tags automatically for each note
+    for (const note of notesData) {
+      generateTags(note);
+    }
+
       return notesData
     }
     fetchNotes()
@@ -145,7 +142,7 @@ function myNotesPage() {
     doc.save(`note_${note.note_id}_${title}.pdf`);
   };
   
-  /*
+
   const exportAsJSON = (note) => {
     const element = document.createElement('a');
     const file = new Blob([JSON.stringify(note, null, 2)], { type: 'application/json' });
@@ -154,7 +151,7 @@ function myNotesPage() {
     element.download = `note_${note.note_id}_${title}.json`;
     document.body.appendChild(element);
     element.click();
-  };*/
+  };
 
   const generateTags = async (note: Note) => {
     try {
@@ -163,9 +160,9 @@ function myNotesPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: note.content }), // Use the note content
+        body: JSON.stringify({ text: note.content }), // Use the note content or title
       });
-
+  
       const data = await response.json();
       setGeneratedTags((prevTags) => ({ ...prevTags, [note.note_id]: data.tags }));
     } catch (error) {
@@ -214,20 +211,15 @@ function myNotesPage() {
                   </div> 
                 </a>
                 <div className="generatedTags"> {/* Display generated tags */}
-                  {generatedTags[note.note_id] && (
-                    <>
-                      <p className="generatedTags">
-                        Tags: {generatedTags[note.note_id].join(', ')}
-                      </p>
-                      <button onClick={() => generateTags(note)} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded m-1">
-                        Re-generate Tags
-                      </button>
-                    </>
-                  )}
+                        {generatedTags[note.note_id] && (
+                          <p className="generatedTags">
+                            Tags: {generatedTags[note.note_id].join(', ')}
+                          </p>
+                        )}
                 </div>
                 <div className="exportButtons">
-                  <button onClick={() => exportAsTXT(note)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1">Export as TXT</button>
-                  <button onClick={() => exportAsPDF(note)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-1">Export as PDF</button>
+                    <button onClick={() => exportAsTXT(note)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1">Export as TXT</button>
+                    <button onClick={() => exportAsPDF(note)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-1">Export as PDF</button>
                 </div>
               </div>
             ))) : null}
