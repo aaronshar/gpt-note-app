@@ -12,7 +12,7 @@
 */
 
 
-import React, { useRef, useState} from 'react';
+import React, { useRef, useState, useEffect} from 'react';
 import Link from "next/link";
 import { useAuth } from "../contexts/AuthContext";
 import { useRouter } from 'next/router'
@@ -28,9 +28,12 @@ function SignIn() {
   const [loading, setLoading] = useState(false); // to disable button when creating user
   const router = useRouter();
 
-  if (currentUser) {
-    router.push("/myNotesPage");
-  }
+  useEffect(() => {
+    if (currentUser) {
+      router.push("/myNotesPage");
+    }
+  }, [currentUser, router]);
+  
 
   const onShowPassword = () => {
     setShowPassword(!showPassword);
@@ -80,14 +83,15 @@ function SignIn() {
         </label>
         <div className="relative mt-2 rounded-md shadow-sm">
           {/* Icon - Show Password or Hide Password */}
-          <i className="absolute p-1.5 ml-[350px]">
-            {
-             <FontAwesomeIcon 
-             icon={showPassword ? faEye : faEyeSlash}
-             onClick={onShowPassword}
-              /> 
-            }
+          <i className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
+          <FontAwesomeIcon 
+            icon={showPassword ? faEye : faEyeSlash}
+            onClick={onShowPassword}
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          />
+
           </i>
+
           <input
             type={showPassword ? "text" : "password"}
             name="password"

@@ -61,7 +61,15 @@ function myNotesPage() {
       let notesData = await response.json();
       setSortedNotes(notesData)
       setNotesData(notesData)
-
+      // Generate tags automatically for each note if not already generated
+      for (const note of notesData) {
+        if (!note.tags || note.tags.length === 0) {
+          generateTags(note);
+        } else {
+          setGeneratedTags((prevTags) => ({ ...prevTags, [note.note_id]: note.tags }));
+        }
+      }
+     
       return notesData
     }
     fetchNotes()
@@ -119,15 +127,25 @@ function myNotesPage() {
   };
 
   /* Adding Export as PDF so the user can export the notes in pdf fpormat*/
-  const exportAsPDF = (note) => {
+  const exportAsPDF = (note: Note) => {
     const doc = new jsPDF();
-    doc.text(`Title: ${note.title}`, 10, 10);
-    doc.text(`Tags: ${note.tags.join(', ')}`, 10, 20);
-    doc.text(`Last Modified: ${note.last_modified}`, 10, 30);
+    const lineHeight = 10;
+    const margin = 10;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const maxLineWidth = pageWidth - margin * 2;
     const title = note.title ? note.title.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'untitled';
+  
+    doc.text(`Title: ${note.title}`, margin, lineHeight);
+    doc.text(`Tags: ${note.tags.join(', ')}`, margin, lineHeight * 2);
+    doc.text(`Last Modified: ${note.last_modified}`, margin, lineHeight * 3);
+  
+    const splitContent = doc.splitTextToSize(note.content, maxLineWidth);
+    doc.text(splitContent, margin, lineHeight * 4);
+  
     doc.save(`note_${note.note_id}_${title}.pdf`);
   };
-
+  
+  /*
   const exportAsJSON = (note) => {
     const element = document.createElement('a');
     const file = new Blob([JSON.stringify(note, null, 2)], { type: 'application/json' });
@@ -136,16 +154,16 @@ function myNotesPage() {
     element.download = `note_${note.note_id}_${title}.json`;
     document.body.appendChild(element);
     element.click();
-  };
+  };*/
 
-  const generateTags = async (note: Note) => { // Function to generate tags
+  const generateTags = async (note: Note) => {
     try {
       const response = await fetch('http://127.0.0.1:8000/generate-tags', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: note.title }),
+        body: JSON.stringify({ text: note.content }), // Use the note content
       });
 
       const data = await response.json();
@@ -154,6 +172,7 @@ function myNotesPage() {
       console.error('Error generating tags:', error);
     }
   };
+  
 
   return (
     <>
@@ -195,16 +214,20 @@ function myNotesPage() {
                   </div> 
                 </a>
                 <div className="generatedTags"> {/* Display generated tags */}
-                        {generatedTags[note.note_id] && (
-                          <p className="generatedTags">
-                            Tags: {generatedTags[note.note_id].join(', ')}
-                          </p>
-                        )}
+                  {generatedTags[note.note_id] && (
+                    <>
+                      <p className="generatedTags">
+                        Tags: {generatedTags[note.note_id].join(', ')}
+                      </p>
+                      <button onClick={() => generateTags(note)} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded m-1">
+                        Re-generate Tags
+                      </button>
+                    </>
+                  )}
                 </div>
                 <div className="exportButtons">
-                  <button onClick={() => exportAsTXT(note)}>Export as TXT</button>
-                  <button onClick={() => exportAsPDF(note)}>Export as PDF</button>
-                  <button onClick={() => exportAsJSON(note)}>Export as JSON</button>
+                  <button onClick={() => exportAsTXT(note)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1">Export as TXT</button>
+                  <button onClick={() => exportAsPDF(note)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-1">Export as PDF</button>
                 </div>
               </div>
             ))) : null}
