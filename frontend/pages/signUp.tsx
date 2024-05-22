@@ -53,7 +53,7 @@ function SignUp() {
       setError('')
       setLoading(true)
       await signUp(emailRef.current.value, passwordRef.current.value)
-      router.push("/signIn")
+      router.push("/myNotesPage")
     } catch {
       setError('Failed to create an account')
       console.log("error")
