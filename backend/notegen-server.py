@@ -60,6 +60,7 @@ openai.openai_api_key = os.getenv("OPENAI_API_KEY")
 
 
 @ app.route('/api/uploadAudio', methods=['POST'])
+# flake8: noqa: C901
 def handle_audio_upload():
 
     try:
