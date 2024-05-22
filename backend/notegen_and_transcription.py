@@ -143,16 +143,16 @@ def create_system_prompt_for_note_gen(options):
                      'Omit any references to the lecture or the speaker. '
                      'Make notes in the same language as the original text. '
                      'Produce notes in this format, as much as possible:'
-                     '\nTopic1/Heading1:\n'
-                     '- Note1 about Topic1/Heading1.\n'
-                     '- Note2 about Topic1/Heading1.\n'
+                     '\nName of Topic:\n'
+                     '- Note about this topic\n'
+                     '- Another Note about this topic\n'
                      '(etc)\n\n'
-                     'Topic2/Heading2:\n'
-                     '- Note1 about Topic2/Heading2.\n'
-                     '- Note2 about Topic2/Heading2.\n'
+                     '\nName of Another Topic, if any:\n'
+                     '- Note about this topic\n'
+                     '- Note about this topic.\n'
                      '(etc)\n\n'
                      'Make sure there is a blank line between'
-                     'different topics.'
+                     'different topics. '
                      )
 
     # print("SYSTEM PROMPT: ", system_prompt, '\n')
