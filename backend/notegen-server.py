@@ -3,8 +3,7 @@ from flask_cors import CORS
 import os
 import openai
 from dotenv import load_dotenv
-# from chunking import chunkify
-# from whisper.utils import get_writer
+
 import whisper
 
 PORT = 8000
@@ -349,7 +348,6 @@ def handle_text_upload():
 
     except Exception as e:
         return jsonify({'error': 'An error occurred', 'details': str(e)}), 500
-
 
 
 if __name__ == '__main__':

@@ -56,6 +56,9 @@ function UploadPageSayhee() {
             }
 
             try {
+                setIsWaitingForData(true);
+                setResponseData(null);
+
                 const response = await axios.post(
                     "http://localhost:8000/api/uploadAudio",
                     formData,
@@ -65,12 +68,16 @@ function UploadPageSayhee() {
                         },
                     }
                 );
-                console.log(response.data.message);
                 setResponseData(response.data);
-                setIsWaitingForData(true);
             } catch (error) {
-                console.error("Error uploading file:", error);
+                // console.log(error);
+                // console.log(error.response.data.error);
+                console.log(error);
+
+                alert(`Error: ${error.response.data.error}`);
                 setResponseData(null);
+                setIsWaitingForData(false);
+            } finally {
                 setIsWaitingForData(false);
             }
         } else {
@@ -88,6 +95,9 @@ function UploadPageSayhee() {
             formData.append("file", selectedTextFile);
 
             try {
+                setResponseData(null);
+                setIsWaitingForData(true);
+
                 const response = await axios.post(
                     "http://localhost:8000/api/uploadText",
                     formData,
@@ -99,10 +109,13 @@ function UploadPageSayhee() {
                 );
                 console.log(response.data.message);
                 setResponseData(response.data);
-                setIsWaitingForData(true);
             } catch (error) {
-                console.error("Error uploading file:", error);
+                console.log(error);
+                alert(`${error.response.data.error}`);
+                // console.error("Error uploading file:", error);
                 setResponseData(null);
+                setIsWaitingForData(false);
+            } finally {
                 setIsWaitingForData(false);
             }
         } else {
@@ -123,7 +136,9 @@ function UploadPageSayhee() {
                 alert(err.message);
             }
         } else {
-            alert("The MediaRecorder API is not supported in your browser.");
+            alert(
+                "The MediaRecorder API is not supported in your browser.  The recording feature will be disabled."
+            );
         }
     };
 
@@ -266,11 +281,20 @@ function UploadPageSayhee() {
                                             className="sr-only"
                                         />
                                     </label>
+
                                     {/* <p className="pl-1">or drag and drop</p> */}
                                 </div>
                                 <p className="text-xs leading-5 text-gray-600">
                                     mp3, mp4, mpeg, mpga, m4a, wav, webm
                                 </p>
+
+                                {/* NEW */}
+                                {selectedAudioFile && (
+                                    <p>
+                                        <b>{selectedAudioFile.name}</b>
+                                    </p>
+                                )}
+                                {/* NEW */}
                             </div>
                         </div>
                         <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
@@ -361,6 +385,13 @@ function UploadPageSayhee() {
                                 <p className="text-xs leading-5 text-gray-600">
                                     txt, *** up to **MB
                                 </p>
+                                {/* NEW */}
+                                {selectedTextFile && (
+                                    <p>
+                                        <b>{selectedTextFile.name}</b>
+                                    </p>
+                                )}
+                                {/* NEW */}
                             </div>
                         </div>
                         <div className="mt-6 flex items-center justify-center gap-x-6">
@@ -375,7 +406,10 @@ function UploadPageSayhee() {
                     </form>
                 </div>
                 <div className="mt-6 flex items-center justify-center gap-x-6">
-                    <h1>HTTP Response</h1>
+                    {/* NEW */}
+                    {/* <h1>HTTP Response</h1> */}
+                    {isWaitingForData && <h1>Loading...</h1>}
+                    {/* NEW */}
                     {responseData && responseData.transcript && (
                         <div>
                             <h3>Transcript:</h3>
@@ -386,7 +420,10 @@ function UploadPageSayhee() {
                         <div className="text-center">
                             <div className="mt-4 flex text-sm leading-6 text-gray-600">
                                 <h3>Note:</h3>
-                                {responseData.note}
+                                {/* NEW */}
+                                {/* using <pre> tag PREserves the whitespace in the note */}
+                                <pre>{responseData.note}</pre>
+                                {/* NEW */}
                             </div>
                         </div>
                     )}
