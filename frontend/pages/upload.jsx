@@ -13,6 +13,7 @@ import React from "react";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
+import { useAuth } from '@/contexts/AuthContext';
 
 const mimeType = "audio/webm";
 
@@ -28,6 +29,11 @@ function UploadPageSayhee() {
     const [responseData, setResponseData] = useState(null);
     const [isWaitingForData, setIsWaitingForData] = useState(false);
     const [keywords, setKeywords] = useState(""); // ex. "  ZenithNex, DynaPulse Max, SonicBlast X, CyberLink X7, Vectronix V9, NebulaLink Alpha, QuantumPulse Matrix, FUSION, RAZE, BOLT, QUBE, FLARE  "
+    
+    /* for Adding notes ** start **/
+    const { currentUser } = useAuth();
+    // const titleRef = useRef(null);
+    /* for Adding notes ** end **/
 
     const handleAudioFileChange = (event) => {
         console.log("selected a file");
@@ -45,6 +51,7 @@ function UploadPageSayhee() {
 
     const handleUploadAudio = async (event) => {
         event.preventDefault();
+
         if (selectedAudioFile) {
             // console.log("CLICKED! REQUESTING NOTES FROM AUDIO");
 
@@ -69,6 +76,34 @@ function UploadPageSayhee() {
                     }
                 );
                 setResponseData(response.data);
+                
+                /* for adding notes **start**/
+                if (!currentUser){
+                    return  // should have some sort of error message pop up
+                }
+                
+                // get access token of current user
+                let accessToken = null;
+                await currentUser.getIdToken()
+                .then((token) => {
+                accessToken = token;
+                });
+                //const response = await fetch("http://127.....")
+                const addedNotes = await fetch("http://127.0.0.1:8080/api/mynotes", {
+                method: "POST",
+                body: JSON.stringify({
+                    "title": "title-default", // titleRef.current.value
+                    "content": response.data.transcript, // TO-DO: grab actual text content
+                    "tags": ["a", "b", "c"], // TO-DO: generate actual tags
+                    "bulletpoints": response.data.note
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+                })
+                /* for adding notes **end**/
+
             } catch (error) {
                 // console.log(error);
                 // console.log(error.response.data.error);
@@ -109,6 +144,34 @@ function UploadPageSayhee() {
                 );
                 console.log(response.data.message);
                 setResponseData(response.data);
+
+                /* for adding notes **start**/
+                if (!currentUser){
+                    return  // should have some sort of error message pop up
+                }
+                
+                // get access token of current user
+                let accessToken = null;
+                await currentUser.getIdToken()
+                .then((token) => {
+                accessToken = token;
+                });
+                //const response = await fetch("http://127.....")
+                const addedNotes = await fetch("http://127.0.0.1:8080/api/mynotes", {
+                method: "POST",
+                body: JSON.stringify({
+                    "title": "title-default", // titleRef.current.value
+                    "content": response.data.transcript, // TO-DO: grab actual text content
+                    "tags": ["a", "b", "c"], // TO-DO: generate actual tags
+                    "bulletpoints": response.data.note
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+                })
+                /* for adding notes **end**/
+
             } catch (error) {
                 console.log(error);
                 alert(`${error.response.data.error}`);

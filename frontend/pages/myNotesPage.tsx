@@ -22,6 +22,8 @@ interface Note {
   last_modified: string;
   href: string;
   token: string;
+  content: string;
+  bulletpoints: string;
 }
 
 function myNotesPage() {
@@ -118,7 +120,7 @@ function myNotesPage() {
     const file = new Blob([JSON.stringify(note, null, 2)], { type: 'text/plain' });
     element.href = URL.createObjectURL(file);
     const title = note.title ? note.title.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'untitled';
-    element.download = `note_${note.note_id}_${title}.txt`;
+    element.download = `note_${title}_${note.note_id}.txt`;
     document.body.appendChild(element);
     element.click();
   };
@@ -138,8 +140,11 @@ function myNotesPage() {
   
     const splitContent = doc.splitTextToSize(note.content, maxLineWidth);
     doc.text(splitContent, margin, lineHeight * 4);
-  
-    doc.save(`note_${note.note_id}_${title}.pdf`);
+    
+    const splitBulletPoints = doc.splitTextToSize(note.bulletpoints, maxLineWidth);
+    doc.text(splitBulletPoints, margin, lineHeight * 6);
+    
+    doc.save(`note_${title}_${note.note_id}.pdf`);
   };
   
 
@@ -208,6 +213,8 @@ function myNotesPage() {
                         </h3>
                     <p className="text-base font-semibold text-gray-900">{note.tags.join(', ')}</p>
                     <p className="text-base font-semibold text-gray-900">{note.last_modified}</p>
+                    <p className="text-xs">{note.content}</p>
+                    <p className="text-xs">{note.bulletpoints}</p>
                   </div> 
                 </a>
                 <div className="generatedTags"> {/* Display generated tags */}
