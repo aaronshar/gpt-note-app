@@ -14,10 +14,11 @@ import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/router';
 
 const mimeType = "audio/webm";
 
-function UploadPageSayhee() {
+function UploadPage() {
     const mediaRecorder = useRef(null);
     const [permission, setPermission] = useState(false);
     const [recordingStatus, setRecordingStatus] = useState("inactive");
@@ -34,6 +35,9 @@ function UploadPageSayhee() {
     const { currentUser } = useAuth();
     // const titleRef = useRef(null);
     /* for Adding notes ** end **/
+
+    const router = useRouter(); // for routing to My Notes after generating notes
+    
 
     const handleAudioFileChange = (event) => {
         console.log("selected a file");
@@ -52,7 +56,7 @@ function UploadPageSayhee() {
     const handleUploadAudio = async (event) => {
         event.preventDefault();
 
-        if (selectedAudioFile) {
+        if (currentUser && selectedAudioFile) {
             // console.log("CLICKED! REQUESTING NOTES FROM AUDIO");
 
             const formData = new FormData();
@@ -78,9 +82,6 @@ function UploadPageSayhee() {
                 setResponseData(response.data);
                 
                 /* for adding notes **start**/
-                if (!currentUser){
-                    return  // should have some sort of error message pop up
-                }
                 
                 // get access token of current user
                 let accessToken = null;
@@ -108,22 +109,30 @@ function UploadPageSayhee() {
                 // console.log(error);
                 // console.log(error.response.data.error);
                 console.log(error);
-
+                
                 alert(`Error: ${error.response.data.error}`);
                 setResponseData(null);
                 setIsWaitingForData(false);
             } finally {
                 setIsWaitingForData(false);
+                router.push("/myNotesPage") // route to My Notes
             }
         } else {
-            alert("No file selected.");
+            if (!selectedAudioFile) {
+                alert("No file selected.");
+            } 
+
+            if (!currentUser) {
+                alert("Please Sign In first.")
+                router.push("/signIn")
+            }
         }
     };
 
     const handleUploadText = async (event) => {
         event.preventDefault();
         // console.log("CLICKED");
-        if (selectedTextFile) {
+        if (currentUser && selectedTextFile) {
             console.log("CLICKED! REQUESTING NOTES FROM TEXT");
 
             const formData = new FormData();
@@ -146,9 +155,6 @@ function UploadPageSayhee() {
                 setResponseData(response.data);
 
                 /* for adding notes **start**/
-                if (!currentUser){
-                    return  // should have some sort of error message pop up
-                }
                 
                 // get access token of current user
                 let accessToken = null;
@@ -180,9 +186,17 @@ function UploadPageSayhee() {
                 setIsWaitingForData(false);
             } finally {
                 setIsWaitingForData(false);
+                router.push("/myNotesPage") // route to My Notes
             }
         } else {
-            alert("No file selected.");
+            if (!selectedTextFile) {
+                alert("No file selected.");
+            } 
+
+            if (!currentUser) {
+                alert("Please Sign In first.")
+                router.push("/signIn")
+            }
         }
     };
 
@@ -390,13 +404,21 @@ function UploadPageSayhee() {
                         </div>
 
                         <div className="mt-6 flex items-center justify-center gap-x-6">
+                        {selectedAudioFile && isWaitingForData ? 
+                            <button
+                            disabled
+                            // type="submit"
+                            className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                            >
+                            Loading..
+                            </button>:
                             <button
                                 onClick={handleUploadAudio}
                                 // type="submit"
                                 className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                             >
                                 Submit
-                            </button>
+                            </button>}
                         </div>
                     </form>
 
@@ -450,7 +472,7 @@ function UploadPageSayhee() {
                                     {/* <p className="pl-1">or drag and drop</p> */}
                                 </div>
                                 <p className="text-xs leading-5 text-gray-600">
-                                    txt, *** up to **MB
+                                    txt
                                 </p>
                                 {/* NEW */}
                                 {selectedTextFile && (
@@ -462,42 +484,27 @@ function UploadPageSayhee() {
                             </div>
                         </div>
                         <div className="mt-6 flex items-center justify-center gap-x-6">
+                        {selectedTextFile && isWaitingForData ? 
+                            <button
+                                disabled
+                                // type="submit"
+                                className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                            >
+                                Loading..
+                            </button>:
                             <button
                                 onClick={handleUploadText}
                                 // type="submit"
-                                className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semßibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                                className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                             >
                                 Submit
-                            </button>
+                            </button>}
                         </div>
                     </form>
-                </div>
-                <div className="mt-6 flex items-center justify-center gap-x-6">
-                    {/* NEW */}
-                    {/* <h1>HTTP Response</h1> */}
-                    {isWaitingForData && <h1>Loading...</h1>}
-                    {/* NEW */}
-                    {responseData && responseData.transcript && (
-                        <div>
-                            <h3>Transcript:</h3>
-                            {responseData.transcript}
-                        </div>
-                    )}
-                    {responseData && responseData.note && (
-                        <div className="text-center">
-                            <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                                <h3>Note:</h3>
-                                {/* NEW */}
-                                {/* using <pre> tag PREserves the whitespace in the note */}
-                                <pre>{responseData.note}</pre>
-                                {/* NEW */}
-                            </div>
-                        </div>
-                    )}
                 </div>
             </div>
         </>
     );
 }
 
-export default UploadPageSayhee;
+export default UploadPage;
