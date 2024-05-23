@@ -23,12 +23,12 @@ const Navbar = () => {
             <ul className="md:flex gap-x-6 font-bold">
               <li className="hover:text-slate-600">
                 <Link href="/">
-                  <p>Transcribe</p>
+                  <p>Home</p>
                 </Link>
               </li>
               <li className="hover:text-slate-600">
                 <Link href="/upload">
-                  <p>Upload</p>
+                  <p>Record or Upload</p>
                 </Link>
               </li>
               <li className="hover:text-slate-600">

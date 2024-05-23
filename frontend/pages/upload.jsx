@@ -13,6 +13,7 @@ import React from "react";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
+import { useAuth } from '@/contexts/AuthContext';
 
 const mimeType = "audio/webm";
 
@@ -28,6 +29,11 @@ function UploadPageSayhee() {
     const [responseData, setResponseData] = useState(null);
     const [isWaitingForData, setIsWaitingForData] = useState(false);
     const [keywords, setKeywords] = useState(""); // ex. "  ZenithNex, DynaPulse Max, SonicBlast X, CyberLink X7, Vectronix V9, NebulaLink Alpha, QuantumPulse Matrix, FUSION, RAZE, BOLT, QUBE, FLARE  "
+    
+    /* for Adding notes ** start **/
+    const { currentUser } = useAuth();
+    // const titleRef = useRef(null);
+    /* for Adding notes ** end **/
 
     const handleAudioFileChange = (event) => {
         console.log("selected a file");
@@ -45,6 +51,7 @@ function UploadPageSayhee() {
 
     const handleUploadAudio = async (event) => {
         event.preventDefault();
+
         if (selectedAudioFile) {
             // console.log("CLICKED! REQUESTING NOTES FROM AUDIO");
 
@@ -69,6 +76,34 @@ function UploadPageSayhee() {
                     }
                 );
                 setResponseData(response.data);
+                
+                /* for adding notes **start**/
+                if (!currentUser){
+                    return  // should have some sort of error message pop up
+                }
+                
+                // get access token of current user
+                let accessToken = null;
+                await currentUser.getIdToken()
+                .then((token) => {
+                accessToken = token;
+                });
+                //const response = await fetch("http://127.....")
+                const addedNotes = await fetch("http://127.0.0.1:8080/api/mynotes", {
+                method: "POST",
+                body: JSON.stringify({
+                    "title": "title-default", // titleRef.current.value
+                    "content": response.data.transcript, // TO-DO: grab actual text content
+                    "tags": ["a", "b", "c"], // TO-DO: generate actual tags
+                    "bulletpoints": response.data.note
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+                })
+                /* for adding notes **end**/
+
             } catch (error) {
                 // console.log(error);
                 // console.log(error.response.data.error);
@@ -109,6 +144,34 @@ function UploadPageSayhee() {
                 );
                 console.log(response.data.message);
                 setResponseData(response.data);
+
+                /* for adding notes **start**/
+                if (!currentUser){
+                    return  // should have some sort of error message pop up
+                }
+                
+                // get access token of current user
+                let accessToken = null;
+                await currentUser.getIdToken()
+                .then((token) => {
+                accessToken = token;
+                });
+                //const response = await fetch("http://127.....")
+                const addedNotes = await fetch("http://127.0.0.1:8080/api/mynotes", {
+                method: "POST",
+                body: JSON.stringify({
+                    "title": "title-default", // titleRef.current.value
+                    "content": response.data.transcript, // TO-DO: grab actual text content
+                    "tags": ["a", "b", "c"], // TO-DO: generate actual tags
+                    "bulletpoints": response.data.note
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+                })
+                /* for adding notes **end**/
+
             } catch (error) {
                 console.log(error);
                 alert(`${error.response.data.error}`);
@@ -188,7 +251,7 @@ function UploadPageSayhee() {
                         Record live lecture or meeting
                     </div>
 
-                    <div className="audio-controls">
+                    <div className="audio-controls flex justify-center">
                         {!permission ? (
                             <button
                                 onClick={getMicrophonePermission}
@@ -206,7 +269,7 @@ function UploadPageSayhee() {
                             <button
                                 onClick={startRecording}
                                 type="button"
-                                className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                                className="w-48 rounded-md bg-blue-600 mt-10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
                             >
                                 Start Recording
                             </button>
@@ -217,28 +280,30 @@ function UploadPageSayhee() {
                                 <button
                                     onClick={stopRecording}
                                     type="button"
-                                    className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                                    className="w-48 rounded-md bg-red-600 mt-10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
                                 >
                                     Stop Recording
                                 </button>
-                                <p>Recording In Progress...</p>
+                                <p className="w-48 mt-5 text-sm font-semibold">
+                                    Recording In Progress...
+                                </p>
                             </div>
                         ) : null}
                     </div>
                     {audio ? (
-                        <div className="audio-player">
+                        <div className="audio-player text-center">
                             <audio
                                 src={audio}
                                 style={{
-                                    margin: "10px 0px",
-                                    padding: "2px",
+                                    margin: "10px 20px",
+                                    padding: "10px",
                                 }}
                                 controls
                             ></audio>
                             <a
                                 download
                                 href={audio}
-                                className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                                className="w-48 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                             >
                                 Download Recording
                             </a>
@@ -297,14 +362,16 @@ function UploadPageSayhee() {
                                 {/* NEW */}
                             </div>
                         </div>
-                        <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                        <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-2">
                             <div className="text-center">
                                 <div className="flex text-sm leading-6 text-gray-600">
                                     <label
                                         htmlFor="keywords-input"
-                                        className="relative cursor-pointer rounded-md bg-white font-semibold text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:text-blue-500"
+                                        className="w-80 relative cursor-pointer rounded-md bg-white font-semibold text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:text-blue-500"
                                     >
-                                        <span>Enter keywords: </span>
+                                        <span className="w-80">
+                                            Enter keywords <span className="text-xs text-black">of your audio file</span>:
+                                        </span>
                                         <input
                                             onClick={() => {
                                                 console.log("CLICKED3");
