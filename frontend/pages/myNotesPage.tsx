@@ -60,9 +60,13 @@ function myNotesPage() {
         }
       })
       
-      let notesData = await response.json();
-      setSortedNotes(notesData)
-      setNotesData(notesData)
+      const notesData = await response.json();
+      notesData.forEach(note => {
+        note.tags = Array.isArray(note.tags) ? note.tags : [];
+      });
+      setSortedNotes(notesData);
+      setNotesData(notesData);
+
 
       // Generate tags automatically for each note
     for (const note of notesData) {
@@ -134,18 +138,28 @@ function myNotesPage() {
     const maxLineWidth = pageWidth - margin * 2;
     const title = note.title ? note.title.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'untitled';
   
-    doc.text(`Title: ${note.title}`, margin, lineHeight);
-    doc.text(`Tags: ${note.tags.join(', ')}`, margin, lineHeight * 2);
-    doc.text(`Last Modified: ${note.last_modified}`, margin, lineHeight * 3);
+    let currentHeight = lineHeight;
+  
+    doc.text(`Title: ${note.title}`, margin, currentHeight);
+    currentHeight += lineHeight;
+  
+    doc.text(`Tags: ${note.tags.join(', ')}`, margin, currentHeight);
+    currentHeight += lineHeight;
+  
+    doc.text(`Last Modified: ${note.last_modified}`, margin, currentHeight);
+    currentHeight += lineHeight;
   
     const splitContent = doc.splitTextToSize(note.content, maxLineWidth);
-    doc.text(splitContent, margin, lineHeight * 4);
-    
+    doc.text(splitContent, margin, currentHeight);
+    currentHeight += splitContent.length * lineHeight;
+  
     const splitBulletPoints = doc.splitTextToSize(note.bulletpoints, maxLineWidth);
-    doc.text(splitBulletPoints, margin, lineHeight * 6);
-    
+    doc.text(splitBulletPoints, margin, currentHeight);
+    currentHeight += splitBulletPoints.length * lineHeight;
+  
     doc.save(`note_${title}_${note.note_id}.pdf`);
   };
+  
   
 
   const exportAsJSON = (note) => {
@@ -160,16 +174,20 @@ function myNotesPage() {
 
   const generateTags = async (note: Note) => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/generate-tags', {
+      const response = await fetch('http://127.0.0.1:5000/generate-tags', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: note.content }), // Use the note content or title
+        body: JSON.stringify({ text: note.content }), 
       });
-  
+
       const data = await response.json();
-      setGeneratedTags((prevTags) => ({ ...prevTags, [note.note_id]: data.tags }));
+      if (Array.isArray(data.tags)) {
+        setGeneratedTags((prevTags) => ({ ...prevTags, [note.note_id]: data.tags }));
+      } else {
+        setGeneratedTags((prevTags) => ({ ...prevTags, [note.note_id]: [] }));
+      }
     } catch (error) {
       console.error('Error generating tags:', error);
     }
@@ -217,12 +235,12 @@ function myNotesPage() {
                     <p className="text-xs">{note.bulletpoints}</p>
                   </div> 
                 </a>
-                <div className="generatedTags"> {/* Display generated tags */}
-                        {generatedTags[note.note_id] && (
-                          <p className="generatedTags">
-                            Tags: {generatedTags[note.note_id].join(', ')}
-                          </p>
-                        )}
+                <div className="generatedTags">
+                  {generatedTags[note.note_id] && Array.isArray(generatedTags[note.note_id]) && (
+                    <p className="generatedTags">
+                      Tags: <p className="text-base font-semibold text-gray-900">{Array.isArray(note.tags) ? note.tags.join(', ') : ''}</p>
+                    </p>
+                  )}
                 </div>
                 <div className="exportButtons">
                     <button onClick={() => exportAsTXT(note)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1">Export as TXT</button>

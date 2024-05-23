@@ -30,6 +30,7 @@ function UploadPage() {
     const [responseData, setResponseData] = useState(null);
     const [isWaitingForData, setIsWaitingForData] = useState(false);
     const [keywords, setKeywords] = useState(""); // ex. "  ZenithNex, DynaPulse Max, SonicBlast X, CyberLink X7, Vectronix V9, NebulaLink Alpha, QuantumPulse Matrix, FUSION, RAZE, BOLT, QUBE, FLARE  "
+    const [tags, setTags] = useState([]); 
     
     /* for Adding notes ** start **/
     const { currentUser } = useAuth();
@@ -52,6 +53,7 @@ function UploadPage() {
     const handleKeywordChange = (event) => {
         setKeywords(event.target.value);
     };
+
 
     const handleUploadAudio = async (event) => {
         event.preventDefault();
@@ -83,6 +85,11 @@ function UploadPage() {
                 
                 /* for adding notes **start**/
                 
+                const tags = await axios.post('http://127.0.0.1:5000/generate-tags', {
+                            formData,
+                    });
+                    return response.data.tags || [];
+                
                 // get access token of current user
                 let accessToken = null;
                 await currentUser.getIdToken()
@@ -95,7 +102,7 @@ function UploadPage() {
                 body: JSON.stringify({
                     "title": "title-default", // titleRef.current.value
                     "content": response.data.transcript, // TO-DO: grab actual text content
-                    "tags": ["a", "b", "c"], // TO-DO: generate actual tags
+                    "tags": tags, // TO-DO: generate actual tags
                     "bulletpoints": response.data.note
                 }),
                 headers: {
@@ -168,7 +175,7 @@ function UploadPage() {
                 body: JSON.stringify({
                     "title": "title-default", // titleRef.current.value
                     "content": response.data.transcript, // TO-DO: grab actual text content
-                    "tags": ["a", "b", "c"], // TO-DO: generate actual tags
+                    "tags": tags, // TO-DO: generate actual tags
                     "bulletpoints": response.data.note
                 }),
                 headers: {
