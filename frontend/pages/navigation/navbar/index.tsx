@@ -28,7 +28,7 @@ const Navbar = () => {
               </li>
               <li className="hover:text-slate-600">
                 <Link href="/upload">
-                  <p>Record or Upload</p>
+                  <p>Record & Upload</p>
                 </Link>
               </li>
               <li className="hover:text-slate-600">
