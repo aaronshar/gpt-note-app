@@ -30,7 +30,7 @@ function UploadPage() {
     const [responseData, setResponseData] = useState(null);
     const [isWaitingForData, setIsWaitingForData] = useState(false);
     const [keywords, setKeywords] = useState(""); // ex. "  ZenithNex, DynaPulse Max, SonicBlast X, CyberLink X7, Vectronix V9, NebulaLink Alpha, QuantumPulse Matrix, FUSION, RAZE, BOLT, QUBE, FLARE  "
-    const [tags, setTags] = useState([]); 
+    const [tags, setTags] = useState(""); 
     
     /* for Adding notes ** start **/
     const { currentUser } = useAuth();
@@ -86,16 +86,7 @@ function UploadPage() {
         
                 
                 /* for adding notes **start**/
-                
-                const tags = await axios.post(
-                    'http://127.0.0.1:5000/generate-tags', 
-                            formData,{
-                                headers: {
-                                    "Content-Type": "multipart/form-data",
-                                },
-                            }
-                    );
-                setTags(tags);
+            
 
                 
                 // get access token of current user
@@ -110,7 +101,7 @@ function UploadPage() {
                 body: JSON.stringify({
                     "title": "title-default", // titleRef.current.value
                     "content": response.data.transcript, // TO-DO: grab actual text content
-                    "tags": tags, // DONE
+                    "tags": ['hello'], // DONE
                     "bulletpoints": response.data.note
                 }),
                 headers: {
@@ -172,16 +163,6 @@ function UploadPage() {
 
                 setResponseData(response.data);
 
-                const tags = await axios.post(
-                    'http://127.0.0.1:5000/generate-tags', 
-                            formData,{
-                                headers: {
-                                    "Content-Type": "multipart/form-data",
-                                },
-                            }
-                    );
-                setTags(tags);
-
                 /* for adding notes **start**/
                 
                 // get access token of current user
@@ -196,7 +177,7 @@ function UploadPage() {
                 body: JSON.stringify({
                     "title": "title-default", // titleRef.current.value
                     "content": response.data.transcript, // TO-DO: grab actual text content
-                    "tags": tags, // TO-DO: generate actual tags
+                    "tags": ["hello"], // TO-DO: generate actual tags
                     "bulletpoints": response.data.note
                 }),
                 headers: {

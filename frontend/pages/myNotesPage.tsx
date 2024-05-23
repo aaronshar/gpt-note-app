@@ -14,6 +14,7 @@ import React, { useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import jsPDF from 'jspdf';
+import updateOldTags from './updateTags';
 
 
 interface Note {
@@ -254,6 +255,12 @@ function myNotesPage() {
           </div>
         </div>
       </div>
+      <button 
+    onClick={updateOldTags} 
+    className="bg-yellow-500 center hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded m-1">
+    Update Old Tags
+</button>
+
     </div>
     </>
   )
