@@ -1,6 +1,6 @@
 import notesModel
 import datetime
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from usersModel import verify_user
 from flask_cors import CORS
 # TO-DO: think about how to incorporate authentication
@@ -131,24 +131,29 @@ def get_note(note_id):
 # delete specific note
 @app.route("/api/mynotes/<note_id>", methods=["DELETE"])
 def delete_note(note_id):
-    # verify if valid user
     headers = request.headers
     bearer = headers.get('Authorization')
-    token = bearer.split()[1]
+    if not bearer:
+        return jsonify({"Error": "Authorization token is missing"}), 401
+    
+    token = bearer.split(' ')[1] if len(bearer.split(' ')) > 1 else None
+    if not token:
+        return jsonify({"Error": "Bearer token is invalid"}), 401
+    
     uid = verify_user(token)
     if not uid:
-        return (USER_UNAUTHORIZED_ERROR, 401)
+        return jsonify({"Error": "User unauthorized"}), 401
 
-    # check if user id matches user user_id in note
     note = notesModel.get_note(note_id)
     if not note:
-        return (DOES_NOT_EXIST_ERROR, 404)
-    elif note.user_id != uid:
-        return (USER_UNAUTHORIZED_ERROR, 401)
+        return jsonify({"Error": "No note with this id exists"}), 404
+    elif note['user_id'] != uid:
+        return jsonify({"Error": "User unauthorized to access this note"}), 401
 
     notesModel.delete_note(note_id)
+    return jsonify({"Success": "Note deleted successfully"}), 204
 
-    return ('', 204)
+
 
 
 if __name__ == '__main__':
