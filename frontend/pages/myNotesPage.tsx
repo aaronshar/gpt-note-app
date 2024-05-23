@@ -15,6 +15,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import jsPDF from 'jspdf';
 
+
 interface Note {
   note_id: string;
   title: string;
@@ -193,6 +194,8 @@ function myNotesPage() {
     }
   };
   
+
+
 
   return (
     <>

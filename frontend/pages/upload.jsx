@@ -71,6 +71,7 @@ function UploadPage() {
             try {
                 setIsWaitingForData(true);
                 setResponseData(null);
+                setTags(null);
 
                 const response = await axios.post(
                     "http://localhost:8000/api/uploadAudio",
@@ -82,13 +83,20 @@ function UploadPage() {
                     }
                 );
                 setResponseData(response.data);
+        
                 
                 /* for adding notes **start**/
                 
-                const tags = await axios.post('http://127.0.0.1:5000/generate-tags', {
-                            formData,
-                    });
-                    return response.data.tags || [];
+                const tags = await axios.post(
+                    'http://127.0.0.1:5000/generate-tags', 
+                            formData,{
+                                headers: {
+                                    "Content-Type": "multipart/form-data",
+                                },
+                            }
+                    );
+                setTags(tags);
+
                 
                 // get access token of current user
                 let accessToken = null;
@@ -102,7 +110,7 @@ function UploadPage() {
                 body: JSON.stringify({
                     "title": "title-default", // titleRef.current.value
                     "content": response.data.transcript, // TO-DO: grab actual text content
-                    "tags": tags, // TO-DO: generate actual tags
+                    "tags": tags, // DONE
                     "bulletpoints": response.data.note
                 }),
                 headers: {
@@ -119,6 +127,7 @@ function UploadPage() {
                 
                 alert(`Error: ${error.response.data.error}`);
                 setResponseData(null);
+                setTags(null);
                 setIsWaitingForData(false);
             } finally {
                 setIsWaitingForData(false);
@@ -147,6 +156,7 @@ function UploadPage() {
 
             try {
                 setResponseData(null);
+                setTags(null);
                 setIsWaitingForData(true);
 
                 const response = await axios.post(
@@ -159,7 +169,18 @@ function UploadPage() {
                     }
                 );
                 console.log(response.data.message);
+
                 setResponseData(response.data);
+
+                const tags = await axios.post(
+                    'http://127.0.0.1:5000/generate-tags', 
+                            formData,{
+                                headers: {
+                                    "Content-Type": "multipart/form-data",
+                                },
+                            }
+                    );
+                setTags(tags);
 
                 /* for adding notes **start**/
                 
