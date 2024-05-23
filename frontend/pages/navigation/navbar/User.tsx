@@ -6,27 +6,24 @@
 */
 
 import React, { useCallback, useContext, useState, useEffect} from 'react';
-import Link from "next/link";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useRouter } from 'next/router'
+import Link from "next/link";
+
 
 const User = () => {
-  const { isSignedIn } = useAuth();
-  const { signOut, currentUser } = useAuth();
+  const { logOut, currentUser } = useAuth();
   const [error, setError] = useState(''); // to set any errors
   const [loading, setLoading] = useState(false); // to disable button when creating user
   const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(isSignedIn)
-  
 
   async function handleSignOut(e) {
     e.preventDefault()
     try {
       setError('');
       setLoading(true);
-      await signOut;
-      setIsAuthenticated(!isAuthenticated)
-      router.push('/');
+      await logOut();
+      router.push('/signIn');
     } catch {
       setError('Failed to logout');
       console.log("error");
@@ -34,10 +31,12 @@ const User = () => {
     }
     setLoading(false);
   } 
+
+  
     
   return (
     <div>
-      {isAuthenticated ? 
+      {currentUser ? 
         <button 
           className="hover:bg-slate-100 h-12 rounded-lg bg-white font-bold px-5"
           onClick={handleSignOut}
@@ -46,14 +45,14 @@ const User = () => {
           Sign Out
         </button>
       :
-      <Link href="/signIn">
-        <button 
-          className="hover:bg-slate-100 h-12 rounded-lg bg-white font-bold px-5"
-          aria-label="Sign In"
-        >
+      <button 
+        className="hover:bg-slate-100 h-12 rounded-lg bg-white font-bold px-5"
+        aria-label="Sign In"
+      >
+        <Link href='/signIn'>
           Sign In
-        </button>
-      </Link>}
+        </Link>
+      </button>}
     </div>
   );
 };
