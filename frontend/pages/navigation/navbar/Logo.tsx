@@ -47,8 +47,8 @@ const Logo = () => {
         <Image
           src="/images/logo-notesguru.png"
           alt="Logo-NotesGuru"
-          width={width < 1024 ? "70" : "170"}
-          height={width < 1024 ? "30" : "60"}
+          width={70}
+          height={30}
           className="hover:opacity-75 relative"
         />
       </Link>

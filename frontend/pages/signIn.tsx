@@ -31,7 +31,7 @@ function SignIn() {
   useEffect(() => {
     if (currentUser) {
       router.push("/myNotesPage");
-    }
+    } 
   }, [currentUser, router]);
   
 
