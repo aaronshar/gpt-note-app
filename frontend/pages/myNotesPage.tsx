@@ -102,6 +102,9 @@ function myNotesPage() {
         return bHasTag - aHasTag
       }
 
+      const dateA = new Date(a.last_modified) // to sort by last modified dates
+      const dateB = new Date(b.last_modified) // to sort by last modified dates
+
       if (order === 'asc') {
         // Sort by alphabetical order
         return a.title.localeCompare(b.title)
@@ -110,10 +113,10 @@ function myNotesPage() {
         return b.title.localeCompare(a.title)
       } else if (order == 'new') {
         // Sort by last modified dates by new to old
-        return a.last_modified.localeCompare(b.last_modified)
+        return dateB - dateA
       } else if (order == 'old') {
         // Sort by last modified dates by old to new
-        return b.last_modified.localeCompare(a.last_modified)
+        return dateA - dateB
       }
     })
     setSortedNotes(sorted)
