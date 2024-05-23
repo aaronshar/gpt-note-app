@@ -177,6 +177,7 @@ def handle_text_upload():
 
         return jsonify(
             {
+                'transcript': file_content,
                 'message': 'Successfully got a response',
                 'note': note
             }
