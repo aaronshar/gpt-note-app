@@ -63,3 +63,6 @@ The application will provide personalized accounts for users to manage their sto
 2. ```cd backend```
 3. ```pip install -r requirements.txt```
 4. ```python3 notegen-server.py```
+5. ```python3 notesController.py```
+6. ```python3 app.py```
+
