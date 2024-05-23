@@ -25,6 +25,8 @@ function UploadPage() {
     const [stream, setStream] = useState(null);
     const [audio, setAudio] = useState(null);
     const [audioChunks, setAudioChunks] = useState([]);
+    const [audioTitle, setAudioTitle] = useState(""); 
+    const [textTitle, setTextTitle] = useState("");
     const [selectedAudioFile, setSelectedAudioFile] = useState(null);
     const [selectedTextFile, setSelectedTextFile] = useState(null);
     const [responseData, setResponseData] = useState(null);
@@ -39,6 +41,14 @@ function UploadPage() {
 
     const router = useRouter(); // for routing to My Notes after generating notes
     
+    // Handle changes for audio and text titles
+    const handleAudioTitleChange = (event) => {
+        setAudioTitle(event.target.value);
+    };
+
+    const handleTextTitleChange = (event) => {
+        setTextTitle(event.target.value);
+    };
 
     const handleAudioFileChange = (event) => {
         console.log("selected a file");
@@ -63,6 +73,7 @@ function UploadPage() {
 
             const formData = new FormData();
             formData.append("file", selectedAudioFile);
+            formData.append("title", audioTitle); // Include title in FormData
 
             if (keywords) {
                 formData.append("keywords", keywords);
@@ -99,7 +110,7 @@ function UploadPage() {
                 const addedNotes = await fetch("http://127.0.0.1:8080/api/mynotes", {
                 method: "POST",
                 body: JSON.stringify({
-                    "title": "title-default", // titleRef.current.value
+                    "title": audioTitle, // titleRef.current.value
                     "content": response.data.transcript, // TO-DO: grab actual text content
                     "tags": ['hello'], // DONE
                     "bulletpoints": response.data.note
@@ -127,7 +138,9 @@ function UploadPage() {
         } else {
             if (!selectedAudioFile) {
                 alert("No file selected.");
-            } 
+            } else if (!audioTitle) {
+                alert("Please provide a title for the audio file.");
+            }
 
             if (!currentUser) {
                 alert("Please Sign In first.")
@@ -144,6 +157,7 @@ function UploadPage() {
 
             const formData = new FormData();
             formData.append("file", selectedTextFile);
+            formData.append("title", textTitle); 
 
             try {
                 setResponseData(null);
@@ -175,7 +189,7 @@ function UploadPage() {
                 const addedNotes = await fetch("http://127.0.0.1:8080/api/mynotes", {
                 method: "POST",
                 body: JSON.stringify({
-                    "title": "title-default", // titleRef.current.value
+                    "title": textTitle, // titleRef.current.value
                     "content": response.data.transcript, // TO-DO: grab actual text content
                     "tags": ["hello"], // TO-DO: generate actual tags
                     "bulletpoints": response.data.note
@@ -200,7 +214,9 @@ function UploadPage() {
         } else {
             if (!selectedTextFile) {
                 alert("No file selected.");
-            } 
+            } else if (!textTitle) {
+                alert("Please provide a title for the text file.");
+            }
 
             if (!currentUser) {
                 alert("Please Sign In first.")
@@ -412,6 +428,20 @@ function UploadPage() {
                             </div>
                         </div>
 
+                        <div>
+                            <label htmlFor="audio-title" className="block text-sm font-bold leading-6 text-gray-900">
+                                Audio File Title:
+                            </label>
+                            <input
+                                id="audio-title"
+                                type="text"
+                                value={audioTitle}
+                                onChange={handleAudioTitleChange}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                placeholder="Enter title here"
+                            />
+                        </div>
+
                         <div className="mt-6 flex items-center justify-center gap-x-6">
                         {selectedAudioFile && isWaitingForData ? 
                             <button
@@ -491,6 +521,19 @@ function UploadPage() {
                                 )}
                                 {/* NEW */}
                             </div>
+                        </div>
+                        <div>
+                            <label htmlFor="text-title" className="block text-sm font-bold leading-6 text-gray-900">
+                                Text File Title:
+                            </label>
+                            <input
+                                id="text-title"
+                                type="text"
+                                value={textTitle}
+                                onChange={handleTextTitleChange}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                placeholder="Enter title here"
+                            />
                         </div>
                         <div className="mt-6 flex items-center justify-center gap-x-6">
                         {selectedTextFile && isWaitingForData ? 
