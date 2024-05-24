@@ -9,6 +9,7 @@
  (https://cssf1.com/snippet/create-horizontal-rule-with-text-using-tailwindcss)
 */
 
+
 import React from "react";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
@@ -30,17 +31,19 @@ function UploadPage() {
     const [selectedTextFile, setSelectedTextFile] = useState(null);
     const [responseData, setResponseData] = useState(null);
     const [isWaitingForData, setIsWaitingForData] = useState(false);
-    const [keywords, setKeywords] = useState(""); // ex. "  ZenithNex, DynaPulse Max, SonicBlast X, CyberLink X7, Vectronix V9, NebulaLink Alpha, QuantumPulse Matrix, FUSION, RAZE, BOLT, QUBE, FLARE  "
+    const [keywords, setKeywords] = useState(""); 
     const [tags, setTags] = useState([]);
+    const [dragging, setDragging] = useState(false);
+
+    const audioDropRef = useRef(null);
+    const textDropRef = useRef(null);
     
     /* for Adding notes ** start **/
     const { currentUser } = useAuth();
-    // const titleRef = useRef(null);
     /* for Adding notes ** end **/
 
-    const router = useRouter(); // for routing to My Notes after generating notes
+    const router = useRouter(); 
     
-    // Handle changes for audio and text titles
     const handleAudioTitleChange = (event) => {
         setAudioTitle(event.target.value);
     };
@@ -50,12 +53,10 @@ function UploadPage() {
     };
 
     const handleAudioFileChange = (event) => {
-        console.log("selected a file");
         setSelectedAudioFile(event.target.files[0]);
     };
 
     const handleTextFileChange = (event) => {
-        console.log("selected a file");
         setSelectedTextFile(event.target.files[0]);
     };
 
@@ -66,8 +67,6 @@ function UploadPage() {
     const generateTags = async (text) => {
         try {
             const response = await axios.post("http://127.0.0.1:5000/generate-tags", { text });
-            console.log(response.data)
-            console.log(response.data.tags)
             return response.data.tags;
         } catch (error) {
             console.error("Error generating tags:", error);
@@ -75,16 +74,13 @@ function UploadPage() {
         }
     };
 
-
     const handleUploadAudio = async (event) => {
         event.preventDefault();
 
         if (currentUser && selectedAudioFile) {
-            // console.log("CLICKED! REQUESTING NOTES FROM AUDIO");
-
             const formData = new FormData();
             formData.append("file", selectedAudioFile);
-            formData.append("title", audioTitle); // Include title in FormData
+            formData.append("title", audioTitle); 
 
             if (keywords) {
                 formData.append("keywords", keywords);
@@ -106,19 +102,15 @@ function UploadPage() {
                 );
                 setResponseData(response.data);
         
-                
-                /* for adding notes **start**/
                 const generatedTags = await generateTags(response.data.transcript);
                 setTags(generatedTags);
                 
-                // get access token of current user
                 let accessToken = null;
                 await currentUser.getIdToken()
                 .then((token) => {
                 accessToken = token;
                 });
-                //const response = await fetch("http://127.....")
-                console.log(tags)
+
                 const addedNotes = await fetch("http://127.0.0.1:8080/api/mynotes", {
                 method: "POST",
                 body: JSON.stringify({
@@ -132,11 +124,7 @@ function UploadPage() {
                     'Authorization': `Bearer ${accessToken}`
                 }
                 })
-                /* for adding notes **end**/
-
             } catch (error) {
-                // console.log(error);
-                // console.log(error.response.data.error);
                 console.log(error);
                 
                 alert(`Error: ${error.response.data.error}`);
@@ -145,7 +133,7 @@ function UploadPage() {
                 setIsWaitingForData(false);
             } finally {
                 setIsWaitingForData(false);
-                router.push("/myNotesPage") // route to My Notes
+                router.push("/myNotesPage") 
             }
         } else {
             if (!selectedAudioFile) {
@@ -163,10 +151,7 @@ function UploadPage() {
 
     const handleUploadText = async (event) => {
         event.preventDefault();
-        // console.log("CLICKED");
         if (currentUser && selectedTextFile) {
-            console.log("CLICKED! REQUESTING NOTES FROM TEXT");
-
             const formData = new FormData();
             formData.append("file", selectedTextFile);
             formData.append("title", textTitle); 
@@ -189,23 +174,21 @@ function UploadPage() {
 
                 setResponseData(response.data);
 
-                /* for adding notes **start**/
                 const generatedTags = await generateTags(response.data.transcript);
                 setTags(generatedTags);
                 
-                // get access token of current user
                 let accessToken = null;
                 await currentUser.getIdToken()
                 .then((token) => {
                 accessToken = token;
                 });
-                //const response = aawait fetch("http://127.....")
+
                 const addedNotes = await fetch("http://127.0.0.1:8080/api/mynotes", {
                 method: "POST",
                 body: JSON.stringify({
-                    "title": textTitle, // titleRef.current.value
-                    "content": response.data.transcript, // TO-DO: grab actual text content
-                    "tags": generatedTags, // TO-DO: generate actual tags
+                    "title": textTitle, 
+                    "content": response.data.transcript, 
+                    "tags": generatedTags, 
                     "bulletpoints": response.data.note
                 }),
                 headers: {
@@ -213,17 +196,14 @@ function UploadPage() {
                     'Authorization': `Bearer ${accessToken}`
                 }
                 })
-                /* for adding notes **end**/
-
             } catch (error) {
                 console.log(error);
                 alert(`${error.response.data.error}`);
-                // console.error("Error uploading file:", error);
                 setResponseData(null);
                 setIsWaitingForData(false);
             } finally {
                 setIsWaitingForData(false);
-                router.push("/myNotesPage") // route to My Notes
+                router.push("/myNotesPage") 
             }
         } else {
             if (!selectedTextFile) {
@@ -290,6 +270,83 @@ function UploadPage() {
             setAudioChunks([]);
         };
     };
+
+    const handleDragEnter = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragging(true);
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragging(false);
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        e.dataTransfer.dropEffect = 'copy';
+    };
+
+    const handleDrop = (e, type) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragging(false);
+    
+        const files = e.dataTransfer.files;
+        if (files.length) {
+            handleFiles(files, type);
+        }
+    };
+    
+
+    const handleFiles = (files, type) => {
+        const file = files[0];
+        console.log(`File type detected: ${file.type}`);
+        const supportedAudioTypes = [
+            'audio/mp3', 'audio/mp4', 'audio/mpeg', 'audio/mpga', 'audio/m4a', 'audio/wav', 'audio/webm'
+        ];
+        if (type === 'audio' && supportedAudioTypes.includes(file.type)) {
+            setSelectedAudioFile(file);
+        } else if (type === 'text' && file.type === 'text/plain') {
+            setSelectedTextFile(file);
+        } else {
+            alert('Unsupported file type!');
+        }
+    };
+    
+
+    useEffect(() => {
+        const audioDiv = audioDropRef.current;
+        const textDiv = textDropRef.current;
+        if (audioDiv && textDiv) {
+            audioDiv.addEventListener('dragenter', handleDragEnter);
+            audioDiv.addEventListener('dragleave', handleDragLeave);
+            audioDiv.addEventListener('dragover', handleDragOver);
+            audioDiv.addEventListener('drop', (e) => handleDrop(e, 'audio'));
+    
+            textDiv.addEventListener('dragenter', handleDragEnter);
+            textDiv.addEventListener('dragleave', handleDragLeave);
+            textDiv.addEventListener('dragover', handleDragOver);
+            textDiv.addEventListener('drop', (e) => handleDrop(e, 'text'));
+        }
+    
+        return () => {
+            if (audioDiv && textDiv) {
+                audioDiv.removeEventListener('dragenter', handleDragEnter);
+                audioDiv.removeEventListener('dragleave', handleDragLeave);
+                audioDiv.removeEventListener('dragover', handleDragOver);
+                audioDiv.removeEventListener('drop', (e) => handleDrop(e, 'audio'));
+    
+                textDiv.removeEventListener('dragenter', handleDragEnter);
+                textDiv.removeEventListener('dragleave', handleDragLeave);
+                textDiv.removeEventListener('dragover', handleDragOver);
+                textDiv.removeEventListener('drop', (e) => handleDrop(e, 'text'));
+            }
+        };
+    }, []);
+    
 
     useEffect(() => {
         getMicrophonePermission();
@@ -373,7 +430,10 @@ function UploadPage() {
                             Upload Audio File
                         </label>
 
-                        <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                        <div 
+                            className={`mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 ${dragging ? 'bg-gray-100' : ''}`}
+                            ref={audioDropRef}
+                        >
                             <div className="text-center">
                                 <div className="mt-4 flex text-sm leading-6 text-gray-600">
                                     <label
@@ -392,20 +452,17 @@ function UploadPage() {
                                             className="sr-only"
                                         />
                                     </label>
-
-                                    {/* <p className="pl-1">or drag and drop</p> */}
+            
                                 </div>
                                 <p className="text-xs leading-5 text-gray-600">
                                     mp3, mp4, mpeg, mpga, m4a, wav, webm
                                 </p>
 
-                                {/* NEW */}
                                 {selectedAudioFile && (
                                     <p>
                                         <b>{selectedAudioFile.name}</b>
                                     </p>
                                 )}
-                                {/* NEW */}
                             </div>
                         </div>
                         
@@ -443,14 +500,12 @@ function UploadPage() {
                         {selectedAudioFile && isWaitingForData ? 
                             <button
                             disabled
-                            // type="submit"
                             className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                             >
                             Loading..
                             </button>:
                             <button
                                 onClick={handleUploadAudio}
-                                // type="submit"
                                 className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                             >
                                 Submit
@@ -479,7 +534,10 @@ function UploadPage() {
                         >
                             Upload Text File
                         </label>
-                        <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                        <div 
+                            className={`mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 ${dragging ? 'bg-gray-100' : ''}`}
+                            ref={textDropRef}
+                        >
                             <div className="text-center">
                                 <div className="mt-4 flex text-sm leading-6 text-gray-600">
                                     <label
@@ -498,18 +556,16 @@ function UploadPage() {
                                             className="sr-only"
                                         />
                                     </label>
-                                    {/* <p className="pl-1">or drag and drop</p> */}
+                                    <p className="pl-1">or drag and drop</p>
                                 </div>
                                 <p className="text-xs leading-5 text-gray-600">
                                     txt
                                 </p>
-                                {/* NEW */}
                                 {selectedTextFile && (
                                     <p>
                                         <b>{selectedTextFile.name}</b>
                                     </p>
                                 )}
-                                {/* NEW */}
                             </div>
                         </div>
                         <div>
@@ -529,14 +585,12 @@ function UploadPage() {
                         {selectedTextFile && isWaitingForData ? 
                             <button
                                 disabled
-                                // type="submit"
                                 className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                             >
                                 Loading..
                             </button>:
                             <button
                                 onClick={handleUploadText}
-                                // type="submit"
                                 className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                             >
                                 Submit
@@ -545,6 +599,19 @@ function UploadPage() {
                     </form>
                 </div>
             </div>
+
+            <style jsx>{`
+              .dropzone {
+                border: 2px dashed #ccc;
+                border-radius: 10px;
+                padding: 20px;
+                text-align: center;
+                transition: background-color 0.2s ease;
+              }
+              .dropzone.dragging {
+                background-color: #eee;
+              }
+            `}</style>
         </>
     );
 }
