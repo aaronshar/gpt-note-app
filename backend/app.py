@@ -32,7 +32,7 @@ def tag_route():
 @app.route('/test-json', methods=['POST'])
 def test_json():
     # Print what's received to the console for debugging
-    print("Received JSON:", request.json)
+    # print("Received JSON:", request.json)
 
     # Check if JSON data is present
     if not request.json:

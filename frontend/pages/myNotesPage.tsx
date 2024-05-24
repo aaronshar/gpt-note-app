@@ -70,9 +70,9 @@ function myNotesPage() {
 
 
       // Generate tags automatically for each note
-    //for (const note of notesData) {
-      //generateTags(note);
-    //}
+      for (const note of notesData) {
+        generateTags(note);
+      }
 
       return notesData
     }
@@ -129,15 +129,18 @@ function myNotesPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: note.content }), 
+        body: JSON.stringify({ text: note.content }), // Use the note content or title
       });
-
-      const data = await response.json();
-      if (Array.isArray(data.tags)) {
-        setGeneratedTags((prevTags) => ({ ...prevTags, [note.note_id]: data.tags }));
-      } else {
-        setGeneratedTags((prevTags) => ({ ...prevTags, [note.note_id]: [] }));
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+  
+      const data = await response.json();
+      setGeneratedTags((prevTags) => ({
+        ...prevTags,
+        [note.note_id]: data.tags
+      }));
     } catch (error) {
       console.error('Error generating tags:', error);
     }
@@ -186,10 +189,10 @@ function myNotesPage() {
                     <p className="text-base font-semibold text-gray-900">{note.last_modified}</p>
                   </div> 
                 </Link>
-                <div className="generatedTags">
-                  {generatedTags[note.note_id] && Array.isArray(generatedTags[note.note_id]) && (
+                <div className="generatedTags"> {/* Display generated tags */}
+                  {Array.isArray(generatedTags[note.note_id]) && (
                     <p className="generatedTags">
-                      Tags: <p className="text-base font-semibold text-gray-900">{Array.isArray(note.tags) ? note.tags.join(', ') : ''}</p>
+                      Tags: {generatedTags[note.note_id].join(', ')}
                     </p>
                   )}
                 </div>

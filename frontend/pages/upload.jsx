@@ -31,7 +31,7 @@ function UploadPage() {
     const [responseData, setResponseData] = useState(null);
     const [isWaitingForData, setIsWaitingForData] = useState(false);
     const [keywords, setKeywords] = useState(""); // ex. "  ZenithNex, DynaPulse Max, SonicBlast X, CyberLink X7, Vectronix V9, NebulaLink Alpha, QuantumPulse Matrix, FUSION, RAZE, BOLT, QUBE, FLARE  "
-    const [tags, setTags] = useState(""); 
+    const [tags, setTags] = useState([]);
     
     /* for Adding notes ** start **/
     const { currentUser } = useAuth();
@@ -93,7 +93,7 @@ function UploadPage() {
             try {
                 setIsWaitingForData(true);
                 setResponseData(null);
-                setTags(null);
+                setTags([]);
 
                 const response = await axios.post(
                     "http://localhost:8000/api/uploadAudio",
@@ -108,8 +108,8 @@ function UploadPage() {
         
                 
                 /* for adding notes **start**/
-                const tags = await generateTags(response.data.transcript);
-                setTags(tags);
+                const generatedTags = await generateTags(response.data.transcript);
+                setTags(generatedTags);
                 
                 // get access token of current user
                 let accessToken = null;
@@ -124,7 +124,7 @@ function UploadPage() {
                 body: JSON.stringify({
                     "title": audioTitle,
                     "content": response.data.transcript,
-                    "tags": tags.data.transcript,
+                    "tags": generatedTags,
                     "bulletpoints": response.data.note
                 }),
                 headers: {
@@ -141,7 +141,7 @@ function UploadPage() {
                 
                 alert(`Error: ${error.response.data.error}`);
                 setResponseData(null);
-                setTags(null);
+                setTags([]);
                 setIsWaitingForData(false);
             } finally {
                 setIsWaitingForData(false);
@@ -173,7 +173,7 @@ function UploadPage() {
 
             try {
                 setResponseData(null);
-                setTags(null);
+                setTags([]);
                 setIsWaitingForData(true);
 
                 const response = await axios.post(
@@ -190,8 +190,8 @@ function UploadPage() {
                 setResponseData(response.data);
 
                 /* for adding notes **start**/
-                const tags = await generateTags(response.data.transcript);
-                setTags(tags);
+                const generatedTags = await generateTags(response.data.transcript);
+                setTags(generatedTags);
                 
                 // get access token of current user
                 let accessToken = null;
@@ -205,7 +205,7 @@ function UploadPage() {
                 body: JSON.stringify({
                     "title": textTitle, // titleRef.current.value
                     "content": response.data.transcript, // TO-DO: grab actual text content
-                    "tags": tags, // TO-DO: generate actual tags
+                    "tags": generatedTags, // TO-DO: generate actual tags
                     "bulletpoints": response.data.note
                 }),
                 headers: {
