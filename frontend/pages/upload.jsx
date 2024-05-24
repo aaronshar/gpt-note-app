@@ -155,6 +155,11 @@ function UploadPage() {
 
     const handleUploadText = async (event) => {
         event.preventDefault();
+
+        if (!textTitle) {
+            alert("Please provide a title for the text file.");
+            return;
+        }
         if (currentUser && selectedTextFile) {
             const formData = new FormData();
             formData.append("file", selectedTextFile);
