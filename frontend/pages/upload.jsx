@@ -96,7 +96,6 @@ function UploadPage() {
         
                 
                 /* for adding notes **start**/
-            
 
                 
                 // get access token of current user

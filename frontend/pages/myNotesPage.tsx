@@ -70,9 +70,9 @@ function myNotesPage() {
 
 
       // Generate tags automatically for each note
-    for (const note of notesData) {
-      generateTags(note);
-    }
+    //for (const note of notesData) {
+      //generateTags(note);
+    //}
 
       return notesData
     }
