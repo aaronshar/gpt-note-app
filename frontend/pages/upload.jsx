@@ -12,7 +12,6 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import Link from "next/link";
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 
@@ -110,9 +109,9 @@ function UploadPage() {
                 const addedNotes = await fetch("http://127.0.0.1:8080/api/mynotes", {
                 method: "POST",
                 body: JSON.stringify({
-                    "title": audioTitle, // titleRef.current.value
-                    "content": response.data.transcript, // TO-DO: grab actual text content
-                    "tags": ['hello'], // DONE
+                    "title": audioTitle,
+                    "content": response.data.transcript,
+                    "tags": ['hello'],
                     "bulletpoints": response.data.note
                 }),
                 headers: {
@@ -287,7 +286,7 @@ function UploadPage() {
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-10 lg:px-8">
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <div className="block text-sm font-bold leading-6 text-gray-900">
-                        Record live lecture or meeting
+                        Record & Download to Upload
                     </div>
 
                     <div className="audio-controls flex justify-center">
@@ -356,14 +355,7 @@ function UploadPage() {
                             htmlFor="audio-file"
                             className="block text-sm font-bold leading-6 text-gray-900"
                         >
-                            Upload Audio File{" "}
-                            <span className="font-thin">below and see </span>
-                            <Link
-                                href="/signIn"
-                                className="font-medium leading-6 text-blue-600 hover:text-blue-500"
-                            >
-                                My Notes
-                            </Link>
+                            Upload Audio File
                         </label>
 
                         <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
@@ -373,7 +365,7 @@ function UploadPage() {
                                         htmlFor="audiofile-upload"
                                         className="relative cursor-pointer rounded-md bg-white font-semibold text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:text-blue-500"
                                     >
-                                        <span>Upload an audio file</span>
+                                        <span>Upload an Audio file</span>
                                         <input
                                             onClick={() => {
                                                 console.log("CLICKED2");
@@ -401,44 +393,34 @@ function UploadPage() {
                                 {/* NEW */}
                             </div>
                         </div>
-                        <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-2">
-                            <div className="text-center">
-                                <div className="flex text-sm leading-6 text-gray-600">
-                                    <label
-                                        htmlFor="keywords-input"
-                                        className="w-80 relative cursor-pointer rounded-md bg-white font-semibold text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:text-blue-500"
-                                    >
-                                        <span className="w-80">
-                                            Enter keywords <span className="text-xs text-black">of your audio file</span>:
-                                        </span>
-                                        <input
-                                            onClick={() => {
-                                                console.log("CLICKED3");
-                                            }}
-                                            onChange={handleKeywordChange}
-                                            id="keywords-input"
-                                            type="text"
-                                            style={{
-                                                outline: "blue",
-                                                display: "block",
-                                            }}
-                                        />
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+                        
+                        <div>
+                            <label htmlFor="keywords-input" className="block text-sm font-bold leading-6 text-gray-900">
+                                Enter keywords <span className="text-xs text-black">of your audio file</span>:
+                            </label>
+                            <input
+                                id="keywords-input"
+                                type="text"
+                                onClick={() => {
+                                    console.log("CLICKED3");
+                                }}
+                                onChange={handleKeywordChange}
+                                className="pl-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                placeholder="Enter Keywords here"
+                            />
+                        </div>                        
 
                         <div>
                             <label htmlFor="audio-title" className="block text-sm font-bold leading-6 text-gray-900">
-                                Audio File Title:
+                                Title:
                             </label>
                             <input
                                 id="audio-title"
                                 type="text"
                                 value={audioTitle}
                                 onChange={handleAudioTitleChange}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-                                placeholder="Enter title here"
+                                className="pl-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                placeholder="Enter Title here"
                             />
                         </div>
 
@@ -480,14 +462,7 @@ function UploadPage() {
                             htmlFor="audio-file"
                             className="block text-sm font-bold leading-6 text-gray-900"
                         >
-                            Upload Text File{" "}
-                            <span className="font-thin">below and see </span>
-                            <Link
-                                href="/signIn"
-                                className="font-medium leading-6 text-blue-600 hover:text-blue-500"
-                            >
-                                My Notes
-                            </Link>
+                            Upload Text File
                         </label>
                         <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                             <div className="text-center">
@@ -496,7 +471,7 @@ function UploadPage() {
                                         htmlFor="file-upload"
                                         className="relative cursor-pointer rounded-md bg-white font-semibold text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:text-blue-500"
                                     >
-                                        <span>Upload a text file</span>
+                                        <span>Upload a Text file</span>
                                         <input
                                             onChange={handleTextFileChange}
                                             onClick={() => {
@@ -524,14 +499,14 @@ function UploadPage() {
                         </div>
                         <div>
                             <label htmlFor="text-title" className="block text-sm font-bold leading-6 text-gray-900">
-                                Text File Title:
+                                Title:
                             </label>
                             <input
                                 id="text-title"
                                 type="text"
                                 value={textTitle}
                                 onChange={handleTextTitleChange}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                className="pl-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
                                 placeholder="Enter title here"
                             />
                         </div>

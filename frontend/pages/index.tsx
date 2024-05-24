@@ -28,7 +28,7 @@ function index() {
 
         <h3 className="ml-10 mt-10 text-2xl font-bold text-sky-600">Features</h3>
         <ul className="px-20 mt-10 font-medium list-disc">
-          <li><span className="text-blue-600">"Record or Upload"</span>: Transcribe from voice-to-text: For this, we utilize OpenAI's Whisper</li>
+          <li><span className="text-blue-600">"Record & Upload"</span>: Transcribe from voice-to-text: For this, we utilize OpenAI's Whisper</li>
           <ul className="ml-10 list-decimal">
             <li>Capture live audio during lectures and meetings</li>
             <li>Or, upload audio files to transcribe</li>
