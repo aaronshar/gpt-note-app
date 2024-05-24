@@ -63,6 +63,18 @@ function UploadPage() {
         setKeywords(event.target.value);
     };
 
+    const generateTags = async (text) => {
+        try {
+            const response = await axios.post("http://127.0.0.1:5000/generate-tags", { text });
+            console.log(response.data)
+            console.log(response.data.tags)
+            return response.data.tags;
+        } catch (error) {
+            console.error("Error generating tags:", error);
+            return [];
+        }
+    };
+
 
     const handleUploadAudio = async (event) => {
         event.preventDefault();
@@ -96,7 +108,8 @@ function UploadPage() {
         
                 
                 /* for adding notes **start**/
-
+                const tags = await generateTags(response.data.transcript);
+                setTags(tags);
                 
                 // get access token of current user
                 let accessToken = null;
@@ -105,12 +118,13 @@ function UploadPage() {
                 accessToken = token;
                 });
                 //const response = await fetch("http://127.....")
+                console.log(tags)
                 const addedNotes = await fetch("http://127.0.0.1:8080/api/mynotes", {
                 method: "POST",
                 body: JSON.stringify({
                     "title": audioTitle,
                     "content": response.data.transcript,
-                    "tags": ['hello'],
+                    "tags": tags.data.transcript,
                     "bulletpoints": response.data.note
                 }),
                 headers: {
@@ -176,6 +190,8 @@ function UploadPage() {
                 setResponseData(response.data);
 
                 /* for adding notes **start**/
+                const tags = await generateTags(response.data.transcript);
+                setTags(tags);
                 
                 // get access token of current user
                 let accessToken = null;
@@ -183,13 +199,13 @@ function UploadPage() {
                 .then((token) => {
                 accessToken = token;
                 });
-                //const response = await fetch("http://127.....")
+                //const response = aawait fetch("http://127.....")
                 const addedNotes = await fetch("http://127.0.0.1:8080/api/mynotes", {
                 method: "POST",
                 body: JSON.stringify({
                     "title": textTitle, // titleRef.current.value
                     "content": response.data.transcript, // TO-DO: grab actual text content
-                    "tags": ["hello"], // TO-DO: generate actual tags
+                    "tags": tags, // TO-DO: generate actual tags
                     "bulletpoints": response.data.note
                 }),
                 headers: {

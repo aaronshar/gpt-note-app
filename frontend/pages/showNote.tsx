@@ -145,26 +145,7 @@ function ShowNotePage() {
     element.click();
   };
 
-  const generateTags = async (note: Note) => {
-    try {
-      const response = await fetch('http://127.0.0.1:5000/generate-tags', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: note.content }), 
-      });
-
-      const data = await response.json();
-      if (Array.isArray(data.tags)) {
-        setGeneratedTags((prevTags) => ({ ...prevTags, [note.note_id]: data.tags }));
-      } else {
-        setGeneratedTags((prevTags) => ({ ...prevTags, [note.note_id]: [] }));
-      }
-    } catch (error) {
-      console.error('Error generating tags:', error);
-    }
-  };
+  
 
   return (
     <>
