@@ -76,21 +76,26 @@ function UploadPage() {
 
     const handleUploadAudio = async (event) => {
         event.preventDefault();
-
+    
+        if (!audioTitle) {
+            alert("Please provide a title for the audio file.");
+            return;
+        }
+    
         if (currentUser && selectedAudioFile) {
             const formData = new FormData();
             formData.append("file", selectedAudioFile);
             formData.append("title", audioTitle); 
-
+    
             if (keywords) {
                 formData.append("keywords", keywords);
             }
-
+    
             try {
                 setIsWaitingForData(true);
                 setResponseData(null);
                 setTags([]);
-
+    
                 const response = await axios.post(
                     "http://localhost:8000/api/uploadAudio",
                     formData,
@@ -110,7 +115,7 @@ function UploadPage() {
                 .then((token) => {
                 accessToken = token;
                 });
-
+    
                 const addedNotes = await fetch("http://127.0.0.1:8080/api/mynotes", {
                 method: "POST",
                 body: JSON.stringify({
@@ -138,16 +143,15 @@ function UploadPage() {
         } else {
             if (!selectedAudioFile) {
                 alert("No file selected.");
-            } else if (!audioTitle) {
-                alert("Please provide a title for the audio file.");
             }
-
+    
             if (!currentUser) {
                 alert("Please Sign In first.")
                 router.push("/signIn")
             }
         }
     };
+    
 
     const handleUploadText = async (event) => {
         event.preventDefault();
