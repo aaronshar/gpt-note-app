@@ -193,7 +193,9 @@ function ShowNotePage() {
                         Export as TXT
                       </button>
                     </div>
-                    <button onClick={deleteNote} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg">
+                    <button
+                    onClick={() => deleteNote(`${note_id}`)} 
+                    className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg">
                       Delete Note
                     </button>
                   </div>
