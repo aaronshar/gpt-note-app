@@ -151,8 +151,8 @@ function ShowNotePage() {
     <>
     <div className="w-full h-full">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl py-12 sm:py-16 lg:max-w-none lg:py-16">
-          <h2 className="text-2xl font-bold text-gray-900">My Notes</h2>
+        <div className="mx-auto max-w-4xl px-4 py-8 bg-white shadow-lg rounded-lg">
+        <h1 className="text-2xl auto font-bold text-gray-900 mb-2">Note Details</h1>
           
           <div className="w-full">
           {selectedNote ?
@@ -172,25 +172,31 @@ function ShowNotePage() {
                         </div>
                     <p className="text-base font-semibold text-gray-900">Last Modified Date: {selectedNote.last_modified}</p>
                     <br />
-                    <p className="text-base">{selectedNote.content}</p>
+                    <h2 className="font-semibold text-lg">Content:</h2>
+                    <p className="text-base"> {selectedNote.content}</p>
                   </div>
-                  <div className="text-xl">
-                    Bullet Points:
-                  </div> 
-                  <div className="px-3 border border-gray shadow hover:shadow-lg round-md text-center relative h-full w-full overflow-scroll">
-                    {selectedNote.bulletpoints}
-                  </div>
-                <div className="flex justify-between">
-                  <div className="exportButtons">
-                      <button onClick={() => exportAsTXT(selectedNote)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1">Export as TXT</button>
-                      <button onClick={() => exportAsPDF(selectedNote)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-1">Export as PDF</button>
-                  </div>
-                  <div dir="rtl">
-                      <button onClick={() => deleteNote(`${note_id}`)} className="mt-1 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                        Delete
+                  <h2 className="font-semibold text-lg">Bullet Points:</h2> 
+                  <ul className="list-disc ml-5 text-gray-600 mb-4">
+                    {selectedNote?.bulletpoints ? 
+                      selectedNote.bulletpoints.split('\n').map((item, index) => (
+                        <li key={index}>{item}</li>
+                      )) : null
+                    }
+                  </ul>
+
+                  <div className="flex justify-between items-center mt-6">
+                    <div>
+                      <button onClick={() => exportAsPDF(selectedNote)} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg mr-2">
+                        Export as PDF
                       </button>
+                      <button onClick={() => exportAsTXT(selectedNote)} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
+                        Export as TXT
+                      </button>
+                    </div>
+                    <button onClick={deleteNote} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg">
+                      Delete Note
+                    </button>
                   </div>
-                </div>
               </div>
             : null}
           </div>
