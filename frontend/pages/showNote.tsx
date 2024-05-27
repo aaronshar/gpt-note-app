@@ -159,10 +159,17 @@ function ShowNotePage() {
               <div key={note_id} className="">
                   <div className="h-80 px-3 border border-gray shadow hover:shadow-lg round-md text-center relative h-full w-full overflow-scroll">
                       <h3 className="mt-16 text-xl text-gray-800">
-                        Title: <span className="absolute inset-0" />
+                        <span className="absolute inset-0" />
                         {selectedNote.title}
                       </h3>
-                    <p className="text-base font-semibold text-gray-900">Tags: {selectedNote.tags}</p>
+                      <div className="mt-2 flex justify-center flex-wrap gap-2">
+                            <p>Tags:</p>
+                            {selectedNote.tags && selectedNote.tags.map((tag, index) => (
+                                <span key={index} className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
                     <p className="text-base font-semibold text-gray-900">Last Modified Date: {selectedNote.last_modified}</p>
                     <br />
                     <p className="text-base">{selectedNote.content}</p>
