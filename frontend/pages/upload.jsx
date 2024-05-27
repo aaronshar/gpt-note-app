@@ -314,16 +314,15 @@ function UploadPage() {
         const file = files[0];
         console.log(`File type detected: ${file.type}`);
         const supportedAudioTypes = [
-            'audio/mp3', 'audio/mp4', 'audio/mpeg', 'audio/mpga', 'audio/m4a', 'audio/wav', 'audio/webm'
+            'audio/mp3', 'audio/mp4', 'audio/mpeg', 'audio/mpga', 'audio/m4a', 'audio/wav', 'audio/webm', 'video/webm', 'video/mp4'
         ];
         if (type === 'audio' && supportedAudioTypes.includes(file.type)) {
             setSelectedAudioFile(file);
-        } else if (type === 'text' && file.type === 'text/plain') {
-            setSelectedTextFile(file);
         } else {
             alert('Unsupported file type!');
         }
     };
+    
     
 
     useEffect(() => {
@@ -451,15 +450,14 @@ function UploadPage() {
                                     >
                                         <span>Upload an Audio file</span>
                                         <input
-                                            onClick={() => {
-                                                console.log("CLICKED2");
-                                            }}
                                             onChange={handleAudioFileChange}
                                             id="audiofile-upload"
                                             name="file-upload"
                                             type="file"
+                                            accept="audio/mp3, audio/mp4, audio/mpeg, audio/mpga, audio/x-m4a, audio/wav, audio/webm, video/webm, video/mp4"
                                             className="sr-only"
                                         />
+                                       
                                     </label>
             
                                 </div>
