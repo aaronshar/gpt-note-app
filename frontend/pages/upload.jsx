@@ -451,7 +451,7 @@ function UploadPage() {
                                         htmlFor="audiofile-upload"
                                         className="relative cursor-pointer rounded-md bg-white font-semibold text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:text-blue-500"
                                     >
-                                        <span>Upload an Audio file</span>
+                                        <span>Upload an Audio file or drag and drop.</span>
                                         <input
                                             onChange={handleAudioFileChange}
                                             id="audiofile-upload"
