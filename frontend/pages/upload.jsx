@@ -35,6 +35,7 @@ function UploadPage() {
     const [tags, setTags] = useState([]);
     const [dragging, setDragging] = useState(false);
 
+
     const audioDropRef = useRef(null);
     const textDropRef = useRef(null);
     
@@ -67,7 +68,7 @@ function UploadPage() {
     const generateTags = async (text) => {
         try {
             const response = await axios.post("http://127.0.0.1:5000/generate-tags", { text });
-            return response.data.tags;
+            return response.data.tags.split(',');
         } catch (error) {
             console.error("Error generating tags:", error);
             return [];
@@ -109,6 +110,8 @@ function UploadPage() {
         
                 const generatedTags = await generateTags(response.data.transcript);
                 setTags(generatedTags);
+                console.log("Current tags state after generateTags:", generatedTags);
+                console.log("Type of generated tags: ", typeof(generatedTags))
                 
                 let accessToken = null;
                 await currentUser.getIdToken()

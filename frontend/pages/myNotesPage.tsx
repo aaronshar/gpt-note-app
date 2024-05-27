@@ -70,9 +70,9 @@ function myNotesPage() {
 
 
       // Generate tags automatically for each note
-      for (const note of notesData) {
-        generateTags(note);
-      }
+      //for (const note of notesData) {
+        //generateTags(note);
+      //}
 
       return notesData
     }
@@ -122,29 +122,6 @@ function myNotesPage() {
     setSortedNotes(sorted)
   }
   
-  const generateTags = async (note: Note) => {
-    try {
-      const response = await fetch('http://127.0.0.1:5000/generate-tags', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: note.content }), // Use the note content or title
-      });
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-  
-      const data = await response.json();
-      setGeneratedTags((prevTags) => ({
-        ...prevTags,
-        [note.note_id]: data.tags
-      }));
-    } catch (error) {
-      console.error('Error generating tags:', error);
-    }
-  };
   
 
 
