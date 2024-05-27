@@ -70,9 +70,9 @@ function myNotesPage() {
 
 
       // Generate tags automatically for each note
-    for (const note of notesData) {
-      generateTags(note);
-    }
+      //for (const note of notesData) {
+        //generateTags(note);
+      //}
 
       return notesData
     }
@@ -122,26 +122,6 @@ function myNotesPage() {
     setSortedNotes(sorted)
   }
   
-  const generateTags = async (note: Note) => {
-    try {
-      const response = await fetch('http://127.0.0.1:5000/generate-tags', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: note.content }), 
-      });
-
-      const data = await response.json();
-      if (Array.isArray(data.tags)) {
-        setGeneratedTags((prevTags) => ({ ...prevTags, [note.note_id]: data.tags }));
-      } else {
-        setGeneratedTags((prevTags) => ({ ...prevTags, [note.note_id]: [] }));
-      }
-    } catch (error) {
-      console.error('Error generating tags:', error);
-    }
-  };
   
 
 
@@ -177,19 +157,24 @@ function myNotesPage() {
           {sortedNotes ? (sortedNotes.map((note) => (
               <div key={note.note_id} className="group relative">
                 <Link href={`/showNote?note_id=${note.note_id}`} passHref>
-                  <div className="border border-gray shadow hover:shadow-lg round-md text-center relative h-full w-full overflow-hidden sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
-                      <h3 className="mt-16 text-xl text-gray-800">
-                        <span className="absolute inset-0" />
-                        {note.title}
-                        </h3>
-                    <p className="text-base font-semibold text-gray-900">{note.tags.join(', ')}</p>
-                    <p className="text-base font-semibold text-gray-900">{note.last_modified}</p>
-                  </div> 
+                  <div className="border-2 border-blue-500 shadow hover:shadow-lg rounded-lg text-center relative h-full w-full overflow-hidden sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64 bg-white">
+                      <h3 className="mt-4 text-xl text-gray-800 px-3">{note.title}</h3>
+                      <div className="px-3 py-2">
+                        <div className="flex flex-wrap gap-1 justify-center items-center mb-2">
+                          {note.tags.map((tag, index) => (
+                            <span key={index} className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                        <p className="text-sm font-semibold text-gray-600">{note.last_modified}</p>
+                      </div>
+                  </div>
                 </Link>
-                <div className="generatedTags">
-                  {generatedTags[note.note_id] && Array.isArray(generatedTags[note.note_id]) && (
+                <div className="generatedTags"> {/* Display generated tags */}
+                  {Array.isArray(generatedTags[note.note_id]) && (
                     <p className="generatedTags">
-                      Tags: <p className="text-base font-semibold text-gray-900">{Array.isArray(note.tags) ? note.tags.join(', ') : ''}</p>
+                      Tags: {generatedTags[note.note_id].join(', ')}
                     </p>
                   )}
                 </div>

@@ -145,64 +145,58 @@ function ShowNotePage() {
     element.click();
   };
 
-  const generateTags = async (note: Note) => {
-    try {
-      const response = await fetch('http://127.0.0.1:5000/generate-tags', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: note.content }), 
-      });
-
-      const data = await response.json();
-      if (Array.isArray(data.tags)) {
-        setGeneratedTags((prevTags) => ({ ...prevTags, [note.note_id]: data.tags }));
-      } else {
-        setGeneratedTags((prevTags) => ({ ...prevTags, [note.note_id]: [] }));
-      }
-    } catch (error) {
-      console.error('Error generating tags:', error);
-    }
-  };
+  
 
   return (
     <>
     <div className="w-full h-full">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl py-12 sm:py-16 lg:max-w-none lg:py-16">
-          <h2 className="text-2xl font-bold text-gray-900">My Notes</h2>
+        <div className="mx-auto max-w-4xl px-4 py-8 bg-white shadow-lg rounded-lg">
+        <h1 className="text-2xl auto font-bold text-gray-900 mb-2">Note Details</h1>
           
           <div className="w-full">
           {selectedNote ?
               <div key={note_id} className="">
                   <div className="h-80 px-3 border border-gray shadow hover:shadow-lg round-md text-center relative h-full w-full overflow-scroll">
                       <h3 className="mt-16 text-xl text-gray-800">
-                        Title: <span className="absolute inset-0" />
+                        <span className="absolute inset-0" />
                         {selectedNote.title}
                       </h3>
-                    <p className="text-base font-semibold text-gray-900">Tags: {selectedNote.tags}</p>
+                      <div className="mt-2 flex justify-center flex-wrap gap-2">
+                            <p>Tags:</p>
+                            {selectedNote.tags && selectedNote.tags.map((tag, index) => (
+                                <span key={index} className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
                     <p className="text-base font-semibold text-gray-900">Last Modified Date: {selectedNote.last_modified}</p>
                     <br />
-                    <p className="text-base">{selectedNote.content}</p>
+                    <h2 className="font-semibold text-lg">Content:</h2>
+                    <p className="text-base"> {selectedNote.content}</p>
                   </div>
-                  <div className="text-xl">
-                    Bullet Points:
-                  </div> 
-                  <div className="px-3 border border-gray shadow hover:shadow-lg round-md text-center relative h-full w-full overflow-scroll">
-                    {selectedNote.bulletpoints}
-                  </div>
-                <div className="flex justify-between">
-                  <div className="exportButtons">
-                      <button onClick={() => exportAsTXT(selectedNote)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1">Export as TXT</button>
-                      <button onClick={() => exportAsPDF(selectedNote)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-1">Export as PDF</button>
-                  </div>
-                  <div dir="rtl">
-                      <button onClick={() => deleteNote(`${note_id}`)} className="mt-1 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                        Delete
+                  <h2 className="font-semibold text-lg">Bullet Points:</h2> 
+                  <ul className="list-disc ml-5 text-gray-600 mb-4">
+                    {selectedNote?.bulletpoints ? 
+                      selectedNote.bulletpoints.split('\n').map((item, index) => (
+                        <li key={index}>{item}</li>
+                      )) : null
+                    }
+                  </ul>
+
+                  <div className="flex justify-between items-center mt-6">
+                    <div>
+                      <button onClick={() => exportAsPDF(selectedNote)} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg mr-2">
+                        Export as PDF
                       </button>
+                      <button onClick={() => exportAsTXT(selectedNote)} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
+                        Export as TXT
+                      </button>
+                    </div>
+                    <button onClick={deleteNote} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg">
+                      Delete Note
+                    </button>
                   </div>
-                </div>
               </div>
             : null}
           </div>
