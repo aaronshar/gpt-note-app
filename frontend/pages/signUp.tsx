@@ -10,7 +10,7 @@
  (https://stackoverflow.com/questions/67960681/trying-to-put-a-tailwindcss-icon-into-input)
 */
 
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Link from "next/link"
 import { useAuth } from "../contexts/AuthContext"
 import { useRouter } from 'next/router'
@@ -21,6 +21,16 @@ function SignUp() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [passwordsMatch, setPasswordsMatch] = useState(false);
+
+    const handleConfirmPasswordChange = (e) => {
+        setConfirmPassword(e.target.value);
+        if (e.target.value === password) {
+            setPasswordsMatch(true);
+        } else {
+            setPasswordsMatch(false);
+        }
+    };
 
   const onShowPassword = () => {
     setShowPassword(!showPassword)
@@ -28,10 +38,6 @@ function SignUp() {
 
   const onPassword = (e: any) => {
     setPassword(e.target.value)
-  }
-
-  const onConfirmPassword = (e: any) => {
-    setConfirmPassword(e.target.value)
   }
   
   const emailRef = useRef(null);
@@ -47,21 +53,20 @@ function SignUp() {
   }
 
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
     // TODO: Email and password validation
     try {
-      setError('')
-      setLoading(true)
-      await signUp(emailRef.current.value, passwordRef.current.value)
-      router.push("/myNotesPage")
+        setError("");
+        setLoading(true);
+        await signUp(emailRef.current.value, passwordRef.current.value);
+        router.push("/myNotesPage");
     } catch {
-      setError('Failed to create an account')
-      console.log("error")
+        setError("Failed to create an account");
+        console.log("error");
     }
-    setLoading(false)
-  
+    setLoading(false);
   }
-  
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -134,12 +139,16 @@ function SignUp() {
             className="block w-full rounded-md shadow-sm border-0 py-1.5 pl-7 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
             placeholder="Re-enter Password"
             value={confirmPassword}
-            onChange={onConfirmPassword}
+            minLength={6}
+            onChange={handleConfirmPasswordChange}
+            ref={passwordConfirmRef}
             required
           />
           
           {/* Check if passwords match. Otherwise, display the text "Passwords do not match" */}
-          {(password != confirmPassword)? <p className="text-red-500 m-0.5">Passwords do not match</p>: ''}
+          {(password != confirmPassword)? 
+          <p className="text-red-500 m-0.5">Passwords do not match</p>
+          : ''}
         </div>
       {/* Buttons */}
       <div className="mt-6 flex items-center justify-center gap-x-6">
@@ -154,7 +163,11 @@ function SignUp() {
         {/* Submit button */}
         <button
           type="submit"
-          className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+          className={`rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
+            passwordsMatch
+                ? "bg-blue-600 hover:bg-blue-700 focus-visible:outline-blue-600"
+                : "bg-gray-600 cursor-not-allowed opacity-50"
+          }`}
           disabled={loading} // button disabled why waiting to create user
         >
           Sign Up
