@@ -135,11 +135,9 @@ def delete_note(note_id):
     bearer = headers.get('Authorization')
     if not bearer:
         return jsonify({"Error": "Authorization token is missing"}), 401
-    
     token = bearer.split(' ')[1] if len(bearer.split(' ')) > 1 else None
     if not token:
         return jsonify({"Error": "Bearer token is invalid"}), 401
-    
     uid = verify_user(token)
     if not uid:
         return jsonify({"Error": "User unauthorized"}), 401
@@ -152,8 +150,6 @@ def delete_note(note_id):
 
     notesModel.delete_note(note_id)
     return jsonify({"Success": "Note deleted successfully"}), 204
-
-
 
 
 if __name__ == '__main__':
