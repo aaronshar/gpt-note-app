@@ -163,23 +163,29 @@ function ShowNotePage() {
                         {selectedNote.title}
                       </h3>
                       <div className="mt-2 flex justify-center flex-wrap gap-2">
-                            <p>Tags:</p>
+                            <p className="font-bold text-lg text-blue-500">Tags:</p>
                             {selectedNote.tags && selectedNote.tags.map((tag, index) => (
                                 <span key={index} className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
                                     {tag}
                                 </span>
                             ))}
                         </div>
-                    <p className="text-base font-semibold text-gray-900">Last Modified Date: {selectedNote.last_modified}</p>
+                    <p className="text-base">
+                      <span className="font-bold text-blue-500">
+                        Last Modified Date: 
+                      </span>
+                         {selectedNote.last_modified}
+                    </p>
                     <br />
-                    <h2 className="font-semibold text-lg">Content:</h2>
+                    <h2 className="font-bold text-lg text-blue-500">Content</h2>
                     <p className="text-base"> {selectedNote.content}</p>
                   </div>
-                  <h2 className="font-semibold text-lg">Bullet Points:</h2> 
-                  <ul className="list-disc ml-5 text-gray-600 mb-4">
+                  <h2 className="text-blue-500 font-bold text-lg">NOTES</h2> 
+                  <br />
+                  <ul className="list-none text-gray-600 mb-7">
                     {selectedNote?.bulletpoints ? 
                       selectedNote.bulletpoints.split('\n').map((item, index) => (
-                        <li key={index}>{item}</li>
+                      (item == "") ? <br></br> : <li key={index}>{item}</li>
                       )) : null
                     }
                   </ul>
@@ -193,7 +199,9 @@ function ShowNotePage() {
                         Export as TXT
                       </button>
                     </div>
-                    <button onClick={deleteNote} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg">
+                    <button
+                    onClick={() => deleteNote(`${note_id}`)} 
+                    className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg">
                       Delete Note
                     </button>
                   </div>
