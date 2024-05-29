@@ -15,6 +15,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import jsPDF from 'jspdf';
 import Link from "next/link";
+import Image from 'next/image';
 
 interface Note {
   note_id: string;
@@ -28,13 +29,15 @@ interface Note {
 }
 
 function myNotesPage() {
-  const { currentUser } = useAuth()
-  const router = useRouter()
-  const [notesData, setNotesData] = useState([])
-  const [sortedNotes, setSortedNotes] = useState([])
-  const [sortOrder, setSortOrder] = useState('asc')
-  const [priorityTag, setPriorityTag] = useState('')
+  const { currentUser } = useAuth();
+  const router = useRouter();
+  const [notesData, setNotesData] = useState([]);
+  const [sortedNotes, setSortedNotes] = useState([]);
+  const [filteredNotes, setFilteredNotes] = useState([]);
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [priorityTag, setPriorityTag] = useState('');
   const [generatedTags, setGeneratedTags] = useState<{ [key: string]: string[] }>({});
+  const [filteredTags, setFilteredTags] = useState([]);
 
 
   if (!currentUser){
@@ -67,12 +70,7 @@ function myNotesPage() {
       });
       setSortedNotes(notesData);
       setNotesData(notesData);
-
-
-      // Generate tags automatically for each note
-      //for (const note of notesData) {
-        //generateTags(note);
-      //}
+      setFilteredNotes(notesData);
 
       return notesData
     }
@@ -83,25 +81,51 @@ function myNotesPage() {
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const order = event.target.value
     setSortOrder(order)
-    sortNotes(order, priorityTag)
+    sortNotes(order)
   }
 
-  const handleTagChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const tag = event.target.value;
-    setPriorityTag(tag)
-    sortNotes(sortOrder, tag)
+  const handleNewTag = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    event.preventDefault();
+    const tag = event.target[0].value;
+    if (tag.length < 1) {
+      return;
+    }
+    setPriorityTag("");
+    const updatedTags = [...filteredTags, tag];
+    filterNotesByTags(updatedTags);
+    setFilteredTags(updatedTags);
   }
 
-  const sortNotes = (order: string, tag: string) => {
-    const sorted = [...notesData].sort((a, b) => {
-      const aHasTag = a.tags.includes(tag) ? 1 : 0
-      const bHasTag = b.tags.includes(tag) ? 1 : 0
+  const handleRemoveTag = (index: number) => {
+    let tags = [...filteredTags];
+    tags.splice(index, 1)
+    console.log(tags)
+    filterNotesByTags(tags);
+    setFilteredTags(tags);
+  }
 
-      if (aHasTag !== bHasTag) {
-        // Prioritize notes with a tag
-        return bHasTag - aHasTag
+  const filterNotesByTags = (filter: string[], newlySortedNotes?: any) => {
+    let notes = []
+    if (newlySortedNotes == null){
+      notes = [...sortedNotes];
+    } else {
+      notes = newlySortedNotes;
+    }
+    console.log(filter.length)
+    const filteredNotes = notes.filter((note) => {
+      const tags = note.tags;
+      for (let i=0; i<filter.length; i++){
+        if (!(tags.includes(filter[i]) || tags.includes(" " + filter[i]))){
+          return false;
+        }
       }
+      return true;
+    });
+    setFilteredNotes(filteredNotes)
+  }
 
+  const sortNotes = (order: string) => {
+    const sorted = [...notesData].sort((a, b) => {
       const dateA = new Date(a.last_modified) // to sort by last modified dates
       const dateB = new Date(b.last_modified) // to sort by last modified dates
 
@@ -120,11 +144,8 @@ function myNotesPage() {
       }
     })
     setSortedNotes(sorted)
+    filterNotesByTags(filteredTags, sorted)
   }
-  
-  
-
-
 
   return (
     <>
@@ -132,29 +153,40 @@ function myNotesPage() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl py-12 sm:py-16 lg:max-w-none lg:py-16">
           <h2 className="text-2xl font-bold text-gray-900">My Notes</h2>
-          <div className="sortNotes">
-            <label htmlFor="sortOptions">Sort by: </label>
-            <select id="sortOptions" value={sortOrder} onChange={handleSortChange}>
-              <option value="asc">Title (A-Z)</option>
-              <option value="desc">Title (Z-A)</option>
-              <option value="new">Last Modified (new to old)</option>
-              <option value="old">Last Modified (old to new)</option>
-            </select>
+          <div className='space-y-2'>
+            <div className="sortNotes">
+              <label htmlFor="sortOptions">Sort by: </label>
+              <select id="sortOptions" value={sortOrder} onChange={handleSortChange}>
+                <option value="asc">Title (A-Z)</option>
+                <option value="desc">Title (Z-A)</option>
+                <option value="new">Last Modified (new to old)</option>
+                <option value="old">Last Modified (old to new)</option>
+              </select>
+            </div>
+            <div className="tagInput">
+              <form onSubmit={handleNewTag}>
+                <label htmlFor="tagInput">Filter by Tag:</label>
+                <input
+                  className="rounded-md border border-black pl-1.5 text-gray-900"
+                  type="text"
+                  id="tagInput"
+                  placeholder="Enter a tag"
+                  value={priorityTag}
+                  onChange={(e) => setPriorityTag(e.currentTarget.value)}
+                />
+              </form>
+            </div>
+            <div className="flex flex-wrap gap-1 items-center mb-2">
+                {filteredTags.map((tag, index) => (
+                  <span key={index} className="bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-2 rounded dark:bg-blue-200 dark:text-blue-800">
+                    <input className="mr-1" type="image" src="/images/x.svg" width="12" onClick={() => handleRemoveTag(index)}/>
+                    {tag}
+                  </span>
+                ))}
+            </div>
           </div>
-          <div className="tagInput">
-            <label htmlFor="tagInput">Sort by Tag:</label>
-            <input
-              className="rounded-md border border-black pl-1.5 text-gray-900"
-              type="text"
-              id="tagInput"
-              placeholder="Enter a tag"
-              value={priorityTag}
-              onChange={handleTagChange}
-            />
-          </div>
-
           <div className="mt-6 space-y-12 lg:grid lg:grid-cols-5 lg:gap-6 lg:space-y-0">
-          {sortedNotes ? (sortedNotes.map((note) => (
+          {sortedNotes ? (filteredNotes.map((note) => (
               <div key={note.note_id} className="group relative">
                 <Link href={`/showNote?note_id=${note.note_id}`} passHref>
                   <div className="border-2 border-blue-500 shadow hover:shadow-lg rounded-lg text-center relative h-full w-full overflow-hidden sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64 bg-white">

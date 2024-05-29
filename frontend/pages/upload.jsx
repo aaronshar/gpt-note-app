@@ -68,7 +68,7 @@ function UploadPage() {
     const generateTags = async (text) => {
         try {
             const response = await axios.post("http://127.0.0.1:5000/generate-tags", { text });
-            return response.data.tags.split(',');
+            return response.data.tags.split(', ');
         } catch (error) {
             console.error("Error generating tags:", error);
             return [];
