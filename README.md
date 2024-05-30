@@ -44,7 +44,7 @@ The application will provide personalized accounts for users to manage their sto
 - Author 4: Khalid Chaudhari
   - Email: / School email: chaudhkh@oregonstate.edu
   - GitHub: https://github.com/Chaudhari998
-  - Role: Backend - Authentication, Generating tags, etc.
+  - Role: Backend - Authentication, Generating tags, Hosting, UI improvements, Deleting Notes feature, etc.
 
 ## Try it out!
 [Our future website address]
