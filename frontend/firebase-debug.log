@@ -1,31 +1,31 @@
-[debug] [2024-05-30T17:04:52.866Z] ----------------------------------------------------------------------
-[debug] [2024-05-30T17:04:52.868Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\khali\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
-[debug] [2024-05-30T17:04:52.869Z] CLI Version:   13.10.2
-[debug] [2024-05-30T17:04:52.869Z] Platform:      win32
-[debug] [2024-05-30T17:04:52.869Z] Node Version:  v21.7.3
-[debug] [2024-05-30T17:04:52.869Z] Time:          Thu May 30 2024 13:04:52 GMT-0400 (Eastern Daylight Time)
-[debug] [2024-05-30T17:04:52.869Z] ----------------------------------------------------------------------
+[debug] [2024-05-31T17:19:43.945Z] ----------------------------------------------------------------------
+[debug] [2024-05-31T17:19:43.947Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\khali\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2024-05-31T17:19:43.948Z] CLI Version:   13.10.2
+[debug] [2024-05-31T17:19:43.948Z] Platform:      win32
+[debug] [2024-05-31T17:19:43.948Z] Node Version:  v21.7.3
+[debug] [2024-05-31T17:19:43.948Z] Time:          Fri May 31 2024 13:19:43 GMT-0400 (Eastern Daylight Time)
+[debug] [2024-05-31T17:19:43.948Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2024-05-30T17:04:52.926Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2024-05-30T17:04:52.927Z] > authorizing via signed-in user (chaudhkh@oregonstate.edu)
-[debug] [2024-05-30T17:04:52.927Z] [iam] checking project gpt-note-app for permissions ["firebase.projects.get","firebasehosting.sites.update"]
-[debug] [2024-05-30T17:04:52.928Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions [none]
-[debug] [2024-05-30T17:04:52.928Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions x-goog-quota-user=projects/gpt-note-app
-[debug] [2024-05-30T17:04:52.928Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
-[debug] [2024-05-30T17:04:53.135Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions 200
-[debug] [2024-05-30T17:04:53.136Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
-[debug] [2024-05-30T17:04:53.137Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app [none]
-[debug] [2024-05-30T17:04:53.590Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app 200
-[debug] [2024-05-30T17:04:53.590Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app {"projectId":"gpt-note-app","projectNumber":"982618907652","displayName":"gpt-note-app","name":"projects/gpt-note-app","resources":{"hostingSite":"gpt-note-app"},"state":"ACTIVE","etag":"1_e3f43b87-6224-45b0-8af4-7de9103b7c59"}
-[debug] [2024-05-30T17:04:56.780Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites pageToken=&pageSize=10
-[debug] [2024-05-30T17:04:57.223Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
-[debug] [2024-05-30T17:04:57.224Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
-[debug] [2024-05-30T17:04:57.225Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 
-[debug] [2024-05-30T17:04:57.436Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
-[debug] [2024-05-30T17:04:57.436Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
-[debug] [2024-05-30T17:04:57.436Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config [none]
-[debug] [2024-05-30T17:04:57.865Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config 200
-[debug] [2024-05-30T17:04:57.866Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config {"projectId":"gpt-note-app","storageBucket":"gpt-note-app.appspot.com","apiKey":"AIzaSyBNjNmj350FbrWnOTadIiY-_e1jH8VPnMU","authDomain":"gpt-note-app.firebaseapp.com","messagingSenderId":"982618907652"}
+[debug] [2024-05-31T17:19:44.013Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-31T17:19:44.013Z] > authorizing via signed-in user (chaudhkh@oregonstate.edu)
+[debug] [2024-05-31T17:19:44.013Z] [iam] checking project gpt-note-app for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-05-31T17:19:44.015Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions [none]
+[debug] [2024-05-31T17:19:44.015Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions x-goog-quota-user=projects/gpt-note-app
+[debug] [2024-05-31T17:19:44.015Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T17:19:44.262Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions 200
+[debug] [2024-05-31T17:19:44.262Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T17:19:44.265Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app [none]
+[debug] [2024-05-31T17:19:44.706Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app 200
+[debug] [2024-05-31T17:19:44.706Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app {"projectId":"gpt-note-app","projectNumber":"982618907652","displayName":"gpt-note-app","name":"projects/gpt-note-app","resources":{"hostingSite":"gpt-note-app"},"state":"ACTIVE","etag":"1_e3f43b87-6224-45b0-8af4-7de9103b7c59"}
+[debug] [2024-05-31T17:19:48.540Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites pageToken=&pageSize=10
+[debug] [2024-05-31T17:19:49.007Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T17:19:49.008Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T17:19:49.010Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 
+[debug] [2024-05-31T17:19:49.247Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T17:19:49.248Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T17:19:49.249Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config [none]
+[debug] [2024-05-31T17:19:49.722Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config 200
+[debug] [2024-05-31T17:19:49.723Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config {"projectId":"gpt-note-app","storageBucket":"gpt-note-app.appspot.com","apiKey":"AIzaSyBNjNmj350FbrWnOTadIiY-_e1jH8VPnMU","authDomain":"gpt-note-app.firebaseapp.com","messagingSenderId":"982618907652"}
 [info] 
    Thank you for trying our early preview of Next.js support on Firebase Hosting.
    During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
@@ -37,9 +37,9 @@
 
    We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
 
-[debug] [2024-05-30T17:05:04.324Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app [none]
-[debug] [2024-05-30T17:05:04.606Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app 200
-[debug] [2024-05-30T17:05:04.607Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app {"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}
+[debug] [2024-05-31T17:19:57.908Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app [none]
+[debug] [2024-05-31T17:19:58.228Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app 200
+[debug] [2024-05-31T17:19:58.229Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app {"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}
 [info]   ▲ Next.js 14.2.1
 
 [info] 
@@ -48,18 +48,561 @@
 [info] Failed to compile.
 
 
-[info] ./pages/myNotesPage.tsx:89:33
+[info] ./pages/myNotesPage.tsx:91:33
 Type error: Property 'value' does not exist on type 'HTMLOptionElement | HTMLOptGroupElement'.
   Property 'value' does not exist on type 'HTMLOptGroupElement'.
 
-  87 |   const handleNewTag = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  88 |     event.preventDefault();
-> 89 |     const tag = event.target[0].value;
+  89 |   const handleNewTag = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  90 |     event.preventDefault();
+> 91 |     const tag = event.target[0].value;
      |                                 ^
-  90 |     if (tag.length < 1) {
-  91 |       return;
-  92 |     }
+  92 |     if (tag.length < 1) {
+  93 |       return;
+  94 |     }
 
-[debug] [2024-05-30T17:05:08.520Z] Error: ENOENT: no such file or directory, open 'C:\Users\khali\Downloads\gpt-note-app\frontend\.next\export-marker.json'
+[debug] [2024-05-31T17:20:03.545Z] Error: ENOENT: no such file or directory, open 'C:\Users\khali\Downloads\gpt-note-app\frontend\.next\export-marker.json'
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2024-05-31T17:28:43.481Z] ----------------------------------------------------------------------
+[debug] [2024-05-31T17:28:43.484Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\khali\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2024-05-31T17:28:43.484Z] CLI Version:   13.10.2
+[debug] [2024-05-31T17:28:43.484Z] Platform:      win32
+[debug] [2024-05-31T17:28:43.484Z] Node Version:  v21.7.3
+[debug] [2024-05-31T17:28:43.485Z] Time:          Fri May 31 2024 13:28:43 GMT-0400 (Eastern Daylight Time)
+[debug] [2024-05-31T17:28:43.485Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-05-31T17:28:43.559Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-31T17:28:43.560Z] > authorizing via signed-in user (chaudhkh@oregonstate.edu)
+[debug] [2024-05-31T17:28:43.560Z] [iam] checking project gpt-note-app for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-05-31T17:28:43.563Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions [none]
+[debug] [2024-05-31T17:28:43.563Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions x-goog-quota-user=projects/gpt-note-app
+[debug] [2024-05-31T17:28:43.563Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T17:28:43.789Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions 200
+[debug] [2024-05-31T17:28:43.789Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T17:28:43.790Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app [none]
+[debug] [2024-05-31T17:28:44.182Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app 200
+[debug] [2024-05-31T17:28:44.183Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app {"projectId":"gpt-note-app","projectNumber":"982618907652","displayName":"gpt-note-app","name":"projects/gpt-note-app","resources":{"hostingSite":"gpt-note-app"},"state":"ACTIVE","etag":"1_e3f43b87-6224-45b0-8af4-7de9103b7c59"}
+[debug] [2024-05-31T17:28:48.853Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites pageToken=&pageSize=10
+[debug] [2024-05-31T17:28:49.279Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T17:28:49.279Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T17:28:49.281Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 
+[debug] [2024-05-31T17:28:49.468Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T17:28:49.468Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T17:28:49.469Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config [none]
+[debug] [2024-05-31T17:28:49.952Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config 200
+[debug] [2024-05-31T17:28:49.952Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config {"projectId":"gpt-note-app","storageBucket":"gpt-note-app.appspot.com","apiKey":"AIzaSyBNjNmj350FbrWnOTadIiY-_e1jH8VPnMU","authDomain":"gpt-note-app.firebaseapp.com","messagingSenderId":"982618907652"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 14.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2024-05-31T17:28:59.519Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app [none]
+[debug] [2024-05-31T17:28:59.856Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app 200
+[debug] [2024-05-31T17:28:59.856Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app {"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}
+[info]   ▲ Next.js 14.2.1
+
+[info] 
+   Linting and checking validity of types ...
+
+[info] Failed to compile.
+
+
+[info] ./pages/myNotesPage.tsx:86:5
+Type error: Cannot find name 'sortNotes'. Did you mean 'sortedNotes'?
+
+  84 |     const order = event.target.value
+  85 |     setSortOrder(order)
+> 86 |     sortNotes(order)
+     |     ^
+  87 |   }
+  88 |
+  89 |   const handleNewTag = (event: React.ChangeEvent<HTMLSelectElement>) => {
+
+[debug] [2024-05-31T17:29:05.971Z] Error: ENOENT: no such file or directory, open 'C:\Users\khali\Downloads\gpt-note-app\frontend\.next\export-marker.json'
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2024-05-31T17:33:10.192Z] ----------------------------------------------------------------------
+[debug] [2024-05-31T17:33:10.200Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\khali\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2024-05-31T17:33:10.201Z] CLI Version:   13.10.2
+[debug] [2024-05-31T17:33:10.201Z] Platform:      win32
+[debug] [2024-05-31T17:33:10.202Z] Node Version:  v21.7.3
+[debug] [2024-05-31T17:33:10.202Z] Time:          Fri May 31 2024 13:33:10 GMT-0400 (Eastern Daylight Time)
+[debug] [2024-05-31T17:33:10.203Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-05-31T17:33:10.323Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-31T17:33:10.323Z] > authorizing via signed-in user (chaudhkh@oregonstate.edu)
+[debug] [2024-05-31T17:33:10.323Z] [iam] checking project gpt-note-app for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-05-31T17:33:10.326Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions [none]
+[debug] [2024-05-31T17:33:10.326Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions x-goog-quota-user=projects/gpt-note-app
+[debug] [2024-05-31T17:33:10.326Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T17:33:10.516Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions 200
+[debug] [2024-05-31T17:33:10.516Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T17:33:10.517Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app [none]
+[debug] [2024-05-31T17:33:10.850Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app 200
+[debug] [2024-05-31T17:33:10.851Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app {"projectId":"gpt-note-app","projectNumber":"982618907652","displayName":"gpt-note-app","name":"projects/gpt-note-app","resources":{"hostingSite":"gpt-note-app"},"state":"ACTIVE","etag":"1_e3f43b87-6224-45b0-8af4-7de9103b7c59"}
+[debug] [2024-05-31T17:33:15.134Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites pageToken=&pageSize=10
+[debug] [2024-05-31T17:33:15.518Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T17:33:15.518Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T17:33:15.519Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 
+[debug] [2024-05-31T17:33:15.810Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T17:33:15.810Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T17:33:15.810Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config [none]
+[debug] [2024-05-31T17:33:16.262Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config 200
+[debug] [2024-05-31T17:33:16.262Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config {"projectId":"gpt-note-app","storageBucket":"gpt-note-app.appspot.com","apiKey":"AIzaSyBNjNmj350FbrWnOTadIiY-_e1jH8VPnMU","authDomain":"gpt-note-app.firebaseapp.com","messagingSenderId":"982618907652"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 14.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2024-05-31T17:33:25.048Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app [none]
+[debug] [2024-05-31T17:33:25.451Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app 200
+[debug] [2024-05-31T17:33:25.452Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app {"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}
+[info]   ▲ Next.js 14.2.1
+
+[info] 
+   Linting and checking validity of types ...
+
+[info] Failed to compile.
+
+
+[info] ./pages/showNote.tsx:106:30
+Type error: Cannot find name 'Note'.
+
+  104 |
+  105 |   /* Adding Export as PDF so the user can export the notes in pdf fpormat*/
+> 106 |   const exportAsPDF = (note: Note) => {
+      |                              ^
+  107 |     const doc = new jsPDF();
+  108 |     const lineHeight = 10;
+  109 |     const margin = 10;
+
+[debug] [2024-05-31T17:33:31.090Z] Error: ENOENT: no such file or directory, open 'C:\Users\khali\Downloads\gpt-note-app\frontend\.next\export-marker.json'
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2024-05-31T17:36:52.396Z] ----------------------------------------------------------------------
+[debug] [2024-05-31T17:36:52.399Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\khali\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2024-05-31T17:36:52.399Z] CLI Version:   13.10.2
+[debug] [2024-05-31T17:36:52.400Z] Platform:      win32
+[debug] [2024-05-31T17:36:52.400Z] Node Version:  v21.7.3
+[debug] [2024-05-31T17:36:52.400Z] Time:          Fri May 31 2024 13:36:52 GMT-0400 (Eastern Daylight Time)
+[debug] [2024-05-31T17:36:52.400Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-05-31T17:36:52.479Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-31T17:36:52.479Z] > authorizing via signed-in user (chaudhkh@oregonstate.edu)
+[debug] [2024-05-31T17:36:52.479Z] [iam] checking project gpt-note-app for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-05-31T17:36:52.482Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions [none]
+[debug] [2024-05-31T17:36:52.482Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions x-goog-quota-user=projects/gpt-note-app
+[debug] [2024-05-31T17:36:52.482Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T17:36:52.725Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions 200
+[debug] [2024-05-31T17:36:52.725Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T17:36:52.728Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app [none]
+[debug] [2024-05-31T17:36:53.031Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app 200
+[debug] [2024-05-31T17:36:53.031Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app {"projectId":"gpt-note-app","projectNumber":"982618907652","displayName":"gpt-note-app","name":"projects/gpt-note-app","resources":{"hostingSite":"gpt-note-app"},"state":"ACTIVE","etag":"1_e3f43b87-6224-45b0-8af4-7de9103b7c59"}
+[debug] [2024-05-31T17:36:57.053Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites pageToken=&pageSize=10
+[debug] [2024-05-31T17:36:57.522Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T17:36:57.523Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T17:36:57.524Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 
+[debug] [2024-05-31T17:36:57.726Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T17:36:57.727Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T17:36:57.727Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config [none]
+[debug] [2024-05-31T17:36:58.228Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config 200
+[debug] [2024-05-31T17:36:58.229Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config {"projectId":"gpt-note-app","storageBucket":"gpt-note-app.appspot.com","apiKey":"AIzaSyBNjNmj350FbrWnOTadIiY-_e1jH8VPnMU","authDomain":"gpt-note-app.firebaseapp.com","messagingSenderId":"982618907652"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 14.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2024-05-31T17:37:06.208Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app [none]
+[debug] [2024-05-31T17:37:06.623Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app 200
+[debug] [2024-05-31T17:37:06.624Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app {"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}
+[info]   ▲ Next.js 14.2.1
+
+[info] 
+   Linting and checking validity of types ...
+
+[info] Failed to compile.
+
+
+[info] ./pages/showNote.tsx:17:10
+Type error: Module '"./myNotesPage"' has no exported member 'Note'. Did you mean to use 'import Note from "./myNotesPage"' instead?
+
+  15 | import { useRouter } from 'next/router';
+  16 | import jsPDF from 'jspdf';
+> 17 | import { Note } from './myNotesPage';
+     |          ^
+  18 |
+  19 |
+  20 |
+
+[debug] [2024-05-31T17:37:11.785Z] Error: ENOENT: no such file or directory, open 'C:\Users\khali\Downloads\gpt-note-app\frontend\.next\export-marker.json'
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2024-05-31T17:39:14.756Z] ----------------------------------------------------------------------
+[debug] [2024-05-31T17:39:14.760Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\khali\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2024-05-31T17:39:14.760Z] CLI Version:   13.10.2
+[debug] [2024-05-31T17:39:14.760Z] Platform:      win32
+[debug] [2024-05-31T17:39:14.761Z] Node Version:  v21.7.3
+[debug] [2024-05-31T17:39:14.761Z] Time:          Fri May 31 2024 13:39:14 GMT-0400 (Eastern Daylight Time)
+[debug] [2024-05-31T17:39:14.761Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-05-31T17:39:14.850Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-31T17:39:14.851Z] > authorizing via signed-in user (chaudhkh@oregonstate.edu)
+[debug] [2024-05-31T17:39:14.851Z] [iam] checking project gpt-note-app for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-05-31T17:39:14.853Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions [none]
+[debug] [2024-05-31T17:39:14.853Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions x-goog-quota-user=projects/gpt-note-app
+[debug] [2024-05-31T17:39:14.853Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T17:39:15.123Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions 200
+[debug] [2024-05-31T17:39:15.123Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T17:39:15.124Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app [none]
+[debug] [2024-05-31T17:39:15.449Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app 200
+[debug] [2024-05-31T17:39:15.449Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app {"projectId":"gpt-note-app","projectNumber":"982618907652","displayName":"gpt-note-app","name":"projects/gpt-note-app","resources":{"hostingSite":"gpt-note-app"},"state":"ACTIVE","etag":"1_e3f43b87-6224-45b0-8af4-7de9103b7c59"}
+[debug] [2024-05-31T17:39:19.733Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites pageToken=&pageSize=10
+[debug] [2024-05-31T17:39:20.145Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T17:39:20.145Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T17:39:20.146Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 
+[debug] [2024-05-31T17:39:20.351Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T17:39:20.352Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T17:39:20.352Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config [none]
+[debug] [2024-05-31T17:39:20.829Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config 200
+[debug] [2024-05-31T17:39:20.829Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config {"projectId":"gpt-note-app","storageBucket":"gpt-note-app.appspot.com","apiKey":"AIzaSyBNjNmj350FbrWnOTadIiY-_e1jH8VPnMU","authDomain":"gpt-note-app.firebaseapp.com","messagingSenderId":"982618907652"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 14.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2024-05-31T17:39:29.070Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app [none]
+[debug] [2024-05-31T17:39:29.473Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app 200
+[debug] [2024-05-31T17:39:29.474Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app {"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}
+[info]   ▲ Next.js 14.2.1
+
+[info] 
+   Linting and checking validity of types ...
+
+[info] Failed to compile.
+
+
+[info] ./pages/showNote.tsx:17:10
+Type error: Module '"./myNotesPage"' has no exported member 'Note'. Did you mean to use 'import Note from "./myNotesPage"' instead?
+
+  15 | import { useRouter } from 'next/router';
+  16 | import jsPDF from 'jspdf';
+> 17 | import { Note } from './myNotesPage';
+     |          ^
+  18 |
+  19 |
+  20 |
+
+[debug] [2024-05-31T17:39:34.413Z] Error: ENOENT: no such file or directory, open 'C:\Users\khali\Downloads\gpt-note-app\frontend\.next\export-marker.json'
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2024-05-31T17:41:06.486Z] ----------------------------------------------------------------------
+[debug] [2024-05-31T17:41:06.489Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\khali\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2024-05-31T17:41:06.489Z] CLI Version:   13.10.2
+[debug] [2024-05-31T17:41:06.490Z] Platform:      win32
+[debug] [2024-05-31T17:41:06.490Z] Node Version:  v21.7.3
+[debug] [2024-05-31T17:41:06.490Z] Time:          Fri May 31 2024 13:41:06 GMT-0400 (Eastern Daylight Time)
+[debug] [2024-05-31T17:41:06.490Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-05-31T17:41:06.559Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-31T17:41:06.559Z] > authorizing via signed-in user (chaudhkh@oregonstate.edu)
+[debug] [2024-05-31T17:41:06.559Z] [iam] checking project gpt-note-app for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-05-31T17:41:06.561Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions [none]
+[debug] [2024-05-31T17:41:06.562Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions x-goog-quota-user=projects/gpt-note-app
+[debug] [2024-05-31T17:41:06.562Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T17:41:06.754Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions 200
+[debug] [2024-05-31T17:41:06.754Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T17:41:06.756Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app [none]
+[debug] [2024-05-31T17:41:07.082Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app 200
+[debug] [2024-05-31T17:41:07.082Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app {"projectId":"gpt-note-app","projectNumber":"982618907652","displayName":"gpt-note-app","name":"projects/gpt-note-app","resources":{"hostingSite":"gpt-note-app"},"state":"ACTIVE","etag":"1_e3f43b87-6224-45b0-8af4-7de9103b7c59"}
+[debug] [2024-05-31T17:41:10.876Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites pageToken=&pageSize=10
+[debug] [2024-05-31T17:41:11.287Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T17:41:11.288Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T17:41:11.289Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 
+[debug] [2024-05-31T17:41:11.479Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T17:41:11.480Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T17:41:11.480Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config [none]
+[debug] [2024-05-31T17:41:11.854Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config 200
+[debug] [2024-05-31T17:41:11.854Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config {"projectId":"gpt-note-app","storageBucket":"gpt-note-app.appspot.com","apiKey":"AIzaSyBNjNmj350FbrWnOTadIiY-_e1jH8VPnMU","authDomain":"gpt-note-app.firebaseapp.com","messagingSenderId":"982618907652"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 14.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2024-05-31T17:41:19.672Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app [none]
+[debug] [2024-05-31T17:41:20.070Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app 200
+[debug] [2024-05-31T17:41:20.070Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app {"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}
+[info]   ▲ Next.js 14.2.1
+
+[info] 
+   Linting and checking validity of types ...
+
+[info] Failed to compile.
+
+
+[info] ./pages/showNote.tsx:161:20
+Type error: Type 'string | string[]' is not assignable to type 'Key'.
+  Type 'string[]' is not assignable to type 'Key'.
+
+  159 |           <div className="w-full">
+  160 |           {selectedNote ?
+> 161 |               <div key={note_id} className="">
+      |                    ^
+  162 |                   <div className="h-80 px-3 border border-gray shadow hover:shadow-lg round-md text-center relative h-full w-full overflow-scroll">
+  163 |                       <h3 className="mt-16 text-xl text-gray-800">
+  164 |                         <span className="absolute inset-0" />
+
+[debug] [2024-05-31T17:41:25.065Z] Error: ENOENT: no such file or directory, open 'C:\Users\khali\Downloads\gpt-note-app\frontend\.next\export-marker.json'
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2024-05-31T17:44:50.619Z] ----------------------------------------------------------------------
+[debug] [2024-05-31T17:44:50.624Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\khali\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2024-05-31T17:44:50.625Z] CLI Version:   13.10.2
+[debug] [2024-05-31T17:44:50.626Z] Platform:      win32
+[debug] [2024-05-31T17:44:50.626Z] Node Version:  v21.7.3
+[debug] [2024-05-31T17:44:50.626Z] Time:          Fri May 31 2024 13:44:50 GMT-0400 (Eastern Daylight Time)
+[debug] [2024-05-31T17:44:50.627Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-05-31T17:44:50.700Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-31T17:44:50.700Z] > authorizing via signed-in user (chaudhkh@oregonstate.edu)
+[debug] [2024-05-31T17:44:50.700Z] [iam] checking project gpt-note-app for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-05-31T17:44:50.702Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions [none]
+[debug] [2024-05-31T17:44:50.703Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions x-goog-quota-user=projects/gpt-note-app
+[debug] [2024-05-31T17:44:50.703Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T17:44:50.919Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions 200
+[debug] [2024-05-31T17:44:50.919Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T17:44:50.921Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app [none]
+[debug] [2024-05-31T17:44:51.329Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app 200
+[debug] [2024-05-31T17:44:51.329Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app {"projectId":"gpt-note-app","projectNumber":"982618907652","displayName":"gpt-note-app","name":"projects/gpt-note-app","resources":{"hostingSite":"gpt-note-app"},"state":"ACTIVE","etag":"1_e3f43b87-6224-45b0-8af4-7de9103b7c59"}
+[debug] [2024-05-31T17:44:55.073Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites pageToken=&pageSize=10
+[debug] [2024-05-31T17:44:55.932Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T17:44:55.933Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T17:44:55.934Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 
+[debug] [2024-05-31T17:44:56.339Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T17:44:56.339Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T17:44:56.340Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config [none]
+[debug] [2024-05-31T17:44:56.850Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config 200
+[debug] [2024-05-31T17:44:56.851Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config {"projectId":"gpt-note-app","storageBucket":"gpt-note-app.appspot.com","apiKey":"AIzaSyBNjNmj350FbrWnOTadIiY-_e1jH8VPnMU","authDomain":"gpt-note-app.firebaseapp.com","messagingSenderId":"982618907652"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 14.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2024-05-31T17:45:04.799Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app [none]
+[debug] [2024-05-31T17:45:05.147Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app 200
+[debug] [2024-05-31T17:45:05.147Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app {"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}
+[info]   ▲ Next.js 14.2.1
+
+[info] 
+
+[info]    Linting and checking validity of types ...
+
+[info] 
+Failed to compile.
+
+[info] 
+./pages/index.tsx
+31:47  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+31:63  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+31:131  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+37:47  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+37:56  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+38:47  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+38:56  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+39:47  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+39:56  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+40:47  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+40:56  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+40:76  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./pages/myNotesPage.tsx
+75:6  Warning: React Hook useEffect has a missing dependency: 'currentUser'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./pages/showNote.tsx
+75:5  Warning: React Hook useEffect has missing dependencies: 'currentUser' and 'noteId'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+193:38  Error: Missing "key" prop for element in iterator  react/jsx-key
+
+./pages/upload.jsx
+359:8  Warning: React Hook useEffect has a missing dependency: 'handleDrop'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+
+[debug] [2024-05-31T17:45:10.595Z] Error: ENOENT: no such file or directory, open 'C:\Users\khali\Downloads\gpt-note-app\frontend\.next\export-marker.json'
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2024-05-31T17:54:02.122Z] ----------------------------------------------------------------------
+[debug] [2024-05-31T17:54:02.126Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\khali\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2024-05-31T17:54:02.126Z] CLI Version:   13.10.2
+[debug] [2024-05-31T17:54:02.126Z] Platform:      win32
+[debug] [2024-05-31T17:54:02.126Z] Node Version:  v21.7.3
+[debug] [2024-05-31T17:54:02.126Z] Time:          Fri May 31 2024 13:54:02 GMT-0400 (Eastern Daylight Time)
+[debug] [2024-05-31T17:54:02.127Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-05-31T17:54:02.194Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-31T17:54:02.195Z] > authorizing via signed-in user (chaudhkh@oregonstate.edu)
+[debug] [2024-05-31T17:54:02.195Z] [iam] checking project gpt-note-app for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-05-31T17:54:02.197Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions [none]
+[debug] [2024-05-31T17:54:02.197Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions x-goog-quota-user=projects/gpt-note-app
+[debug] [2024-05-31T17:54:02.197Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T17:54:02.441Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions 200
+[debug] [2024-05-31T17:54:02.442Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T17:54:02.445Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app [none]
+[debug] [2024-05-31T17:54:02.808Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app 200
+[debug] [2024-05-31T17:54:02.808Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app {"projectId":"gpt-note-app","projectNumber":"982618907652","displayName":"gpt-note-app","name":"projects/gpt-note-app","resources":{"hostingSite":"gpt-note-app"},"state":"ACTIVE","etag":"1_e3f43b87-6224-45b0-8af4-7de9103b7c59"}
+[debug] [2024-05-31T17:54:06.651Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites pageToken=&pageSize=10
+[debug] [2024-05-31T17:54:07.155Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T17:54:07.155Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T17:54:07.157Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 
+[debug] [2024-05-31T17:54:07.359Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T17:54:07.359Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T17:54:07.360Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config [none]
+[debug] [2024-05-31T17:54:07.798Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config 200
+[debug] [2024-05-31T17:54:07.799Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config {"projectId":"gpt-note-app","storageBucket":"gpt-note-app.appspot.com","apiKey":"AIzaSyBNjNmj350FbrWnOTadIiY-_e1jH8VPnMU","authDomain":"gpt-note-app.firebaseapp.com","messagingSenderId":"982618907652"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 14.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2024-05-31T17:54:16.312Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app [none]
+[debug] [2024-05-31T17:54:16.676Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app 200
+[debug] [2024-05-31T17:54:16.676Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app {"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}
+[info]   ▲ Next.js 14.2.1
+
+[info] 
+   Linting and checking validity of types ...
+
+[info] 
+Failed to compile.
+
+./pages/myNotesPage.tsx
+75:6  Warning: React Hook useEffect has a missing dependency: 'currentUser'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./pages/showNote.tsx
+75:5  Warning: React Hook useEffect has missing dependencies: 'currentUser' and 'noteId'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+193:38  Error: Missing "key" prop for element in iterator  react/jsx-key
+
+./pages/upload.jsx
+359:8  Warning: React Hook useEffect has a missing dependency: 'handleDrop'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+
+[debug] [2024-05-31T17:54:22.307Z] Error: ENOENT: no such file or directory, open 'C:\Users\khali\Downloads\gpt-note-app\frontend\.next\export-marker.json'
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2024-05-31T18:00:29.704Z] ----------------------------------------------------------------------
+[debug] [2024-05-31T18:00:29.709Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\khali\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2024-05-31T18:00:29.710Z] CLI Version:   13.10.2
+[debug] [2024-05-31T18:00:29.710Z] Platform:      win32
+[debug] [2024-05-31T18:00:29.711Z] Node Version:  v21.7.3
+[debug] [2024-05-31T18:00:29.711Z] Time:          Fri May 31 2024 14:00:29 GMT-0400 (Eastern Daylight Time)
+[debug] [2024-05-31T18:00:29.711Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-05-31T18:00:29.789Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-31T18:00:29.790Z] > authorizing via signed-in user (chaudhkh@oregonstate.edu)
+[debug] [2024-05-31T18:00:29.790Z] [iam] checking project gpt-note-app for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-05-31T18:00:29.792Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions [none]
+[debug] [2024-05-31T18:00:29.792Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions x-goog-quota-user=projects/gpt-note-app
+[debug] [2024-05-31T18:00:29.792Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T18:00:30.163Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions 200
+[debug] [2024-05-31T18:00:30.163Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gpt-note-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-31T18:00:30.164Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app [none]
+[debug] [2024-05-31T18:00:30.558Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app 200
+[debug] [2024-05-31T18:00:30.559Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app {"projectId":"gpt-note-app","projectNumber":"982618907652","displayName":"gpt-note-app","name":"projects/gpt-note-app","resources":{"hostingSite":"gpt-note-app"},"state":"ACTIVE","etag":"1_e3f43b87-6224-45b0-8af4-7de9103b7c59"}
+[debug] [2024-05-31T18:00:34.326Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites pageToken=&pageSize=10
+[debug] [2024-05-31T18:00:34.746Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T18:00:34.747Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T18:00:34.749Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 
+[debug] [2024-05-31T18:00:34.956Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites 200
+[debug] [2024-05-31T18:00:34.957Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites {"sites":[{"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-31T18:00:34.958Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config [none]
+[debug] [2024-05-31T18:00:35.458Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config 200
+[debug] [2024-05-31T18:00:35.458Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gpt-note-app/webApps/-/config {"projectId":"gpt-note-app","storageBucket":"gpt-note-app.appspot.com","apiKey":"AIzaSyBNjNmj350FbrWnOTadIiY-_e1jH8VPnMU","authDomain":"gpt-note-app.firebaseapp.com","messagingSenderId":"982618907652"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 14.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2024-05-31T18:00:43.761Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app [none]
+[debug] [2024-05-31T18:00:44.164Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app 200
+[debug] [2024-05-31T18:00:44.165Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gpt-note-app/sites/gpt-note-app {"name":"projects/gpt-note-app/sites/gpt-note-app","defaultUrl":"https://gpt-note-app.web.app","type":"DEFAULT_SITE"}
+[info]   ▲ Next.js 14.2.1
+
+[info] 
+   Linting and checking validity of types ...
+
+[info] 
+./pages/upload.jsx
+359:8  Warning: React Hook useEffect has a missing dependency: 'handleDrop'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+
+[info]    Creating an optimized production build ...
+
+[info]  ✓ Compiled successfully
+
+[info]    Collecting page data ...
+
+[info] unhandledRejection Error [FirebaseError]: Firebase: Error (auth/invalid-api-key).
+    at createErrorInternal (file:///C:/Users/khali/Downloads/gpt-note-app/frontend/node_modules/@firebase/auth/dist/node-esm/totp-cb6285c7.js:496:40)
+    at _assert (file:///C:/Users/khali/Downloads/gpt-note-app/frontend/node_modules/@firebase/auth/dist/node-esm/totp-cb6285c7.js:500:15)
+    at Component.instanceFactory (file:///C:/Users/khali/Downloads/gpt-note-app/frontend/node_modules/@firebase/auth/dist/node-esm/totp-cb6285c7.js:7034:9)
+    at Provider.getOrInitializeService (file:///C:/Users/khali/Downloads/gpt-note-app/frontend/node_modules/@firebase/component/dist/esm/index.esm2017.js:290:39)
+    at Provider.initialize (file:///C:/Users/khali/Downloads/gpt-note-app/frontend/node_modules/@firebase/component/dist/esm/index.esm2017.js:234:31)
+    at initializeAuth (file:///C:/Users/khali/Downloads/gpt-note-app/frontend/node_modules/@firebase/auth/dist/node-esm/totp-cb6285c7.js:3369:27)
+    at getAuth (file:///C:/Users/khali/Downloads/gpt-note-app/frontend/node_modules/@firebase/auth/dist/node-esm/totp-cb6285c7.js:7095:18)
+    at C:\Users\khali\Downloads\gpt-note-app\frontend\.next\server\pages\_app.js:1:1171 {
+  type: 'FirebaseError',
+  code: 'auth/invalid-api-key',
+  customData: { appName: '[DEFAULT]' }
+}
+
+[debug] [2024-05-31T18:01:03.162Z] Error: ENOENT: no such file or directory, open 'C:\Users\khali\Downloads\gpt-note-app\frontend\.next\export-marker.json'
 [error] 
 [error] Error: An unexpected error has occurred.
