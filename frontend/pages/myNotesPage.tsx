@@ -173,7 +173,7 @@ function MyNotesPage() {
               </div>
             </div>
             <div className="mt-6 space-y-12 lg:grid lg:grid-cols-5 lg:gap-6 lg:space-y-0">
-              {sortedNotes ? (filteredNotes.map((note) => (
+              {filteredNotes ? (filteredNotes.map((note) => (
                 <div key={note.note_id} className="group relative">
                   <Link href={`/showNote?note_id=${note.note_id}`} passHref>
                     <div className="border-2 border-blue-500 shadow hover:shadow-lg rounded-lg text-center relative h-full w-full overflow-hidden sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64 bg-white">
