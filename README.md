@@ -47,7 +47,7 @@ The application will provide personalized accounts for users to manage their sto
   - Role: Backend - Authentication, Generating tags, Hosting, UI improvements, Deleting Notes feature, etc.
 
 ## Try it out!
-[Our future website address]
+https://gpt-note-app.web.app/
 
 ## How to run locally
 ### Frontend
