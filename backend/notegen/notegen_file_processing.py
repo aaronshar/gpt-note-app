@@ -7,7 +7,7 @@ import datetime
 from notegen.notegen_errors import (UnrecognizableFiletypeException,
                                     InvalidFiletypeException,
                                     TextFileProcessingError
-                                   )
+                                    )
 
 ALLOWED_AUDIO_MIMETYPES = [
     'audio/mpeg',  # mp3
