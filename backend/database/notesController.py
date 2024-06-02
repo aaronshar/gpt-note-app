@@ -1,14 +1,14 @@
-import notesModel
 import datetime
-from flask import Flask, request, jsonify
-from usersModel import verify_user
+from database import notesModel
+from database.usersModel import verify_user
+from flask import Flask, request, jsonify, Blueprint
 from flask_cors import CORS
-# TO-DO: think about how to incorporate authentication
-# TO-DO: think through structure of URLs
 
 MISSING_ATTRIBUTE_ERROR = {"Error": "The request body is missing at least one of the required attributes"}
 USER_UNAUTHORIZED_ERROR = {"Error: User unauthorized"}
 DOES_NOT_EXIST_ERROR = {"Error": "No note with this id exists"}
+
+database_bp = Blueprint('database_bp', __name__)
 
 app = Flask(__name__)
 CORS(app, origins='*',
@@ -16,31 +16,8 @@ CORS(app, origins='*',
      expose_headers='Authorization')
 
 
-# takes a list of notes as an argument
-# returns list of notes ordered in alphabetical (or reverse) order by title
-def sort_notes_by_name(note, rev=False):
-    result = note.sorted(key=lambda x: x["title"], reverse=rev)
-    return result
-
-
-# takes a list of notes as an argument
-# returns list of notes ordered in order by date created (or reversed)
-def sort_notes_by_date(note, rev=False):
-    result = note.sorted(key=lambda x: x["date_created"], reverse=rev)
-    return result
-
-
-# takes a tag and a list of notes as an argument
-# returns a list of notes that contain given tags
-def filter_by_tag(tag, notes):
-    def has_tag(note):
-        return tag in note["tags"]
-
-    return filter(has_tag, notes)
-
-
 # verify note has required fields and then add to database
-@app.route("/api/mynotes", methods=["POST"])
+@database_bp.route("/api/mynotes", methods=["POST"])
 def add_note():
     # check if body contains required fields
     required_fields = ["title", "content", "tags"]
@@ -69,7 +46,7 @@ def add_note():
 
 
 # verify note exists and edit in database
-@app.route("/api/mynotes/<note_id>", methods=["PUT"])
+@database_bp.route("/api/mynotes/<note_id>", methods=["PUT"])
 def edit_note(note_id):
     content = request.get_json()
 
@@ -94,7 +71,7 @@ def edit_note(note_id):
 
 
 # get all notes for current user
-@app.route("/api/mynotes", methods=["GET"])
+@database_bp.route("/api/mynotes", methods=["GET"])
 def get_all_notes():
     # verify if valid user
     headers = request.headers
@@ -110,7 +87,7 @@ def get_all_notes():
 
 
 # get specific note for current user
-@app.route("/api/mynotes/<note_id>", methods=["GET"])
+@database_bp.route("/api/mynotes/<note_id>", methods=["GET"])
 def get_note(note_id):
     # verify if valid user
     headers = request.headers
@@ -129,7 +106,7 @@ def get_note(note_id):
 
 
 # delete specific note
-@app.route("/api/mynotes/<note_id>", methods=["DELETE"])
+@database_bp.route("/api/mynotes/<note_id>", methods=["DELETE"])
 def delete_note(note_id):
     headers = request.headers
     bearer = headers.get('Authorization')

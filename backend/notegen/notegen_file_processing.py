@@ -4,10 +4,10 @@ import os
 import filetype
 from flask import request
 import datetime
-from notegen_errors import (UnrecognizableFiletypeException,
-                            InvalidFiletypeException,
-                            TextFileProcessingError
-                            )
+from notegen.notegen_errors import (UnrecognizableFiletypeException,
+                                    InvalidFiletypeException,
+                                    TextFileProcessingError
+                                   )
 
 ALLOWED_AUDIO_MIMETYPES = [
     'audio/mpeg',  # mp3

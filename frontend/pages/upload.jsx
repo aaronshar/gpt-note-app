@@ -17,6 +17,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 
 const mimeType = "audio/webm";
+const HOST_URL = "http://127.0.0.1:8000/api"
 
 function UploadPage() {
     const mediaRecorder = useRef(null);
@@ -67,7 +68,7 @@ function UploadPage() {
 
     const generateTags = async (text) => {
         try {
-            const response = await axios.post("http://127.0.0.1:5000/generate-tags", { text });
+            const response = await axios.post(HOST_URL + "/generate-tags", { text });
             return response.data.tags.split(', ');
         } catch (error) {
             console.error("Error generating tags:", error);
@@ -98,7 +99,7 @@ function UploadPage() {
                 setTags([]);
     
                 const response = await axios.post(
-                    "http://localhost:8000/api/uploadAudio",
+                    HOST_URL + "/uploadAudio",
                     formData,
                     {
                         headers: {
@@ -119,7 +120,7 @@ function UploadPage() {
                 accessToken = token;
                 });
     
-                const addedNotes = await fetch("http://127.0.0.1:8080/api/mynotes", {
+                const addedNotes = await fetch(HOST_URL + "/mynotes", {
                 method: "POST",
                 body: JSON.stringify({
                     "title": audioTitle,
@@ -174,7 +175,7 @@ function UploadPage() {
                 setIsWaitingForData(true);
 
                 const response = await axios.post(
-                    "http://localhost:8000/api/uploadText",
+                    HOST_URL + "/uploadText",
                     formData,
                     {
                         headers: {
@@ -195,7 +196,7 @@ function UploadPage() {
                 accessToken = token;
                 });
 
-                const addedNotes = await fetch("http://127.0.0.1:8080/api/mynotes", {
+                const addedNotes = await fetch(HOST_URL + "/mynotes", {
                 method: "POST",
                 body: JSON.stringify({
                     "title": textTitle, 
