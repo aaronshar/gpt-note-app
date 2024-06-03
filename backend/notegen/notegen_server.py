@@ -1,23 +1,23 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Blueprint
 from flask_cors import CORS
 import os
 import openai
 from dotenv import load_dotenv
 
-from notegen_and_transcription import (
+from notegen.notegen_and_transcription import (
     transcribe_using_local_whisper,
     transcribe_using_api,
     get_notes_on_text
 )
 
-from notegen_file_processing import (
+from notegen.notegen_file_processing import (
     process_audio_request,
     process_text_file,
     delete_files_in_folder,
     get_unique_filename
 )
 
-from notegen_errors import (
+from notegen.notegen_errors import (
     InvalidFiletypeException,
     TextFileProcessingError,
     UnrecognizableFiletypeException,
@@ -51,6 +51,7 @@ ALLOWED_AUDIO_MIMETYPES = [
     'video/webm',  # webm
 ]
 
+notegen_bp = Blueprint('notegen_bp', __name__)
 app = Flask(__name__)
 CORS(app)
 
@@ -59,7 +60,7 @@ openai.openai_api_key = os.getenv("OPENAI_API_KEY")
 # print(openai.openai_api_key)
 
 
-@ app.route('/api/uploadAudio', methods=['POST'])
+@ notegen_bp.route('/api/uploadAudio', methods=['POST'])
 # flake8: noqa: C901
 def handle_audio_upload():
 
@@ -163,7 +164,7 @@ def handle_audio_upload():
         return jsonify({'error': f"{e}"}), 500
 
 
-@ app.route('/api/uploadText', methods=['POST'])
+@ notegen_bp.route('/api/uploadText', methods=['POST'])
 def handle_text_upload():
     try:
         if 'file' not in request.files:

@@ -3,7 +3,7 @@
 import openai
 import whisper
 
-from notegen_errors import (
+from notegen.notegen_errors import (
     TranscriptionError,
     NoteGenerationError
 )

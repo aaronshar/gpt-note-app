@@ -29,6 +29,7 @@ def generate_tags(text):
             max_tokens=100,
             temperature=0.5
         )
-        return jsonify({"tags": stream.choices[0].message.content})
+        response = jsonify({"tags": stream.choices[0].message.content})
+        return response
     except Exception as e:
         return jsonify({'error': str(e)}), 500

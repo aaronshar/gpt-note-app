@@ -14,6 +14,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import jsPDF from 'jspdf';
 
+const HOST_URL = "http://127.0.0.1:8000/api"
 interface selectedNote {
   note_id: string;
   title: string;
@@ -49,7 +50,7 @@ function ShowNotePage() {
       .then((token) => {
         accessToken = token;
       });
-      const response = await fetch(`http://127.0.0.1:8080/api/mynotes/${noteId}`, {
+      const response = await fetch(`${HOST_URL}/mynotes/${noteId}`, {
         method: "GET",
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +72,7 @@ function ShowNotePage() {
   const deleteNote = async (note_id: string) => {
     let accessToken = await currentUser.getIdToken();
     try {
-      const response = await fetch(`http://127.0.0.1:8080/api/mynotes/${note_id}`, {
+      const response = await fetch(`${HOST_URL}/mynotes/${note_id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${accessToken}`,

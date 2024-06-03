@@ -16,6 +16,7 @@ import Link from "next/link";
 import jsPDF from 'jspdf';
 
 
+const HOST_URL = "http://127.0.0.1:8000/api"
 interface Note {
   note_id: string;
   title: string;
@@ -38,12 +39,13 @@ function MyNotesPage() {
   const [generatedTags, setGeneratedTags] = useState<{ [key: string]: string[] }>({});
   const [filteredTags, setFilteredTags] = useState<string[]>([]);
 
-  if (!currentUser) {
-    router.push("/signIn");
-  }
-
+  
   // Fetch all notes for current user
   useEffect(() => {
+    if (!currentUser) {
+      router.push("/signIn");
+      return
+    }
     const fetchNotes = async () => {
       let accessToken = null;
 
@@ -53,7 +55,7 @@ function MyNotesPage() {
           accessToken = token;
         });
 
-      const response = await fetch("http://127.0.0.1:8080/api/mynotes", {
+      const response = await fetch(HOST_URL + "/mynotes", {
         method: "GET",
         headers: {
           'Content-Type': 'application/json',
