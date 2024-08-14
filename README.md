@@ -1,4 +1,4 @@
-# NotesGuru [In progress]
+# NotesGuru
 **A Notetaking Web Application using GPT**
 
 ## Introduction
@@ -32,7 +32,7 @@ The application will provide personalized accounts for users to manage their sto
 - Author 1: Hae Ji Park
   - Email: positive235@gmail.com / School email: parkhaej@oregonstate.edu
   - GitHub: https://github.com/positive235
-  - Role: Frontend Lead & Frontend Coding & Frontend Design
+  - Role: Frontend Lead & Frontend Development & Design
 - Author 2: Aaron Shar
   - Email: / School email: shara@oregonstate.edu
   - GitHub: https://github.com/aaronshar
@@ -46,23 +46,18 @@ The application will provide personalized accounts for users to manage their sto
   - GitHub: https://github.com/Chaudhari998
   - Role: Backend - Authentication, Generating tags, Hosting, UI improvements, Deleting Notes feature, etc.
 
-## Try it out!
-https://gpt-note-app.web.app/
-
 ## How to run locally
+
+### Backend
+1. ```cd gpt-note-app```
+2. ```cd backend```
+3. ```pip install -r requirements.txt```
+4. ```python3 app.py```
+
 ### Frontend
 1. ```cd gpt-note-app```
 2. ```cd frontend```
 3. ```npm i```
 4. ```npm run dev```
 5. Go to http://localhost:3000
-
-
-### Backend
-1. ```cd gpt-note-app```
-2. ```cd backend```
-3. ```pip install -r requirements.txt```
-4. ```python3 notegen-server.py```
-5. ```python3 notesController.py```
-6. ```python3 app.py```
 
